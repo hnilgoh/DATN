@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nội dung chi tiết của khóa học hệ thống</title>
+    </head>
+
+    <body>
+        <div th:fragment="commentBlock(comment)">
+            <div class="d-flex mb-3"
+                th:classappend="${comment.parent != null ? 'ms-4' : ''}">
+                <!-- Avatar -->
+                <img
+                    th:src="${#strings.isEmpty(comment.taikhoan.avatar) ? '/images/default-avatar.png' : comment.taikhoan.avatar}"
+                    alt="avatar" class="rounded-circle me-3"
+                    style="width: 40px; height: 40px; object-fit: cover;">
+
+                <!-- Nội dung bình luận -->
+                <div class="flex-grow-1">
+                    <div class="bg-light rounded px-3 py-2 shadow-sm">
+                        <div class="d-flex align-items-center gap-2">
+                            <strong class="me-1"
+                                th:text="${comment.taikhoan.name}">Tên người
+                                dùng</strong>
+                            <span
+                                th:if="${comment.taikhoan.role.name == 'ROLE_GIANGVIEN'}"
+                                class="badge bg-primary">Tác
+                                giả</span>
+                        </div>
+                        <p class="mb-1 mt-1" th:text="${comment.noiDung}">Nội
+                            dung bình luận</p>
+                    </div>
+
+                    <!-- Nút hành động -->
+                    <div class="d-flex gap-3 mt-1 ps-2 small text-muted">
+                        <button
+                            class="btn btn-link p-0 text-decoration-none text-muted"
+                            onclick="showReplyForm(this)"
+                            th:attr="data-comment-id=${comment.binhluanId}, data-commenter-name=${comment.taikhoan.name}">
+                            Trả lời
+                        </button>
+
+                        <button
+                            class="btn btn-link p-0 text-decoration-none text-danger"
+                            th:if="${loggedInEmail == comment.taikhoan.email}"
+                            th:attr="onclick='deleteComment(' + ${comment.binhluanId} + ')'">
+                            Xóa
+                        </button>
+                    </div>
+
+                    <!-- Form trả lời -->
+                    <div th:id="'reply-container-' + ${comment.binhluanId}"
+                        class="mt-2 ps-2"></div>
+
+                    <!-- Đệ quy bình luận con -->
+                    <div th:if="${childrenMap[comment.binhluanId] != null}"
+                        class="mt-3 ps-3 border-start">
+                        <div
+                            th:each="child : ${childrenMap[comment.binhluanId]}">
+                            <div
+                                th:replace="~{::commentBlock(comment=${child})}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main class="xemkhoahoc"
+            th:attr="data-bai-giang-id=${baiGiang.baiGiangId}">
+            <div th:if="${khoaHoc != null}">
+                <div class="container">
+                    <div class="row gx-1">
+                        <div class="col-lg-8">
+                            <div class="border d-flex flex-column shadow-box"
+                                id="noiDungKhoaHoc"
+                                style="height: 350px; overflow-y: auto;">
+                                <div th:if="${baiGiang != null}">
+                                    <!-- VIDEO -->
+                                    <div
+                                        th:if="${baiGiang.loaiBaiGiang.name() == 'VIDEO'}">
+                                        <iframe class="w-100" height="348px"
+                                            th:src="${baiGiang.videoBaiGiang.url_video}"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+
+                                    <!-- BÀI VIẾT -->
+                                    <div
+                                        th:if="${baiGiang.loaiBaiGiang.name() == 'TAILIEU'}"
+                                        class="flex-grow-1 overflow-auto mt-30">
+                                        <div
+                                            th:utext="${baiViet.noidung}"></div>
+                                    </div>
+
+                                    <!-- TRẮC NGHIỆM -->
+                                    <div
+                                        th:if="${baiGiang.loaiBaiGiang.name() == 'TRACNGHIEM'}"
+                                        class="flex-grow-1 overflow-auto mt-30 text-center">
+
+                                        <input type="hidden" id="taiKhoanId"
+                                            th:value="${taiKhoanId}" />
+                                        <input type="hidden"
+                                            id="baiTracNghiemId"
+                                            th:value="${baiTracNghiem.tracnghiemId}" />
+
+                                        <p class="fw-bold">
+                                            <i
+                                                class="fas fa-clipboard-check me-2 text-primary"></i>
+                                            Bài kiểm tra số <span
+                                                th:text="${thuTuBaiTracNghiem}"></span>
+                                            - Số câu hỏi: <span
+                                                th:text="${tongSoCauHoi}"></span>
+                                        </p>
+                                        <button id="batDauBtn" class="btn">
+                                            <i
+                                                class="fas fa-hourglass-start me-1"></i>
+                                            Bắt đầu làm bài kiểm tra
+                                        </button>
+
+                                        <div id="noiDungBaiTracNghiem"
+                                            style="display: none;" class="mt-3">
+                                            <div id="cauHoiContainer">
+                                                <div
+                                                    th:if="${baiTracNghiem != null && baiTracNghiem.cauHoiList != null}">
+                                                    <div
+                                                        th:each="cauHoi, iterStat : ${baiTracNghiem.cauHoiList}"
+                                                        class="cau-hoi"
+                                                        th:attr="data-cauhoi-id=${cauHoi.cauHoiId}"
+                                                        th:classappend="${iterStat.index != 0} ? 'd-none' : ''">
+
+                                                        <p>
+                                                            <i
+                                                                class="fas fa-question-circle me-2 text-info"></i>
+                                                            <strong
+                                                                th:text="'Câu ' + (${iterStat.index + 1}) + ': ' + ${cauHoi.tenCauHoi}"></strong>
+                                                        </p>
+
+                                                        <ul
+                                                            class="list-unstyled text-start ps-4">
+                                                            <li
+                                                                th:each="dapAn, stat : ${cauHoi.dapAnList}">
+                                                                <label>
+                                                                    <input
+                                                                        type="radio"
+                                                                        th:name="'cauHoi_' + ${cauHoi.cauHoiId}"
+                                                                        th:value="${dapAn.dapanId}"
+                                                                        th:attrappend="data-dung=${dapAn.dapAnDung} ? 'true' : 'false'">
+                                                                    <strong
+                                                                        th:text="${'ABCD'[stat.index]} + '.'"></strong>
+                                                                    <span
+                                                                        th:text="${dapAn.noiDungDapAn}">Nội
+                                                                        dung</span>
+                                                                </label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <button id="btnCauTruoc"
+                                                class="btn me-2 d-none">
+                                                <i
+                                                    class="fas fa-arrow-left me-1"></i>
+                                                Câu trước
+                                            </button>
+
+                                            <button id="btnTiepTuc" class="btn"
+                                                disabled>Câu tiếp theo</button>
+
+                                            <div id="ketQuaContainer"
+                                                class="mt-3 d-none">
+                                                <h5 class="text-success">
+                                                    🎉 Bạn đã hoàn thành bài
+                                                    trắc nghiệm!
+                                                </h5>
+                                                <p><strong>Bài trắc
+                                                        nghiệm:</strong> <span
+                                                        th:text="${baiGiang.tenBaiGiang}">Tên
+                                                        bài
+                                                        giảng</span>
+                                                </p>
+                                                <div
+                                                    class="d-flex justify-content-center gap-3">
+                                                    <p class="mb-0">
+                                                        <strong>Kết
+                                                            quả:</strong>
+                                                        <span
+                                                            id="diemSo">0</span>
+                                                        điểm
+                                                    </p> <strong>-</strong>
+                                                    <p class="mb-0">
+                                                        <strong>Đúng:</strong>
+                                                        <span
+                                                            id="soDung">0</span>/<span
+                                                            id="tongCau">0</span>
+                                                        câu
+                                                    </p>
+                                                </div>
+
+                                                <div
+                                                    class="d-flex justify-content-center gap-4 mt-2">
+                                                    <p class="mb-0"><strong>Bắt
+                                                            đầu:</strong> <span
+                                                            id="thoiGianBatDau">--:--</span></p>
+                                                    <p class="mb-0"><strong>Hoàn
+                                                            thành:</strong>
+                                                        <span
+                                                            id="thoiGianHoanThanh">--:--</span></p>
+                                                </div>
+
+                                                <div
+                                                    class="d-flex justify-content-center gap-3 mt-3">
+                                                    <button id="btnLamLai"
+                                                        class="btn btn-outline-secondary">
+                                                        <i
+                                                            class="fas fa-redo-alt me-1"></i>
+                                                        Làm lại
+                                                    </button>
+                                                    <button id="btnChiTiet"
+                                                        class="btn btn-outline-info">
+                                                        <i
+                                                            class="fas fa-list-ul me-1"></i>
+                                                        Xem kết quả chi tiết
+                                                    </button>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="binh-luan-wrapper mt-3">
+                                <!-- Form thêm bình luận -->
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h2 class="h5 text-primary"
+                                            th:text="'Bình luận về: ' + ${baiGiang.tenBaiGiang}"></h2>
+
+                                        <div th:if="${successMessage}"
+                                            class="alert alert-success mt-3"
+                                            th:text="${successMessage}">
+                                        </div>
+                                        <div th:if="${errorMessage}"
+                                            class="alert alert-danger mt-3"
+                                            th:text="${errorMessage}">
+                                        </div>
+
+                                        <form class="mt-3"
+                                            th:action="@{/binh-luan-giang-vien/{baiGiangId}/binh-luan/add(baiGiangId=${baiGiang.baiGiangId})}"
+                                            method="post">
+                                            <div class="mb-3">
+                                                <textarea name="noiDung"
+                                                    class="form-control"
+                                                    rows="4" required
+                                                    placeholder="Nhập bình luận..."></textarea>
+                                            </div>
+                                            <button type="submit"
+                                                class="btn btn-success">Gửi bình
+                                                luận</button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- Danh sách bình luận -->
+                                <div class="mt-3">
+                                    <h5 class="text-primary mb-3">Bình luận</h5>
+                                    <div
+                                        th:if="${#lists.isEmpty(rootComments)}">
+                                        <p class="text-muted fst-italic">Chưa có
+                                            bình luận nào.</p>
+                                    </div>
+                                    <div th:each="comment : ${rootComments}">
+                                        <div
+                                            th:replace="~{::commentBlock(comment=${comment})}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cột danh sách chương và bài giảng -->
+                        <div class="col-lg-4">
+                            <div class="card shadow-sm rounded-4 mb-4 border-0">
+                                <div class="card-body" id="chuong-list">
+                                    <div th:if="${#lists.isEmpty(chuongs)}">
+                                        <p class="text-muted fst-italic">Chưa có
+                                            chương nào cho khóa học này.</p>
+                                    </div>
+
+                                    <div th:if="${!#lists.isEmpty(chuongs)}"
+                                        class="accordion" id="accordionChuong">
+                                        <div class="accordion-item mb-2"
+                                            th:each="chuong, iterStat : ${chuongs}">
+                                            <h2 class="accordion-header"
+                                                th:attr="id='heading' + ${iterStat.index}">
+                                                <button
+                                                    class="accordion-button collapsed bg-light"
+                                                    type="button"
+                                                    data-bs-toggle="collapse"
+                                                    th:attr="data-bs-target='#collapse' + ${iterStat.index}"
+                                                    aria-expanded="false"
+                                                    th:attrappend="aria-controls='collapse' + ${iterStat.index}">
+                                                    <i
+                                                        class="fas fa-layer-group me-2 text-warning"></i>
+                                                    <strong
+                                                        th:text="${chuong.tenchuong}">Tên
+                                                        chương</strong>
+                                                </button>
+                                            </h2>
+                                            <div
+                                                th:attr="id='collapse' + ${iterStat.index}"
+                                                class="accordion-collapse collapse"
+                                                th:classappend="${chuong.chuongId == chuongDangMoId} ? ' show' : ''"
+                                                th:attrappend="aria-labelledby='heading' + ${iterStat.index}"
+                                                data-bs-parent="#accordionChuong">
+                                                <div class="accordion-body">
+                                                    <ul
+                                                        class="list-group list-group-flush mb-0"
+                                                        th:if="${chuong.baiGiangs != null && !#lists.isEmpty(chuong.baiGiangs)}">
+                                                        <li
+                                                            class="list-group-item ps-4"
+                                                            th:each="baiGiang : ${chuong.baiGiangs}"
+                                                            th:classappend="${baiGiang.baiGiangId == baiGiangDangHocId} ? 'active-bai-giang' : ''">
+                                                            <a
+                                                                th:href="@{/{prefix}/tong-quan-khoa-hoc-chi-tiet/noi-dung-bai-giang/{id}(prefix=${prefix}, id=${baiGiang.baiGiangId})}"
+                                                                class="bai-giang-link d-flex align-items-center">
+                                                                <i
+                                                                    th:class="${baiGiang.loaiBaiGiang.name() == 'VIDEO' ? 
+                                                                        'fas fa-play-circle text-danger me-2' : 
+                                                                        baiGiang.loaiBaiGiang.name() == 'TAILIEU' ? 
+                                                                        'fas fa-file-alt text-success me-2' : 
+                                                                        'fas fa-question-circle text-warning me-2'}"></i>
+                                                                <span
+                                                                    th:text="${baiGiang.tenBaiGiang}">Tên
+                                                                    bài
+                                                                    giảng</span>
+                                                            </a>
+
+                                                        </li>
+                                                    </ul>
+                                                    <p
+                                                        th:if="${chuong.baiGiangs == null || #lists.isEmpty(chuong.baiGiangs)}"
+                                                        class="text-muted fst-italic mt-2 ps-2">
+                                                        <i
+                                                            class="fas fa-exclamation-circle me-1"></i>
+                                                        Chưa có bài giảng nào
+                                                        trong chương này.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2 mt-4">
+                                <a
+                                    th:href="@{'/' + ${prefix} + '/tong-quan-khoa-hoc/' + ${khoaHoc.khoahocId}}"
+                                    class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left"></i> Quay lại
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script th:inline="javascript">
+            let ketQuaId = null;
+
+            function dinhDangNgayGio(date) {
+                const pad = (n) => n.toString().padStart(2, '0');
+                const gio = pad(date.getHours());
+                const phut = pad(date.getMinutes());
+                const ngay = pad(date.getDate());
+                const thang = pad(date.getMonth() + 1);
+                const nam = date.getFullYear();
+                return `${gio}:${phut} - ${ngay}/${thang}/${nam}`;
+            }
+            document.addEventListener("DOMContentLoaded", () => {
+                const btnBatDau = document.getElementById("batDauBtn");
+                const noiDung = document.getElementById("noiDungBaiTracNghiem");
+                const btnNext = document.getElementById("btnTiepTuc");
+                const btnPrev = document.getElementById("btnCauTruoc");
+                const ketQuaContainer = document.getElementById("ketQuaContainer");
+                const cauHoiContainer = document.getElementById("cauHoiContainer");
+                const cauHoiList = Array.from(document.querySelectorAll(".cau-hoi"));
+
+                const btnLamLai = document.getElementById("btnLamLai");
+                const btnChiTiet = document.getElementById("btnChiTiet");
+
+                let idx = 0;
+                let thoiGianBatDau = null;
+
+                if (btnBatDau && noiDung) {
+                    btnBatDau.addEventListener("click", () => {
+                        btnBatDau.classList.add("d-none");
+                        noiDung.style.display = "block";
+                        thoiGianBatDau = new Date();
+                    });
+                }
+
+                function isAllAnswered() {
+                    return cauHoiList.every(cauHoi => {
+                        const radio = cauHoi.querySelector("input[type='radio']");
+                        const name = radio ? radio.name : null;
+                        return name && document.querySelector(`input[name='${name}']:checked`);
+                    });
+                }
+
+                function updateView() {
+                    cauHoiList.forEach((c, i) => c.classList.toggle("d-none", i !== idx));
+                    btnPrev.classList.toggle("d-none", idx === 0);
+
+                    if (idx === cauHoiList.length - 1) {
+                        btnNext.innerText = "Xem kết quả";
+                        btnNext.disabled = !isAllAnswered();
+                    } else {
+                        btnNext.innerText = "Câu tiếp theo";
+                        btnNext.disabled = false;
+                    }
+                }
+
+                if (btnLamLai) {
+                    btnLamLai.addEventListener("click", () => {
+                        // Reset biến
+                        idx = 0;
+                        thoiGianBatDau = new Date(); // Gán lại thời gian bắt đầu mới
+
+                        // Bỏ chọn tất cả đáp án
+                        document.querySelectorAll("input[type='radio']:checked").forEach(radio => {
+                            radio.checked = false;
+                        });
+
+                        // Ẩn kết quả, hiện lại nội dung làm bài
+                        ketQuaContainer.classList.add("d-none");
+                        cauHoiContainer.classList.remove("d-none");
+                        btnNext.classList.remove("d-none");
+                        btnPrev.classList.add("d-none"); // quay về câu 0 thì ẩn nút "trước"
+                        btnNext.innerText = "Câu tiếp theo";
+                        btnNext.disabled = false;
+
+                        // Reset hiển thị thời gian và điểm
+                        document.getElementById("thoiGianBatDau").innerText = "--:--";
+                        document.getElementById("thoiGianHoanThanh").innerText = "--:--";
+                        document.getElementById("diemSo").innerText = "0";
+                        document.getElementById("soDung").innerText = "0";
+                        document.getElementById("tongCau").innerText = "0";
+
+                        // Cập nhật lại hiển thị câu hỏi
+                        updateView();
+
+                        // Cuộn lên đầu phần nội dung
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        });
+                    });
+                }
+
+
+                if (btnNext && btnPrev && cauHoiList.length) {
+                    btnNext.addEventListener("click", () => {
+                        if (idx < cauHoiList.length - 1) {
+                            idx++;
+                            updateView();
+                        } else {
+                            let dung = 0;
+                            cauHoiList.forEach(cauHoi => {
+                                const dapAnDung = cauHoi.querySelector("input[type='radio'][data-dung='true']");
+                                const daChon = cauHoi.querySelector("input[type='radio']:checked");
+                                if (dapAnDung && daChon && dapAnDung.value === daChon.value) dung++;
+                            });
+
+                            const tongCau = cauHoiList.length;
+                            const tongDiem = parseFloat(((dung / tongCau) * 10).toFixed(2));
+                            const diemMoiCau = 10 / tongCau;
+                            const thoiGianHoanThanh = new Date();
+
+                            // document.getElementById("diemSo").innerText = dung;
+                            // document.getElementById("soDung").innerText = dung;
+                            // document.getElementById("tongCau").innerText = cauHoiList.length;
+
+                            document.getElementById("diemSo").innerText = tongDiem;
+                            document.getElementById("soDung").innerText = dung;
+                            document.getElementById("tongCau").innerText = tongCau;
+
+                            if (thoiGianBatDau) {
+                                document.getElementById("thoiGianBatDau").innerText = dinhDangNgayGio(thoiGianBatDau);
+                            }
+                            document.getElementById("thoiGianHoanThanh").innerText = dinhDangNgayGio(thoiGianHoanThanh);
+
+                            cauHoiContainer.classList.add("d-none");
+                            btnNext.classList.add("d-none");
+                            btnPrev.classList.add("d-none");
+                            ketQuaContainer.classList.remove("d-none");
+                            window.scrollTo({
+                                top: 0,
+                                behavior: "smooth"
+                            });
+
+                            const baiTracNghiemInput = document.getElementById("baiTracNghiemId");
+                            const baiTracNghiemId = baiTracNghiemInput ? parseInt(baiTracNghiemInput.value) : null;
+
+                            const taiKhoanInput = document.getElementById("taiKhoanId");
+                            const taiKhoanId = taiKhoanInput ? parseInt(taiKhoanInput.value) : null;
+
+                            const chiTietCauHoi = cauHoiList.map(cauHoi => {
+                                const cauHoiId = parseInt(cauHoi.getAttribute("data-cauhoi-id"));
+
+
+                                const daChon = cauHoi.querySelector("input[type='radio']:checked");
+                                const dapAnChonId = daChon ? parseInt(daChon.value) : null;
+                                const dapAnDung = daChon ? daChon.getAttribute("data-dung") === "true" : false;
+
+                                return {
+                                    cauHoiId: cauHoiId,
+                                    dapAnId: dapAnChonId,
+                                    dapAnChon: dapAnChonId,
+                                    dungHaySai: dapAnDung,
+                                    diem: dapAnDung ? parseFloat(diemMoiCau.toFixed(2)) : 0
+                                };
+                            }).filter(ct => ct.cauHoiId !== null && ct.dapAnId !== null);
+
+                            // Log ra để kiểm tra dữ liệu gửi đi
+                            console.log({
+                                baiTracNghiemId,
+                                taiKhoanId,
+                                soCauDung: dung,
+                                tongDiem: tongDiem,
+                                tongCauHoi: tongCau,
+                                thoiGianBatDau: thoiGianBatDau.toISOString(),
+                                thoiGianKetThuc: thoiGianHoanThanh.toISOString(),
+                                chiTietList: chiTietCauHoi
+                            });
+
+                            fetch('/ket-qua/luu', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        baiTracNghiemId,
+                                        taiKhoanId,
+                                        soCauDung: dung,
+                                        tongDiem: tongDiem,
+                                        tongCauHoi: tongCau,
+                                        thoiGianBatDau: thoiGianBatDau.toISOString(),
+                                        thoiGianKetThuc: thoiGianHoanThanh.toISOString(),
+                                        chiTietList: chiTietCauHoi
+                                    })
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    console.log("✅ Đã lưu kết quả:", data);
+                                    ketQuaId = data.ketQuaId || data;
+                                })
+                                .catch(err => {
+                                    console.error("❌ Lỗi khi lưu kết quả:", err);
+                                });
+                        }
+                    });
+
+                    btnPrev.addEventListener("click", () => {
+                        if (idx > 0) {
+                            idx--;
+                            updateView();
+                        }
+                    });
+
+                    document.querySelectorAll("input[type='radio']").forEach(input => {
+                        input.addEventListener("change", () => {
+                            if (idx === cauHoiList.length - 1) {
+                                btnNext.disabled = !isAllAnswered();
+                            }
+                        });
+                    });
+
+                    updateView();
+                }
+            });
+        </script>
+
+            <script>
+            function goBackToCustom() {
+                const url = localStorage.getItem("customBackUrl");
+                if (url) {
+                    sessionStorage.setItem("isGoingBack", "true");
+                    window.location.href = url;
+                } else {
+                    window.location.href = '/giangvien/trang-giang-vien'; // fallback nếu không có
+                }
+            }
+        </script>
+            <style>
+            .list-group-item {
+                border: 1px solid #dee2e6;
+                padding: 15px;
+                background-color: #fff;
+                transition: all 0.3s ease;
+            }
+            
+            .list-group-item:hover {
+                background-color: #f9f9f9;
+                transform: scale(1.01);
+            }
+            
+            .accordion-button {
+                white-space: normal !important;
+                /* Cho phép xuống dòng */
+                word-break: break-word;
+                /* Ngắt dòng nếu từ quá dài */
+            }
+        </style>
+
+            <script th:src="@{/js/binh-luan.js}"></script>
+            <script th:src="@{/js/lamtracnghiem.js}"></script>
+        </main>
+    </body>
+
+</html>

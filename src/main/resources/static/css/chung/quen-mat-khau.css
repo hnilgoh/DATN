@@ -1,0 +1,80 @@
+/* forgot-password.css */
+
+.quenMK {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #e0e0e0 0%, #f8f9fa 3%);
+}
+
+.quenMK .quenMK__section {
+    min-height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.quenMK .quenMK__img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    animation: slideInRight 1s ease-out;
+}
+
+.quenMK h3 {
+    background: linear-gradient(90deg, #007bff, #00c6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.quenMK .quenMK__wrapper {
+    background-color: transparent;
+    padding: 40px;
+    animation: slideInLeft 1s ease-out;
+}
+
+.quenMK .quenMK .form-control {
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 1.05rem;
+}
+
+.quenMK .quenMK__btn {
+    background-color: #1b2a4e;
+    border: none;
+    padding: 7px;
+    font-weight: bold;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.quenMK .quenMK__btn:hover {
+    background-color: #1a3063;
+}
+
+
+/* Animation */
+
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

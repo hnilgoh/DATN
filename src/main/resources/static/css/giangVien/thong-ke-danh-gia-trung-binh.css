@@ -1,0 +1,52 @@
+.danhgia-container {
+    padding: 50px 80px;
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.danhgia-container h3 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 32px;
+    font-size: 26px;
+}
+
+.danhgia-container table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 16px;
+}
+
+.danhgia-container th,
+.danhgia-container td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+}
+
+.danhgia-container thead {
+    background-color: #1F2A48;
+    color: white;
+}
+
+.danhgia-container .back-button {
+    display: inline-block;
+    margin-bottom: 24px;
+    background-color: #1F2A48;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.danhgia-container .back-button:hover {
+    background-color: #0F172A;
+}
+
+.danhgia-container .fa-book,
+.danhgia-container .fa-star {
+    margin-right: 6px;
+    color: #f39c12;
+}

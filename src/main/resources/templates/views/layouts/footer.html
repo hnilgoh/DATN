@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <style>
+        footer {
+            font-size: 0.95rem;
+            background-color: #1B263B;
+        }
+        
+        footer a:hover {
+            color: #ddd !important;
+        }
+        
+        .footer-border {
+            border-bottom: 1px solid #6c757d;
+            margin: 0;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #1B263B;
+        }
+        
+        footer h5 {
+            font-size: 1.2rem;
+            color: #1B263B;
+            margin-bottom: 1rem;
+            background-color: white;
+            height: 34px;
+            padding: 5px 10px;
+        }
+        
+        .footer-col-title {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-col a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-col a:hover {
+            color: #f9c900 !important;
+            text-decoration: none;
+        }
+        
+        .footer-contact i {
+            color: white;
+            width: 20px;
+            display: inline-block;
+        }
+    </style>
+    </head>
+
+    <body>
+        <footer class="text-white pt-4">
+            <div class="container">
+                <div class="row text-white pb-3">
+                    <!-- Cột 1: Về chúng tôi -->
+                    <div class="col-md-4 mb-3 footer-col">
+                        <h5 class="footer-col-title">Về chúng tôi</h5>
+                        <p class="footer-contact"><i
+                                class="fas fa-info-circle me-2"></i> Giới thiệu
+                        </p>
+                        <p class="footer-contact"><i
+                                class="fas fa-phone-alt me-2"></i> 035 593 0136
+                        </p>
+                        <p class="footer-contact">
+                            <i class="fas fa-envelope me-2"></i>
+                            <a
+                                th:href="@{mailto:duantotnghiep@gmail.com}">duantotnghiep@gmail.com</a>
+                        </p>
+                    </div>
+
+                    <!-- Cột 2: Truy cập nhanh -->
+                    <div class="col-md-4 mb-3 footer-col">
+                        <h5 class="footer-col-title">Truy cập nhanh</h5>
+                        <ul class="list-unstyled">
+                            <li><a th:href="@{/ve-chung-toi}">Về chúng
+                                    tôi</a></li>
+                            <li><a th:href="@{/&huong-&dan-&su-&dung}">Hướng dẫn
+                                    sử dụng</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Cột 3: Logo -->
+                    <div
+                        class="col-md-4 text-center mb-3 d-flex flex-column align-items-center justify-content-center">
+                        <img th:src="@{/photos/logochinh.png}" alt="Logo"
+                            style="width: 190px;" class="mb-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Line full width -->
+            <hr class="footer-border w-100">
+
+            <!-- Dòng cuối -->
+            <div class="footer-bottom">
+                <strong>Hệ thống quản lý khóa học trực tuyến GLOBALEDU, © 2025
+                    globaledu</strong>
+            </div>
+        </footer>
+    </body>
+
+</html>

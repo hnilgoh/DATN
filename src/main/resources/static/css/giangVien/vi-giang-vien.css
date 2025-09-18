@@ -1,0 +1,384 @@
+.vigiangvien {
+    padding: 30px 70px;
+}
+
+.vigiangvien .vigiangvien-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #16203b;
+    padding-bottom: 0.5rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #233870;
+}
+
+.vigiangvien .vigiangvien-icon-vang {
+    color: #f4b400;
+    /* vàng đậm kiểu Google */
+}
+
+.vigiangvien .card {
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.vigiangvien .card-header {
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.vigiangvien .table th {
+    white-space: nowrap;
+}
+
+.vigiangvien .nav-tabs .nav-link {
+    color: #e9f7ef;
+    font-weight: 500;
+    border: none;
+}
+
+.vigiangvien .nav-tabs .nav-link:hover {
+    background-color: #e9f7ef;
+    color: #374af7;
+    border-bottom: 3px solid #374af7;
+    font-weight: 500;
+    border: none;
+}
+
+.vigiangvien .nav-tabs .nav-link.active {
+    background-color: #e9f7ef;
+    color: #1cc88a;
+    border-bottom: 3px solid #1cc88a;
+}
+
+.vigiangvien .form-label::before {
+    content: "\f09d";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 0.5rem;
+}
+
+.vigiangvien .btn-success {
+    background-color: #1cc88a;
+    border-color: #1cc88a;
+    font-weight: 600;
+}
+
+.vigiangvien .modal-title::before {
+    content: "\f2f2";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 0.5rem;
+}
+
+.vigiangvien .text-warning::before {
+    content: "\f071";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 0.5rem;
+    color: #ffc107;
+}
+
+.vigiangvien .text-danger::before {
+    content: "\f057";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 0.5rem;
+    color: #dc3545;
+}
+
+
+/* Nền mờ cho modal */
+
+.vigiangvien .modal-backdrop {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+
+/* Căn giữa và hiệu ứng bật lên */
+
+.vigiangvien .modal.fade .modal-dialog {
+    transform: translate(0, -50px);
+    transition: transform 0.3s ease-out;
+}
+
+.vigiangvien .modal.show .modal-dialog {
+    transform: translate(0, 0);
+}
+
+
+/* Hộp modal */
+
+.vigiangvien #modalSTK .modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    background: #fff;
+    overflow: hidden;
+}
+
+
+/* Header */
+
+.vigiangvien #modalSTK .modal-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
+    border-bottom: none;
+    padding: 15px 20px;
+}
+
+.vigiangvien #modalSTK .modal-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+
+/* Body */
+
+.vigiangvien #modalSTK .modal-body {
+    padding: 20px;
+}
+
+.vigiangvien #modalSTK .form-control {
+    border-radius: 10px;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    transition: all 0.2s;
+}
+
+.vigiangvien #modalSTK .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
+
+/* Nút link đổi tài khoản */
+
+.vigiangvien #modalSTK .btn-link {
+    color: #007bff;
+    font-size: 0.9rem;
+    text-decoration: underline;
+}
+
+.vigiangvien #modalSTK .btn-link:hover {
+    color: #0056b3;
+}
+
+
+/* Footer */
+
+.vigiangvien #modalSTK .modal-footer {
+    border-top: none;
+    padding: 15px 20px;
+}
+
+.vigiangvien #modalSTK .btn-primary {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+
+/* Cho modal Đổi STK to hơn modal thường */
+
+.vigiangvien #modalDoiSTK .modal-dialog {
+    max-width: 600px;
+}
+
+
+/* Style chung giống modal STK nhưng giữ sự khác biệt */
+
+.vigiangvien #modalDoiSTK .modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    min-height: 400px;
+}
+
+
+/* Header */
+
+.vigiangvien #modalDoiSTK .modal-header {
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+    /* xanh lá khác modal kia */
+    color: #fff;
+    border-bottom: none;
+    padding: 15px 20px;
+}
+
+.vigiangvien #modalDoiSTK .modal-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+
+/* Body */
+
+.vigiangvien #modalDoiSTK .modal-body {
+    padding: 22px;
+}
+
+.vigiangvien #modalDoiSTK .form-control {
+    border-radius: 10px;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    transition: all 0.2s;
+}
+
+.vigiangvien #modalDoiSTK .form-control:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 6px rgba(40, 167, 69, 0.3);
+}
+
+
+/* Footer */
+
+.vigiangvien #modalDoiSTK .modal-footer {
+    border-top: none;
+    padding: 15px 20px;
+}
+
+.vigiangvien #modalDoiSTK .btn-primary {
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-weight: 500;
+    background: #28a745;
+    border: none;
+    transition: 0.2s;
+}
+
+.vigiangvien #modalDoiSTK .btn-primary:hover {
+    background: #218838;
+}
+
+
+/* Căn giữa modal OTP */
+
+.vigiangvien #modalOTP .modal-dialog {
+    max-width: 600px;
+    /* nhỏ gọn hơn modal STK */
+    margin: auto;
+}
+
+
+/* Hộp modal */
+
+.vigiangvien #modalOTP .modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    background: #fff;
+    text-align: center;
+    min-height: 400px;
+}
+
+
+/* Header */
+
+.vigiangvien #modalOTP .modal-header {
+    background: linear-gradient(135deg, #ff9800, #e65100);
+    /* cam đậm để khác biệt */
+    color: #fff;
+    border-bottom: none;
+    justify-content: center;
+    padding: 15px;
+}
+
+.vigiangvien #modalOTP .modal-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+
+/* Body */
+
+.vigiangvien #modalOTP .modal-body {
+    padding: 20px;
+}
+
+.vigiangvien #modalOTP .form-control {
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 1.1rem;
+    text-align: center;
+    letter-spacing: 5px;
+    /* tạo khoảng cách giữa các số OTP */
+    font-weight: bold;
+    border: 1px solid #ddd;
+    transition: 0.2s;
+}
+
+.vigiangvien #modalOTP .form-control:focus {
+    border-color: #ff9800;
+    box-shadow: 0 0 8px rgba(255, 152, 0, 0.4);
+}
+
+
+/* Footer */
+
+.vigiangvien #modalOTP .modal-footer {
+    border-top: none;
+    justify-content: center;
+    padding: 15px 20px;
+}
+
+.vigiangvien #modalOTP .btn-primary {
+    border-radius: 10px;
+    padding: 10px 25px;
+    font-weight: 500;
+    background: #ff9800;
+    border: none;
+    transition: 0.2s;
+}
+
+.vigiangvien #modalOTP .btn-primary:hover {
+    background: #e68900;
+}
+
+
+/* Box cảnh báo dưới ô nhập OTP */
+
+.vigiangvien #modalOTP .otp-alert {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.vigiangvien #modalOTP .otp-icon {
+    font-size: 1.2rem;
+}
+
+.vigiangvien #modalOTP .otp-text b {
+    color: #e65100;
+}
+
+
+/* Hiệu ứng hiện dần */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

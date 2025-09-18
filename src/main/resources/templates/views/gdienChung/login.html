@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi"
+  th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Globaledu Login</title>
+  </head>
+
+  <body>
+    <main class="login">
+      <section>
+        <div class="container-fluid"
+          style="margin-top: 65px; margin-bottom: 65px;">
+          <div
+            class="row d-flex justify-content-center align-items-center h-100">
+            <!-- Cột hình ảnh -->
+            <div
+              class="col-md-6 d-flex justify-content-center align-items-center">
+              <img th:src="@{/photos/logodangnhap.png}"
+                class="img-fluid custom-img" alt="Học tập online">
+            </div>
+            <!-- Form đăng nhập -->
+            <div class="col-md-6">
+              <div style="width: 100%; max-width: 450px;">
+                <h2 class="text-center mb-4">🔑 Đăng nhập để tiếp tục</h2>
+                <form action="/login/form" method="post" novalidate>
+                  <div class="mb-0">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control"
+                      placeholder="Nhập email" autocomplete="off" required
+                      pattern="^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                      title="Vui lòng nhập địa chỉ email hợp lệ" />
+                  </div>
+
+                  <div class="mb-4">
+                    <label class="form-label">Mật khẩu</label>
+                    <input type="password" name="password" class="form-control"
+                      placeholder="Nhập mật khẩu" autocomplete="new-password"
+                      required minlength="6"
+                      title="Mật khẩu phải có ít nhất 6 ký tự" />
+                  </div>
+
+                  <!-- HIỂN THỊ LỖI TỪ SESSION -->
+                  <div th:if="${session.error}">
+                    <p class="text-danger text-center"
+                      th:text="${session.error}"></p>
+                  </div>
+
+                  <div class="text-center">
+                    <button class="btn btn-primary w-100" type="submit">Đăng
+                      nhập</button>
+                  </div>
+
+                  <div class="text-center mt-3">
+                    <div class="d-flex align-items-center text-center my-3">
+                      <hr class="flex-grow-1 me-2">
+                      <p class="mb-0">Tùy chọn đăng nhập khác:</p>
+                      <hr class="flex-grow-1 ms-2">
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                      <a th:href="@{/oauth2/authorization/google}"
+                        class="btn-google" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Đăng nhập bằng Google">
+                        <img th:src="@{/photos/google.png}"
+                          alt="Đăng nhập với Google">
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="text-center mt-3">
+                    Không có tài khoản?
+                    <a style="text-decoration: none;"
+                      th:href="@{/auth/dangky}">Đăng ký</a>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ✅ Modal hiển thị thông báo -->
+      <div class="modal fade" id="alertModal" tabindex="-1"
+        aria-labelledby="alertModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content border-0 shadow-lg rounded-3">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="alertModalLabel">
+                <i class="bi bi-exclamation-circle-fill me-2"></i>Thông báo
+              </h5>
+              <button type="button" class="btn-close btn-close-white"
+                data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body fs-5 text-dark" id="modal-message">
+              <!-- Nội dung JS sẽ gán -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary"
+                data-bs-dismiss="modal">Đóng</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+      <!-- ✅ Script hiển thị modal nếu có logout/error -->
+      <script th:inline="javascript">
+            /*<![CDATA[*/
+            let logout = /*[[${param.logout}]]*/ false;
+            let error = /*[[${param.error}]]*/ null;
+
+            let message = null;
+            if (logout) {
+                message = 'Đăng xuất thành công.';
+            } else if (error && error.includes('unauthorized')) {
+                message = 'Bạn không có quyền truy cập vào trang này.';
+            }
+
+            if (message) {
+                const modalEl = document.getElementById('alertModal');
+                document.getElementById('modal-message').textContent = message;
+
+                const modal = new bootstrap.Modal(modalEl);
+                modal.show();
+            }
+            /*]]>*/
+        </script>
+      <!-- ✅ Bootstrap Bundle JS (phải có để modal hoạt động) -->
+
+    </main>
+  </body>
+
+</html>

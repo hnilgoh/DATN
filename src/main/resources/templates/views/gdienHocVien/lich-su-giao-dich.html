@@ -1,0 +1,65 @@
+<!-- <!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Lịch sử giao dịch</title>
+</head>
+<body>
+<main>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-3">
+                Sidebar
+                <div class="list-group">
+                    <a th:href="@{/hoc-vien/thong-tin-ca-nhan}" class="list-group-item list-group-item-action">Thông tin tài khoản</a>
+                    <a th:href="@{/hoc-vien/khoa-hoc-cua-toi}" class="list-group-item list-group-item-action">Khóa học của tôi</a>
+                    <a th:href="@{/hoc-vien/lich-su-giao-dich}" class="list-group-item list-group-item-action active">Lịch sử giao dịch</a>
+                    <a th:href="@{/hoc-vien/khoa-hoc-yeu-thich}" class="list-group-item list-group-item-action">Khóa học yêu thích</a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><i class="fas fa-history"></i> Lịch sử giao dịch</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Mã Giao Dịch</th>
+                                <th>Ngày Giao Dịch</th>
+                                <th>Tổng Tiền</th>
+                                <th>Hình Thức</th>
+                                <th>Trạng Thái</th>
+                                <th>Chi tiết</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="gd : ${danhSachGiaoDich}">
+                                <td th:text="'#' + ${gd.id}">#12345</td>
+                                <td th:text="${#dates.format(gd.ngayGiaoDich, 'dd-MM-yyyy HH:mm')}">2024-05-21</td>
+                                <td th:text="${#numbers.formatDecimal(gd.tongTien, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">500,000 VNĐ</td>
+                                <td th:text="${gd.hinhThucThanhToan.toString()}">VNPAY</td>
+                                <td>
+                                    <span th:if="${gd.status.toString() == 'SUCCESS'}" class="badge bg-success">Thành công</span>
+                                    <span th:if="${gd.status.toString() == 'PENDING'}" class="badge bg-warning text-dark">Đang chờ</span>
+                                    <span th:if="${gd.status.toString() == 'FAILED'}" class="badge bg-danger">Thất bại</span>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-info">Xem</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(danhSachGiaoDich)}">
+                                <td colspan="6" class="text-center">Bạn chưa có giao dịch nào.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>  

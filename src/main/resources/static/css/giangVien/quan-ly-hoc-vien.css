@@ -1,0 +1,121 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.hocvien {
+    padding: 50px 40px;
+}
+
+.hocvien .title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #14256d;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hocvien .card {
+    border-radius: 12px;
+}
+
+.hocvien .filter-course {
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.hocvien .filter-course label {
+    font-weight: 600;
+    min-width: 130px;
+    margin-top: 0px;
+}
+
+.hocvien .form-select-sm {
+    width: 330px;
+}
+
+.hocvien .filter-icon {
+    font-size: 1.5rem;
+}
+
+
+/* Email và ngày đăng ký xếp dọc, sát avatar */
+
+.hocvien .email-date {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hocvien .email-date label,
+.hocvien .progress-info label {
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: #555;
+}
+
+.hocvien .email-date span {
+    font-size: 15px;
+    color: #333;
+}
+
+
+/* Khoảng cách avatar + email-date */
+
+.hocvien .info-left {
+    display: flex;
+    align-items: center;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .hocvien .list-group-item .d-flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0px;
+    }
+    .hocvien .email-date,
+    .hocvien .progress-info {
+        width: 100%;
+    }
+}
+
+.hocvien .student-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.hocvien .student-name label {
+    margin: 0;
+    white-space: nowrap;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgb(26, 26, 255);
+}
+
+.hocvien .student-name span {
+    font-weight: 600;
+    color: #333;
+}
+
+.hocvien .list-group-item {
+    padding: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hocvien .list-group-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: #deecff;
+}

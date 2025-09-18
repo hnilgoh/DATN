@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lý thanh toán</title>
+    </head>
+
+    <body>
+        <main class="thanhtoan">
+            <div class="container py-4">
+                <h2 class="title">📦 Quản lý thanh toán</h2>
+                <div class="table-wrapper">
+                    <div class="table-responsive">
+                        <table
+                            class="table table-hover align-middle table-payment">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Học viên</th>
+                                    <th>Email</th>
+                                    <th>Ngày thanh toán</th>
+                                    <th>Hình thức</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Khóa học</th>
+                                    <th>Chi tiết</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="tt : ${listThanhToan}">
+                                    <td th:text="${tt.id}"></td>
+                                    <td th:text="${tt.tenHocVien}"></td>
+                                    <td th:text="${tt.email}"></td>
+                                    <td th:text="${tt.ngayThanhToan}"></td>
+                                    <td th:text="${tt.hinhThuc}"></td>
+                                    <td
+                                        th:text="${#numbers.formatDecimal(tt.tongTien, 0, 'COMMA', 2, 'POINT')} + ' đ'"></td>
+                                    <td>
+                                        <span th:classappend="
+                                        ${tt.trangThai} == 'THANH_CONG' ? 'badge badge-success' :
+                                        (${tt.trangThai} == 'DANG_CHO' ? 'badge badge-warning' : 'badge badge-danger')"
+                                            th:text="${tt.trangThai}">
+                                        </span>
+                                    </td>
+                                    <td th:text="${tt.tenKhoaHoc}"></td>
+                                    <td>
+                                        <a
+                                            th:href="@{'/admin/quanly-thanh-toan/' + ${tt.id}}"
+                                            class="btn btn-sm btn-outline-primary">Xem</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

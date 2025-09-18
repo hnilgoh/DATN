@@ -1,0 +1,409 @@
+.giangvien-chitiet {
+    animation: fadeInUp 0.6s ease-out;
+    color: #0b1c36;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    padding: 40px 70px;
+}
+
+
+/* ==================== HIỆU ỨNG ==================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Bố cục chung */
+
+.giangvien-chitiet .thongtin-giangvien {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 20px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 25px;
+    box-shadow: 0 6px 20px rgba(11, 28, 54, 0.1);
+    animation: fadeInUp 0.6s ease-out;
+}
+
+
+/* Cột trái - thông tin cá nhân */
+
+.giangvien-chitiet .info-left {
+    flex: 1;
+}
+
+.giangvien-chitiet .info-left p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #0b1c36;
+}
+
+.giangvien-chitiet .info-left strong {
+    margin-right: 6px;
+}
+
+.giangvien-chitiet .info-left i {
+    margin-right: 6px;
+    color: #0b1c36;
+}
+
+
+/* Cột phải - tổng doanh thu */
+
+.giangvien-chitiet .info-right {
+    flex: 0 0 300px;
+    text-align: center;
+    background: linear-gradient(135deg, #0b1c36, #1e3a67);
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.giangvien-chitiet .info-right h5 {
+    margin-bottom: 8px;
+}
+
+.giangvien-chitiet .info-right span {
+    font-size: 22px;
+    font-weight: bold;
+    color: #16e084;
+}
+
+
+/* Hiệu ứng shine */
+
+.giangvien-chitiet .info-right::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.05);
+    transform: rotate(25deg);
+    animation: shine 5s linear infinite;
+}
+
+
+/* Animation */
+
+@keyframes shine {
+    0% {
+        transform: rotate(25deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(25deg) translateX(100%);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==================== DANH SÁCH DOANH THU ==================== */
+
+.giangvien-chitiet .doanhthu-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin-top: 25px;
+    box-shadow: 0 6px 20px rgba(11, 28, 54, 0.08);
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.giangvien-chitiet .doanhthu-section h4 {
+    font-weight: 600;
+    color: #0b1c36;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.giangvien-chitiet .doanhthu-section h4 i {
+    color: #0b1c36;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.giangvien-chitiet .doanhthu-section h4:hover i {
+    transform: scale(1.15) rotate(-5deg);
+}
+
+
+/* Bảng doanh thu */
+
+.giangvien-chitiet #tableDoanhThu {
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    border: none;
+    margin-top: 15px;
+}
+
+.giangvien-chitiet #tableDoanhThu thead {
+    background: linear-gradient(135deg, #0b1c36, #1e3a67);
+    color: #fff;
+}
+
+.giangvien-chitiet #tableDoanhThu thead th {
+    padding: 12px;
+    font-weight: 500;
+    font-size: 15px;
+    border: none;
+}
+
+.giangvien-chitiet #tableDoanhThu tbody td {
+    padding: 10px;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #333;
+}
+
+.giangvien-chitiet #tableDoanhThu tbody tr {
+    transition: all 0.25s ease;
+}
+
+.giangvien-chitiet #tableDoanhThu tbody tr:hover {
+    background: rgba(11, 28, 54, 0.05);
+    transform: translateX(2px);
+}
+
+
+/* Số tiền nhận */
+
+.giangvien-chitiet #tableDoanhThu .text-success {
+    color: #16a34a !important;
+    font-weight: 600;
+}
+
+
+/* Phân trang */
+
+.giangvien-chitiet #paginationDoanhThu .pagination {
+    margin-top: 15px;
+}
+
+.giangvien-chitiet #paginationDoanhThu .page-link {
+    color: #0b1c36;
+    border-radius: 6px;
+    border: none;
+    box-shadow: 0 2px 6px rgba(11, 28, 54, 0.15);
+    transition: all 0.3s ease;
+}
+
+.giangvien-chitiet #paginationDoanhThu .page-link:hover {
+    background: #0b1c36;
+    color: #fff;
+}
+
+.giangvien-chitiet #paginationDoanhThu .active .page-link {
+    background: #0b1c36;
+    color: #fff;
+}
+
+
+/* Animation */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==================== DANH SÁCH KHÓA HỌC ==================== */
+
+.giangvien-chitiet .khoahoc-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin-top: 35px;
+    box-shadow: 0 6px 20px rgba(11, 28, 54, 0.08);
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.giangvien-chitiet .khoahoc-section h4 {
+    font-weight: 600;
+    color: #0b1c36;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.giangvien-chitiet .khoahoc-section h4 i {
+    color: #0b1c36;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.giangvien-chitiet .khoahoc-section h4:hover i {
+    transform: scale(1.15) rotate(-5deg);
+}
+
+
+/* Bảng khóa học */
+
+.giangvien-chitiet #tableKhoaHoc {
+    border-radius: 8px;
+    overflow: hidden;
+    border: none;
+    margin-top: 15px;
+}
+
+.giangvien-chitiet #tableKhoaHoc thead {
+    background: linear-gradient(135deg, #0b1c36, #1e3a67);
+    color: #fff;
+}
+
+.giangvien-chitiet #tableKhoaHoc thead th {
+    padding: 12px;
+    font-weight: 500;
+    font-size: 15px;
+    border: none;
+    text-align: center;
+}
+
+.giangvien-chitiet #tableKhoaHoc tbody td {
+    padding: 10px;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+}
+
+.giangvien-chitiet #tableKhoaHoc tbody tr {
+    transition: all 0.25s ease;
+}
+
+.giangvien-chitiet #tableKhoaHoc tbody tr:hover {
+    background: rgba(11, 28, 54, 0.05);
+    transform: translateX(2px);
+}
+
+
+/* Ảnh bìa */
+
+.giangvien-chitiet #tableKhoaHoc img {
+    width: 80px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.giangvien-chitiet #tableKhoaHoc img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(11, 28, 54, 0.3);
+}
+
+
+/* Giá gốc & giá hiện tại */
+
+.giangvien-chitiet #tableKhoaHoc .gia-goc {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.giangvien-chitiet #tableKhoaHoc .gia-hien-tai {
+    font-weight: bold;
+    color: #16a34a;
+}
+
+
+/* Phân trang */
+
+.giangvien-chitiet #paginationKhoaHoc .pagination {
+    margin-top: 15px;
+}
+
+.giangvien-chitiet #paginationKhoaHoc .page-link {
+    color: #0b1c36;
+    border-radius: 6px;
+    border: none;
+    box-shadow: 0 2px 6px rgba(11, 28, 54, 0.15);
+    transition: all 0.3s ease;
+}
+
+.giangvien-chitiet #paginationKhoaHoc .page-link:hover {
+    background: #0b1c36;
+    color: #fff;
+}
+
+.giangvien-chitiet #paginationKhoaHoc .active .page-link {
+    background: #0b1c36;
+    color: #fff;
+}
+
+
+/* Animation */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==================== NÚT QUAY LẠI ==================== */
+
+.btn-quaylai {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: #fff !important;
+    font-weight: 500;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.btn-quaylai i {
+    transition: transform 0.3s ease;
+}
+
+.btn-quaylai:hover {
+    background: linear-gradient(135deg, #5a6268, #444b50);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+.btn-quaylai:hover i {
+    transform: translateX(-3px);
+}
+
+.btn-quaylai:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}

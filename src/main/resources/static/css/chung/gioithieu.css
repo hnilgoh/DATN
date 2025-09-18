@@ -1,0 +1,36 @@
+.gioi-thieu-bg {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.gioi-thieu-bg .text-primary {
+    color: #224195 !important;
+}
+
+.gioi-thieu-bg .btn-primary {
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.gioi-thieu-bg .btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(34, 65, 149, 0.3);
+}
+
+.gioi-thieu-bg .feature-box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gioi-thieu-bg .feature-box:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.gioi-thieu-bg img {
+    transition: transform 0.4s ease;
+}
+
+.gioi-thieu-bg img:hover {
+    transform: scale(1.02);
+}

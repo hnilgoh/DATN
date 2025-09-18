@@ -1,0 +1,123 @@
+.taikhoan {
+    --main-color: #16203b;
+    padding: 50px 50px;
+}
+
+
+/* Tiêu đề chính */
+
+.taikhoan h2 {
+    color: var(--main-color);
+    border-bottom: 2px solid var(--main-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+
+/* Tabs chính */
+
+.taikhoan .nav-tabs .nav-link {
+    color: white;
+    background-color: var(--main-color);
+    font-weight: 500;
+    border: none;
+    margin-right: 5px;
+    border-radius: 0.4rem 0.4rem 0 0;
+}
+
+.taikhoan .nav-tabs .nav-link.active {
+    background-color: #1d3e98;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+
+/* Pills phụ trong mỗi tab */
+
+.taikhoan .nav-pills .nav-link {
+    color: #f09c1f;
+    background-color: #e9ecef;
+    margin-right: 5px;
+}
+
+.taikhoan .nav-pills .nav-link.active {
+    background-color: #f09c1f;
+    color: white;
+}
+
+
+/* Form controls */
+
+.taikhoan input.form-control {
+    border-radius: 0.5rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid #ced4da;
+}
+
+.taikhoan label {
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    color: #495057;
+}
+
+.taikhoan .form-control:focus {
+    border-color: var(--main-color);
+    box-shadow: 0 0 0 0.2rem rgba(22, 32, 59, 0.25);
+}
+
+
+/* Buttons */
+
+.taikhoan .btn {
+    border-radius: 0.4rem;
+    font-weight: 500;
+}
+
+.taikhoan .btn-primary {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.taikhoan .btn-primary:hover {
+    background-color: #0f152a;
+    border-color: #0f152a;
+}
+
+.taikhoan .btn-success {
+    background-color: #0741ac;
+    border-color: #0741ac;
+}
+
+.taikhoan .btn-success:hover {
+    background-color: #0741ac;
+    border-color: #0741ac;
+}
+
+
+/* Tab content spacing */
+
+.taikhoan .tab-pane {
+    padding: 1rem 0;
+}
+
+
+/* Alerts */
+
+.taikhoan .alert-info {
+    background-color: #e0e7ff;
+    color: #16203b;
+    border-color: #c7d2fe;
+}
+
+
+/* Avatar Image */
+
+.taikhoan img.img-thumbnail {
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.taikhoan .btn,
+.taikhoan input.form-control {
+    transition: all 0.3s ease-in-out;
+}

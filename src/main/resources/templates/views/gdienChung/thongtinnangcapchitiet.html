@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>xác nhận nâng cấp</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+        <main class="thongtinnangcap">
+            <div class="container main-container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6">
+                        <div class="card form-card animate-in">
+                            <!-- HEADER -->
+                            <div class="card-header">
+                                <h3><i class="fas fa-user-graduate me-2"></i>Bổ
+                                    sung thông tin Giảng viên</h3>
+                                <p>Vui lòng cung cấp thêm các thông tin sau.</p>
+                            </div>
+
+                            <!-- BODY -->
+                            <div class="card-body">
+                                <form
+                                    th:action="@{/dang-ky-giang-vien/upgrade-details}"
+                                    th:object="${giangVienDto}" method="post"
+                                    id="formGV" novalidate>
+
+                                    <!-- CCCD -->
+                                    <div class="mb-3">
+                                        <label for="cccd" class="form-label">
+                                            <i class="fas fa-id-card"></i> Số
+                                            CCCD
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="text"
+                                                class="form-control"
+                                                th:field="*{CCCD}" id="cccd"
+                                                pattern="[0-9]{12}"
+                                                maxlength="12"
+                                                inputmode="numeric" required
+                                                placeholder="Nhập 12 chữ số CCCD">
+                                            <i
+                                                class="fas fa-check-circle input-icon text-success"
+                                                style="display:none;"></i>
+                                        </div>
+                                        <div class="invalid-feedback">Vui lòng
+                                            nhập CCCD gồm 12 chữ số.</div>
+                                    </div>
+
+                                    <!-- Ngày Sinh -->
+                                    <div class="mb-3">
+                                        <label for="ngaySinh"
+                                            class="form-label">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            Ngày Sinh
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="date"
+                                                class="form-control"
+                                                th:field="*{ngaySinh}"
+                                                id="ngaySinh" required>
+                                            <i
+                                                class="fas fa-check-circle input-icon text-success"
+                                                style="display:none;"></i>
+                                        </div>
+                                        <div class="invalid-feedback">Vui lòng
+                                            chọn ngày sinh hợp lệ (≥ 18 tuổi).
+                                        </div>
+                                        <div class="text-danger mt-1"
+                                            th:if="${#fields.hasErrors('ngaySinh')}"
+                                            th:errors="*{ngaySinh}"></div>
+                                    </div>
+
+                                    <!-- Giới Tính -->
+                                    <div class="mb-3">
+                                        <label class="form-label"><i
+                                                class="fas fa-venus-mars"></i>
+                                            Giới Tính</label>
+                                        <div class="gender-group">
+                                            <div
+                                                class="form-check form-check-inline">
+                                                <input class="form-check-input"
+                                                    type="radio"
+                                                    th:field="*{gioiTinh}"
+                                                    value="Nam" required>
+                                                <label
+                                                    class="form-check-label"><i
+                                                        class="fas fa-mars me-1"></i>Nam</label>
+                                            </div>
+                                            <div
+                                                class="form-check form-check-inline">
+                                                <input class="form-check-input"
+                                                    type="radio"
+                                                    th:field="*{gioiTinh}"
+                                                    value="Nữ">
+                                                <label
+                                                    class="form-check-label"><i
+                                                        class="fas fa-venus me-1"></i>Nữ</label>
+                                            </div>
+                                            <div
+                                                class="form-check form-check-inline">
+                                                <input class="form-check-input"
+                                                    type="radio"
+                                                    th:field="*{gioiTinh}"
+                                                    value="Khác">
+                                                <label
+                                                    class="form-check-label"><i
+                                                        class="fas fa-genderless me-1"></i>Khác</label>
+                                            </div>
+                                        </div>
+                                        <div class="invalid-feedback d-block"
+                                            th:if="${#fields.hasErrors('gioiTinh')}"
+                                            th:errors="*{gioiTinh}">
+                                            Vui lòng chọn giới tính.
+                                        </div>
+                                    </div>
+
+                                    <!-- Công việc -->
+                                    <div class="mb-3">
+                                        <label for="congViec"
+                                            class="form-label">
+                                            <i class="fas fa-briefcase"></i>
+                                            Công việc hiện tại
+                                        </label>
+                                        <input type="text" class="form-control"
+                                            th:field="*{congViec}" required>
+                                        <div class="invalid-feedback">Vui lòng
+                                            nhập công việc hiện tại.</div>
+                                    </div>
+
+                                    <!-- Chuyên ngành -->
+                                    <div class="mb-3">
+                                        <label for="chuyenNganh"
+                                            class="form-label">
+                                            <i class="fas fa-book"></i> Chuyên
+                                            ngành giảng dạy
+                                        </label>
+                                        <input type="text" class="form-control"
+                                            th:field="*{chuyenNganh}" required>
+                                        <div class="invalid-feedback">Vui lòng
+                                            nhập chuyên ngành.</div>
+                                    </div>
+
+                                    <!-- Kinh nghiệm -->
+                                    <div class="mb-3">
+                                        <label class="form-label"><i
+                                                class="fas fa-clock"></i> Kinh
+                                            Nghiệm</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                type="radio"
+                                                th:field="*{kinhNghiem}"
+                                                value="Dưới 1 năm" required>
+                                            <label class="form-check-label">Dưới
+                                                1 năm</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                type="radio"
+                                                th:field="*{kinhNghiem}"
+                                                value="1 - 2 năm">
+                                            <label class="form-check-label">1 -
+                                                2 năm</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                type="radio"
+                                                th:field="*{kinhNghiem}"
+                                                value="2 - 5 năm">
+                                            <label class="form-check-label">2 -
+                                                5 năm</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                type="radio"
+                                                th:field="*{kinhNghiem}"
+                                                value="Trên 5 năm">
+                                            <label class="form-check-label">Trên
+                                                5 năm</label>
+                                        </div>
+                                        <div class="invalid-feedback d-block"
+                                            th:if="${#fields.hasErrors('kinhNghiem')}"
+                                            th:errors="*{kinhNghiem}">
+                                            Vui lòng chọn kinh nghiệm.
+                                        </div>
+                                    </div>
+
+                                    <!-- Kỹ năng -->
+                                    <div class="mb-3">
+                                        <label for="kyNang"
+                                            class="form-label"><i
+                                                class="fas fa-lightbulb"></i> Mô
+                                            tả kỹ năng</label>
+                                        <textarea class="form-control"
+                                            id="kyNang" th:field="*{kyNang}"
+                                            rows="4" required></textarea>
+                                        <div class="invalid-feedback">Vui lòng
+                                            mô tả kỹ năng.</div>
+                                    </div>
+
+                                    <!-- Submit -->
+                                    <div class="d-grid">
+                                        <button type="submit"
+                                            class="btn btn-submit">
+                                            <i
+                                                class="fas fa-paper-plane me-2"></i>
+                                            Tiếp tục
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+            const form = document.getElementById('formGV');
+            const cccdInput = document.getElementById('cccd');
+            const ngaySinhInput = document.getElementById('ngaySinh');
+
+            // CCCD validation
+            cccdInput.addEventListener('input', function() {
+                const value = this.value.replace(/\D/g, '');
+                this.value = value;
+                const icon = this.parentElement.querySelector('.input-icon');
+                if (value.length === 12) {
+                    this.classList.add('is-valid');
+                    icon.style.display = 'block';
+                } else {
+                    this.classList.remove('is-valid');
+                    icon.style.display = 'none';
+                }
+            });
+
+            // Age validation
+            ngaySinhInput.addEventListener('change', function() {
+                const birthDate = new Date(this.value);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const m = today.getMonth() - birthDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+                const icon = this.parentElement.querySelector('.input-icon');
+                if (age >= 18) {
+                    this.classList.add('is-valid');
+                    icon.style.display = 'block';
+                } else {
+                    this.classList.add('is-invalid');
+                    icon.style.display = 'none';
+                }
+            });
+
+            // Form validation
+            form.addEventListener('submit', function(e) {
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    form.classList.add('was-validated');
+                }
+            });
+        </script>
+        </main>
+    </body>
+
+</html>

@@ -1,0 +1,376 @@
+.homequanly .text-primary-custom {
+    color: #0b1c36 !important;
+}
+
+.homequanly .card-custom {
+    background-color: #0b1c36;
+    color: #fff;
+    border: none;
+    border-radius: 0.75rem;
+    transition: transform 0.2s;
+}
+
+.homequanly .card-custom:hover {
+    transform: translateY(-4px);
+}
+
+.homequanly .card-header-custom {
+    background-color: #0b1c36;
+    color: white;
+    font-weight: bold;
+    border-radius: 0px !important;
+}
+
+.homequanly .list-group-item {
+    font-size: 15px;
+}
+
+.homequanly .alert-info {
+    background-color: #dbe9ff;
+    color: #0b1c36;
+}
+
+.homequanly .alert-warning {
+    background-color: #fff4d6;
+    color: #856404;
+}
+
+.homequanly .highlight-box {
+    background: #0b1c36;
+    color: #fff;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+    padding-bottom: 3px;
+}
+
+.homequanly .highlight-box h5 {
+    font-size: 1rem;
+}
+
+.homequanly .highlight-box p {
+    font-size: 1.7rem;
+    font-weight: 600;
+}
+
+.homequanly .highlight {
+    background: #fff;
+    color: #fdb90d;
+    padding: 1.5rem;
+    border: 1px solid #ccc;
+}
+
+.homequanly .highlight-img {
+    width: 100%;
+    height: 100px;
+    object-fit: contain;
+    /* Giữ nguyên tỷ lệ, không bị méo */
+    display: block;
+    margin: 0 auto;
+    /* Căn giữa nếu có khung to hơn */
+}
+
+.homequanly .highlight h5 {
+    font-size: 1.2rem;
+}
+
+.homequanly .highlight p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #38e067;
+}
+
+.homequanly #pieChart {
+    max-width: 250px;
+    /* Giới hạn chiều rộng */
+    max-height: 250px;
+    /* Giới hạn chiều cao */
+    margin: 0 auto;
+    /* Căn giữa */
+}
+
+.homequanly .modern-task-card {
+    border: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.homequanly .modern-task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+}
+
+.homequanly .modern-card-header {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    border: none;
+    padding: 1.5rem;
+    color: white;
+}
+
+.homequanly .header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.homequanly .header-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.homequanly .header-text {
+    flex: 1;
+}
+
+.homequanly .header-title {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.homequanly .header-subtitle {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.homequanly .modern-list-group {
+    border: none;
+    max-height: 270px;
+    /* chỉnh theo ý bạn, ví dụ 350px */
+    overflow-y: auto;
+    /* bật scroll dọc */
+    overflow-x: hidden;
+}
+
+.homequanly .modern-list-item {
+    border: none;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 1.25rem 1.5rem;
+    transition: all 0.3s ease;
+    background: white;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.homequanly .modern-list-item:hover {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    transform: translateX(5px);
+}
+
+.homequanly .modern-list-item:last-child {
+    border-bottom: none;
+}
+
+.homequanly .modern-list-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.homequanly .modern-list-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.homequanly .modern-list-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.homequanly .modern-list-item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.homequanly .modern-list-item:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.homequanly .task-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.homequanly .task-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+}
+
+.homequanly .task-name {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 1rem;
+}
+
+.homequanly .modern-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white !important;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.homequanly .modern-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.homequanly .modern-empty-state {
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: none;
+}
+
+.homequanly .empty-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+.homequanly .empty-text {
+    color: #64748b;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.homequanly .empty-emoji {
+    font-size: 2rem;
+    animation: bounce 2s infinite;
+}
+
+
+/* Animation */
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .homequanly .modern-card-header {
+        padding: 1rem;
+    }
+    .homequanly .header-content {
+        gap: 0.75rem;
+    }
+    .homequanly .header-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+    .homequanly .header-title {
+        font-size: 1.1rem;
+    }
+    .homequanly .modern-list-item {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .homequanly .task-content {
+        width: 100%;
+    }
+    .homequanly .modern-btn {
+        align-self: flex-end;
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+    .homequanly .modern-empty-state {
+        padding: 2rem 1rem;
+    }
+}
+
+.homequanly .chart-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #17a2b8;
+    /* xanh info */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-left: 4px solid #17a2b8;
+    padding-left: 10px;
+}
+
+.homequanly .fixed-card {
+    height: 400px;
+    /* đặt chiều cao cố định theo ý bạn */
+    display: flex;
+    flex-direction: column;
+}
+
+.homequanly .fixed-card .card-body {
+    flex: 1;
+    overflow-y: auto;
+    /* cuộn dọc khi nội dung vượt quá */
+    overflow-x: hidden;
+    /* tránh cuộn ngang */
+}

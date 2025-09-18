@@ -1,0 +1,125 @@
+.register .register-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.register .image-side {
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register .image-side img {
+    max-width: 90%;
+}
+
+.register .form-side {
+    padding: 40px 30px;
+}
+
+.register .avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    margin: 10px auto;
+    display: block;
+    border: 2px solid #ccc;
+    transition: 0.3s;
+}
+
+.register .avatar-preview:hover {
+    border-color: #007bff;
+}
+
+.register .hidden {
+    display: none;
+}
+
+.register .btn-google img {
+    width: 30px;
+}
+
+.register .text-small {
+    font-size: 14px;
+    color: #666;
+}
+
+
+/* Style cho ô input */
+
+.register input[type="text"],
+.register input[type="email"],
+.register input[type="password"],
+.register input[type="tel"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #bebebe;
+    border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 14px;
+    background-color: white;
+    margin-bottom: 10px;
+    /* tạo khoảng cách giữa các input */
+}
+
+
+/* Khi focus vào input */
+
+.register input[type="text"]:focus,
+.register input[type="email"]:focus,
+.register input[type="password"]:focus,
+.register input[type="tel"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+
+/* Nút chính mặc định */
+
+.register .btn.btn-primary {
+    background-color: #132a6b;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 16px;
+    transition: background-color 0.3s, transform 0.2s ease;
+}
+
+
+/* Hover */
+
+.register .btn.btn-primary:hover {
+    background-color: #0d1d4a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(19, 42, 107, 0.3);
+}
+
+
+/* Active khi click giữ */
+
+.register .btn.btn-primary:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px rgba(19, 42, 107, 0.2);
+}
+
+.register form {
+    animation: fadeSlideIn 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fadeSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

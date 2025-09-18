@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>Thống kê hệ thống</title>
+    </head>
+
+    <body>
+        <main class="khoahochethong">
+            <div class="container">
+                <!-- Biểu đồ -->
+                <div class="card shadow-sm p-4 mb-5 mt-4">
+                    <h5 class="mb-4 text-primary fw-bold">
+                        <i class="bi bi-bar-chart-line me-2"></i>Top 5 khóa học
+                        được học viên đăng ký nhiều nhất
+                    </h5>
+                    <canvas id="khoaHocChart" height="200"></canvas>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card p-4 mb-4">
+                            <h5 class="mb-3 text-primary">Top 3 giảng viên có
+                                doanh thu cao nhất</h5>
+                            <canvas id="doanhThuChart" height="200"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card p-4 mb-4">
+                            <h5 class="mb-3 text-success">Top 5 giảng viên có
+                                học viên đăng ký nhiều nhất</h5>
+                            <canvas id="hocVienChart" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="mb-5 mt-3"
+                    th:if="!${#lists.isEmpty(khoaHocDaXuatBan)}">
+                    <div
+                        class="section-header d-flex justify-content-between align-items-center mb-4 mt-4 px-3 py-2 border-start border-4 border-success">
+                        <h4 class="fw-bold text-dark m-0">
+                            <i
+                                class="bi bi-check2-circle text-success me-2"></i>
+                            Khóa học đã xuất bản của hệ thống
+                        </h4>
+                    </div>
+                    <div
+                        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                        <div class="col"
+                            th:each="khoaHoc : ${khoaHocDaXuatBan}">
+                            <div class="khoa-hoc-card h-100 shadow-sm">
+                                <a class="text-decoration-none"
+                                    th:href="@{/{prefix}/tong-quan-khoa-hoc/{id}(prefix=${prefix}, id=${khoaHoc.khoahocId})}">
+                                    <img th:if="${khoaHoc.anhBia != null}"
+                                        th:src="${khoaHoc.anhBia}"
+                                        alt="Ảnh khoá học">
+
+                                    <div
+                                        class="card-body d-flex flex-column pb-0">
+                                        <h6 class="card-title"
+                                            th:text="${khoaHoc.tenKhoaHoc}">Tên
+                                            khóa học
+                                        </h6>
+                                    </div>
+
+                                    <div class="card-footer pt-0">
+                                        <div class="mb-3">
+                                            <p
+                                                th:if="${khoaHoc.giaKhuyenMai != null and khoaHoc.giaKhuyenMai.doubleValue() > 0}"
+                                                class="card-text mb-0">
+                                                <span
+                                                    class="fw-bold text-danger me-2"
+                                                    th:text="${#numbers.formatDecimal(khoaHoc.giaKhuyenMai, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                                                <del class="text-muted"
+                                                    th:text="${#numbers.formatDecimal(khoaHoc.giagoc, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></del>
+                                            </p>
+                                            <p
+                                                th:if="${khoaHoc.giaKhuyenMai == null or khoaHoc.giaKhuyenMai.doubleValue() == 0}"
+                                                class="card-text fw-bold mb-0">
+                                                <span
+                                                    th:text="${#numbers.formatDecimal(khoaHoc.giagoc, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                                            </p>
+                                        </div>
+
+                                        <div class="pb-2">
+                                            <!-- Dòng hiển thị giảng viên -->
+                                            <div
+                                                class="d-flex justify-content-center">
+                                                <p class="tengiangvien mb-0">
+                                                    <i
+                                                        class="fas fa-chalkboard-teacher me-1"></i>
+                                                    Giảng viên:
+                                                    <a href="#"
+                                                        class="instructor-link"
+                                                        th:text="${khoaHoc.giangVien?.taikhoan?.name ?: 'Đang cập nhật'}">
+                                                        Tên Giảng Viên
+                                                    </a>
+                                                </p>
+                                            </div>
+
+                                            <!-- Dòng hiển thị ngày xuất bản -->
+                                            <div
+                                                class="d-flex justify-content-center">
+                                                <p
+                                                    class="ngayxuatban text-muted fst-italic mb-0">
+                                                    <i
+                                                        class="far fa-clock me-1"></i>
+                                                    Ngày xuất bản:
+                                                    <span
+                                                        th:text="${#temporals.format(khoaHoc.ngayCapNhat, 'dd/MM/yyyy')}">
+                                                        01/01/2025
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- end each -->
+                    </div>
+                    <!-- end row -->
+                </section>
+
+            </div>
+            <!-- ChartJS -->
+            <script
+                src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+            <script th:inline="javascript">
+            /*<![CDATA[*/
+            const khoaHocLabels = /*[[${topKhoaHocLabels}]]*/ ["KH1", "KH2", "KH3", "KH4", "KH5"];
+            const khoaHocData = /*[[${topKhoaHocSoLuong}]]*/ [30, 25, 22, 18, 15];
+
+            const ctx = document.getElementById('khoaHocChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line', // 🟢 Đổi sang biểu đồ đường
+                data: {
+                    labels: khoaHocLabels,
+                    datasets: [{
+                        label: 'Số lượng học viên',
+                        data: khoaHocData,
+                        fill: false,
+                        borderColor: '#0d6efd',
+                        backgroundColor: '#0d6efd',
+                        tension: 0.3, // Làm cong đường
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#0d6efd',
+                        pointHoverRadius: 6,
+                        pointRadius: 5,
+                        pointHoverBackgroundColor: '#0d6efd',
+                        pointHoverBorderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Số học viên'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Khóa học'
+                            }
+                        }
+                    }
+                }
+            });
+            /*]]>*/
+        </script>
+
+            <script th:inline="javascript">
+            /*<![CDATA[*/
+            const doanhThuLabels = /*[[${doanhThuLabels}]]*/ [];
+            const doanhThuData = /*[[${doanhThuData}]]*/ [];
+
+            const hocVienLabels = /*[[${hocVienLabels}]]*/ [];
+            const hocVienData = /*[[${hocVienData}]]*/ [];
+
+            // Biểu đồ doanh thu
+            new Chart(document.getElementById('doanhThuChart'), {
+                type: 'bar',
+                data: {
+                    labels: doanhThuLabels,
+                    datasets: [{
+                        label: 'Doanh thu (VNĐ)',
+                        data: doanhThuData,
+                        backgroundColor: '#0d6efd',
+                        barThickness: 25
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+
+            // Biểu đồ học viên
+            new Chart(document.getElementById('hocVienChart'), {
+                type: 'bar',
+                data: {
+                    labels: hocVienLabels,
+                    datasets: [{
+                        label: 'Số học viên',
+                        data: hocVienData,
+                        backgroundColor: '#28a745',
+                        barThickness: 25
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+            /*]]>*/
+        </script>
+
+            <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const itemsPerPage = 10;
+                const courses = document.querySelectorAll(".khoahochethong section .col");
+                const totalItems = courses.length;
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+                let currentPage = 1;
+
+                const paginationContainer = document.createElement("div");
+                paginationContainer.className = "pagination mt-4 d-flex justify-content-center flex-wrap";
+
+                function createButton(text, page, disabled = false, active = false) {
+                    const btn = document.createElement("button");
+                    btn.innerText = text;
+                    btn.className = `btn btn-sm mx-1 ${active ? "btn-primary" : "btn-outline-primary"}`;
+                    btn.disabled = disabled;
+                    btn.onclick = () => {
+                        if (!disabled && page !== null && page !== currentPage) {
+                            currentPage = page;
+                            showPage(currentPage);
+                        }
+                    };
+                    return btn;
+                }
+
+                function renderPagination() {
+                    paginationContainer.innerHTML = "";
+
+                    // Nút đầu tiên
+                    paginationContainer.appendChild(createButton("⏮", 1, currentPage === 1));
+
+                    // Nút kế trước
+                    paginationContainer.appendChild(createButton("«", currentPage - 1, currentPage === 1));
+
+                    // Hai số trang
+                    let startPage = currentPage;
+                    let endPage = currentPage + 1;
+                    if (currentPage === totalPages) {
+                        startPage = currentPage - 1;
+                        endPage = currentPage;
+                    }
+                    if (currentPage === 1) {
+                        startPage = 1;
+                        endPage = Math.min(2, totalPages);
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        paginationContainer.appendChild(createButton(i, i, false, i === currentPage));
+                    }
+
+                    // Nút kế tiếp
+                    paginationContainer.appendChild(createButton("»", currentPage + 1, currentPage === totalPages));
+
+                    // Nút cuối
+                    paginationContainer.appendChild(createButton("⏭", totalPages, currentPage === totalPages));
+                }
+
+                function showPage(page) {
+                    courses.forEach((course, index) => {
+                        course.style.display = "none";
+                    });
+
+                    const start = (page - 1) * itemsPerPage;
+                    const end = start + itemsPerPage;
+                    for (let i = start; i < end && i < totalItems; i++) {
+                        courses[i].style.display = "block";
+                    }
+
+                    renderPagination();
+                }
+
+                const section = document.querySelector(".khoahochethong section");
+                section.appendChild(paginationContainer);
+
+                showPage(currentPage);
+            });
+        </script>
+
+        </main>
+    </body>
+
+</html>

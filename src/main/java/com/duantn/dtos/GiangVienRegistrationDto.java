@@ -1,0 +1,49 @@
+package com.duantn.dtos;
+
+import jakarta.validation.constraints.*;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+
+@Data
+public class GiangVienRegistrationDto {
+
+    @NotBlank(message = "Vui lòng nhập họ tên")
+    private String hoTen;
+
+    @NotBlank(message = "Vui lòng nhập số điện thoại")
+    private String sdt;
+
+    @Email(message = "Email không hợp lệ")
+    @NotBlank(message = "Vui lòng nhập email")
+    private String email;
+
+    @NotBlank(message = "Vui lòng nhập mật khẩu")
+    @Size(min = 6, message = "Mật khẩu phải có ít nhất 6 ký tự")
+    private String password;
+
+    @NotBlank(message = "Vui lòng nhập kỹ năng")
+    private String kyNang;
+
+    @NotBlank(message = "Vui lòng nhập kinh nghiệm")
+    private String kinhNghiem;
+
+    @NotBlank(message = "Vui lòng nhập CCCD")
+    @Pattern(regexp = "^[0-9]{12}$", message = "CCCD phải là 12 chữ số")
+    private String CCCD;
+
+    @NotBlank(message = "Vui lòng nhập công việc hiện tại")
+    private String congViec;
+
+    @NotNull(message = "Vui lòng chọn ngày sinh")
+    @Past(message = "Ngày sinh không hợp lệ")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate ngaySinh;
+
+    @NotBlank(message = "Vui lòng chọn giới tính")
+    private String gioiTinh;
+
+    @NotBlank(message = "Vui lòng nhập chuyên ngành")
+    private String chuyenNganh;
+}

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sidebar dưới Header</title>
+        <style>
+        .fixed-top-nv {
+            background-color: #0b1c36;
+            height: 40px;
+            width: 100%;
+        }
+        
+        #toggle-btn {
+            display: inline-block;
+            margin-left: 15px;
+            cursor: pointer;
+            filter: invert(1);
+            width: 30px;
+            height: 20px;
+        }
+        
+        #sidebar.active {
+            transform: translateX(0);
+        }
+        
+        #content {
+            padding: 20px;
+        }
+        
+        #sidebar {
+            position: absolute;
+            top: 152px;
+            left: 0;
+            width: 250px;
+            height: calc(100vh - 152px);
+            background-color: #0b1c36;
+            transition: transform 0.3s ease;
+            transform: translateX(-100%);
+            z-index: 10;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        #sidebar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 8px 16px;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-link:hover {
+            display: block;
+            padding: 8px 16px;
+            color: rgb(11, 143, 225);
+            font-weight: bold;
+            text-decoration: none;
+            background-color: aliceblue;
+        }
+    </style>
+    </head>
+
+    <body>
+        <div class="nv-layout">
+            <nav class="navbar fixed-top-nv position-relative">
+                <div class="container-fluid position-relative">
+                    <!-- Nút 3 gạch bên trái -->
+                    <span id="toggle-btn" class="navbar-toggler-icon"
+                        style="position: absolute; left: 10px; top: 40%; transform: translateY(-50%); filter: invert(1);">
+                    </span>
+
+                    <!-- Dòng chữ nằm giữa -->
+                    <div
+                        style="width: 100%; overflow: hidden; padding-left: 50px;">
+                        <marquee behavior="scroll" direction="left"
+                            scrollamount="6"
+                            style="color: white; font-size: 18px; white-space: nowrap;">
+                            Quản lý hệ thống khóa học trực tuyến - Globaledu
+                        </marquee>
+                    </div>
+
+                </div>
+            </nav>
+
+            <!-- Sidebar -->
+            <div id="sidebar">
+                <div class="p-3 border-bottom">
+                    <h4 style="color: white; text-align: center;">QUẢN LÝ</h4>
+                </div>
+                <nav class="nav flex-column p-3">
+
+                    <!-- MỤC CHO NHÂN VIÊN -->
+                    <div
+                        th:if="${#authorization.expression('hasRole(''NHANVIEN'')')}">
+                        <a class="nav-link"
+                            th:href="@{/nhanvien/quanly-hocvien}">🎓 Quản lý học
+                            viên</a>
+                        <a class="nav-link"
+                            th:href="@{/nhanvien/quanly-taikhoan}">🧑🏻‍🎓 Quản
+                            lý tài khoản</a>
+                        <a class="nav-link"
+                            th:href="@{/nhanvien/quanly-giangvien}">🧑🏻‍🏫 Quản
+                            lý
+                            giảng
+                            viên</a>
+                        <a class="nav-link" th:href="@{/nhanvien/danhmuc}">📦
+                            Quản lý
+                            danh mục</a>
+                        <a class="nav-link"
+                            th:href="@{/nhanvien/yeu-cau-rut-tien}">💸 Yêu cầu
+                            rút tiền</a>
+                        <a class="nav-link" th:href="@{/khoahoccanduyet}">✅
+                            Duyệt khóa
+                            học</a>
+
+                        <a class="nav-link"
+                            th:href="@{/khoa-hoc-da-kiem-duyet}"> <i
+                                class="fas fa-check-circle"></i> Danh sách đã
+                            duyệt
+                        </a>
+                        <a class="nav-link"
+                            th:href="@{/nhanvien/quanly-giao-dich}">💰 Giao dịch
+                            khóa học</a>
+                        <a class="nav-link"
+                            th:href="@{/quanly-danh-gia-binh-luan}">💬
+                            Bình luận, đánh giá</a>
+                    </div>
+
+                    <!-- MỤC CHO ADMIN -->
+                    <div
+                        th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <a class="nav-link"
+                            th:href="@{/admin/quanly-hocvien}">🎓 Quản lý học
+                            viên</a>
+                        <a class="nav-link"
+                            th:href="@{/admin/quanly-taikhoan}">🧑🏻‍🎓 Quản lý
+                            tài khoản</a>
+                        <a class="nav-link"
+                            th:href="@{/admin/quanly-giangvien}">🧑🏻‍🏫 Quản lý
+                            giảng
+                            viên</a>
+                        <a class="nav-link"
+                            th:href="@{/admin/quanly-nhanvien}">👩‍💼 Quản lý
+                            nhân viên</a>
+                        <a class="nav-link" th:href="@{/admin/danhmuc}">📦
+                            Quản lý danh
+                            mục</a>
+                        <a class="nav-link"
+                            th:href="@{/admin/yeu-cau-rut-tien}">💸 Yêu cầu
+                            rút tiền</a>
+                        <a class="nav-link" th:href="@{/khoahoccanduyet}">✅
+                            Duyệt khóa
+                            học</a>
+                        <a class="nav-link"
+                            th:href="@{/khoa-hoc-da-kiem-duyet}"> <i
+                                class="fas fa-check-circle"></i> Danh sách đã
+                            duyệt
+                        </a>
+                        <a class="nav-link"
+                            th:href="@{/admin/quanly-giao-dich}">💰 Giao dịch
+                            khóa học</a>
+                        <a class="nav-link"
+                            th:href="@{/quanly-danh-gia-binh-luan}">💬
+                            Bình luận, đánh giá</a>
+                    </div>
+
+                    <div
+                        th:if="${#authorization.expression('hasRole(''ADMIN'') or hasRole(''NHANVIEN'')')}">
+                        <a class="nav-link"
+                            th:href="@{/quan-ly/thong-bao-he-thong}">📢 Quản lý
+                            thông báo</a>
+                    </div>
+
+                </nav>
+
+            </div>
+        </div>
+
+        <script>
+        const toggleBtn = document.getElementById("toggle-btn");
+        const sidebar = document.getElementById("sidebar");
+
+        toggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle("active");
+        });
+
+        document.addEventListener("click", (e) => {
+            const isClickInside = sidebar.contains(e.target) || toggleBtn.contains(e.target);
+            if (!isClickInside) {
+                sidebar.classList.remove("active");
+            }
+        });
+    </script>
+
+    </body>
+
+</html>

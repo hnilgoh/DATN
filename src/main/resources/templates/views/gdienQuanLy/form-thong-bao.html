@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Tạo/Sửa Thông Báo</title>
+    </head>
+
+    <body>
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">📝 Tạo/Sửa Thông Báo</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="/admin/dashboard">Bảng
+                            điều khiển</a></li>
+                    <li class="breadcrumb-item"><a href="#">Quản lý thông
+                            báo</a></li>
+                    <li class="breadcrumb-item active">Tạo mới</li>
+                </ol>
+
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        Nhập thông tin thông báo
+                    </div>
+                    <div class="card-body">
+                        <form action="#" method="post">
+                            <div class="mb-3">
+                                <label for="title" class="form-label"><b>Tiêu
+                                        đề</b></label>
+                                <input type="text" class="form-control"
+                                    id="title" name="title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="content" class="form-label"><b>Nội
+                                        dung</b></label>
+                                <textarea class="form-control" id="content"
+                                    name="content" rows="10"
+                                    required></textarea>
+                                <small>Bạn có thể sử dụng mã HTML trong nội
+                                    dung.</small>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="audience"
+                                        class="form-label"><b>Nhóm
+                                            nhận</b></label>
+                                    <select class="form-select" id="audience"
+                                        name="audience">
+                                        <option value="ALL" selected>Tất
+                                            cả</option>
+                                        <option value="INSTRUCTORS">Chỉ Giảng
+                                            viên</option>
+                                        <option value="STUDENTS">Chỉ Học
+                                            viên</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label"><b>Trạng
+                                            thái</b></label>
+                                    <div class="d-flex">
+                                        <div class="form-check me-3">
+                                            <input class="form-check-input"
+                                                type="radio" name="status"
+                                                id="draft" value="DRAFT"
+                                                checked>
+                                            <label class="form-check-label"
+                                                for="draft">Lưu nháp</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                type="radio" name="status"
+                                                id="send" value="SEND">
+                                            <label class="form-check-label"
+                                                for="send">Gửi ngay</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-end gap-2">
+                                <a th:href="@{/admin/quanly-thong-bao}"
+                                    class="btn btn-secondary">Hủy</a>
+                                <button type="submit"
+                                    class="btn btn-primary">Lưu thông
+                                    báo</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

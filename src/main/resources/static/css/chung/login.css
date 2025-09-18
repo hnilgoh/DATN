@@ -1,0 +1,85 @@
+body.login {
+    background-color: #f8f9fa;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.login .custom-img {
+    max-width: 80%;
+    height: auto;
+}
+
+.login h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(90deg, #007bff, #00c6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.login .btn-primary {
+    background-color: #213252;
+    border: none;
+}
+
+.login .btn-google img {
+    width: 50px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    border: 1px solid rgb(184, 184, 184);
+    background-color: rgb(232, 226, 226);
+    padding: 8px;
+}
+
+hr {
+    border: none;
+    border-top: 1.5px solid rgb(118, 118, 118);
+    height: 1px;
+    margin: 0;
+}
+
+.login .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    transition: 0.3s ease-in-out;
+}
+
+.login .btn-primary:hover {
+    background-color: #16203b;
+    transition: background-color 0.3s ease;
+}
+
+.login form {
+    animation: fadeSlideIn 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fadeSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.meesage {
+    color: rgb(26, 26, 167);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.login .form-control {
+    border-radius: 8px !important;
+}

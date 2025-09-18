@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <title>Chi tiết giảng viên</title>
+    </head>
+
+    <body>
+        <main class="giangvien-chitiet">
+            <div class="row align-items-center mb-3">
+                <div class="col-md-6">
+                    <h3 class="mb-0">
+                        <i class="fas fa-chalkboard-teacher"></i> Chi tiết giảng
+                        viên
+                    </h3>
+                </div>
+            </div>
+
+            <div class="thongtin-giangvien">
+                <!-- Thông tin giảng viên -->
+                <div class="info-left">
+                    <p><i class="fas fa-user"></i><strong>Họ tên:</strong>
+                        <span th:text="${giangVien.taikhoan.name}"></span>
+                    </p>
+                    <p><i class="fas fa-envelope"></i><strong>Email:</strong>
+                        <span
+                            th:text="${@textUtils.maskEmail(giangVien.taikhoan.email)}"></span>
+                    </p>
+                </div>
+
+                <!-- Tổng doanh thu -->
+                <div class="info-right">
+                    <h5><strong><i class="fas fa-coins"></i> Tổng doanh
+                            thu:</strong></h5>
+                    <span
+                        th:text="${#numbers.formatDecimal(tongDoanhThu, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></span>
+                </div>
+            </div>
+
+            <div class="mt-4 doanhthu-section">
+                <h4><i class="fas fa-list"></i> Danh sách doanh thu</h4>
+                <table id="tableDoanhThu"
+                    class="table table-bordered table-hover mt-2">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Ngày nhận</th>
+                            <th>Số tiền nhận</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="dt, stat : ${doanhThuList}">
+                            <td th:text="${stat.index + 1}"></td>
+                            <td
+                                th:text="${#temporals.format(dt.ngaynhan, 'dd/MM/yyyy')}"></td>
+                            <td class="text-success fw-bold"
+                                th:text="${#numbers.formatDecimal(dt.sotiennhan, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(doanhThuList)}">
+                            <td colspan="4" class="text-center text-muted">Chưa
+                                có dữ liệu doanh thu</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="paginationDoanhThu" class="mt-2"></div>
+            </div>
+
+            <div class="mt-5 khoahoc-section">
+                <h4><i class="fas fa-book"></i> Danh sách khóa học đã xuất bản
+                </h4>
+                <table id="tableKhoaHoc"
+                    class="table table-striped table-hover mt-2">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Ảnh bìa</th>
+                            <th>Tên khóa học</th>
+                            <th>Giá gốc</th>
+                            <th>Giá hiện tại</th>
+                            <th>Ngày tạo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="kh, stat : ${khoaHocList}">
+                            <td th:text="${stat.index + 1}"></td>
+                            <td>
+                                <img th:src="${kh.anhBia}" alt="Ảnh bìa">
+                            </td>
+                            <td th:text="${kh.tenKhoaHoc}"></td>
+                            <td class="gia-goc"
+                                th:text="${#numbers.formatDecimal(kh.giagoc, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                            <td class="gia-hien-tai"
+                                th:text="${#numbers.formatDecimal(kh.giaHienTai, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                            <td
+                                th:text="${#temporals.format(kh.ngayTao, 'dd/MM/yyyy')}"></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(khoaHocList)}">
+                            <td colspan="6" class="text-center text-muted">Chưa
+                                có khóa học nào đã xuất bản</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="paginationKhoaHoc" class="mt-2"></div>
+            </div>
+
+            <div class="mt-3">
+                <a th:href="@{/{prefix}/quanly-giangvien(prefix=${prefix})}"
+                    class="btn-quaylai">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+            </div>
+
+            <script>
+            function paginateTable(tableId, paginationId, rowsPerPage = 5) {
+                const table = document.getElementById(tableId);
+                const tbody = table.querySelector("tbody");
+                const rows = tbody.querySelectorAll("tr:not([th\\:if])"); // tránh dòng "Chưa có dữ liệu"
+                const pagination = document.getElementById(paginationId);
+
+                let currentPage = 1;
+                const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+                function renderTable() {
+                    rows.forEach((row, index) => {
+                        row.style.display =
+                            index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage ?
+                            "" : "none";
+                    });
+                }
+
+                function createPageItem(label, page, disabled = false, active = false) {
+                    const li = document.createElement("li");
+                    li.className = `page-item ${disabled ? "disabled" : ""} ${active ? "active" : ""}`;
+                    const a = document.createElement("a");
+                    a.className = "page-link";
+                    a.href = "#";
+                    a.textContent = label;
+                    if (!disabled && !active) {
+                        a.addEventListener("click", (e) => {
+                            e.preventDefault();
+                            currentPage = page;
+                            renderTable();
+                            renderPagination();
+                        });
+                    }
+                    li.appendChild(a);
+                    return li;
+                }
+
+                function renderPagination() {
+                    pagination.innerHTML = "";
+                    if (totalPages <= 1) return;
+
+                    const ul = document.createElement("ul");
+                    ul.className = "pagination justify-content-center";
+
+                    // Nút "Đầu"
+                    ul.appendChild(createPageItem("«", 1, currentPage === 1));
+
+                    // Nút "Trước"
+                    ul.appendChild(createPageItem("‹", currentPage - 1, currentPage === 1));
+
+                    // Hiển thị tối đa 2 số trang
+                    let startPage = Math.max(1, currentPage - 1);
+                    let endPage = Math.min(totalPages, currentPage + 1);
+
+                    if (currentPage === 1) {
+                        endPage = Math.min(totalPages, 2);
+                    } else if (currentPage === totalPages) {
+                        startPage = Math.max(1, totalPages - 1);
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        ul.appendChild(createPageItem(i, i, false, i === currentPage));
+                    }
+
+                    // Nút "Tiếp"
+                    ul.appendChild(createPageItem("›", currentPage + 1, currentPage === totalPages));
+
+                    // Nút "Cuối"
+                    ul.appendChild(createPageItem("»", totalPages, currentPage === totalPages));
+
+                    pagination.appendChild(ul);
+                }
+
+                renderTable();
+                renderPagination();
+            }
+
+            // Gọi hàm phân trang cho từng bảng
+            paginateTable("tableDoanhThu", "paginationDoanhThu", 5);
+            paginateTable("tableKhoaHoc", "paginationKhoaHoc", 5);
+        </script>
+
+        </main>
+    </body>
+
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8" />
+        <title th:fragment="title">Tài khoản của tôi</title>
+    </head>
+
+    <body>
+        <main class="container py-5 taikhoan">
+            <h2 class="fw-bold mb-4">
+                <i class="fas fa-user-circle me-2"></i> Tài khoản của tôi
+            </h2>
+
+            <!-- Thông báo -->
+            <div th:if="${message}" class="alert alert-info"
+                th:text="${message}"></div>
+
+            <!-- Tabs chính -->
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item"><button class="nav-link active"
+                        data-bs-toggle="tab" data-bs-target="#tab-avatar"> <i
+                            class="fas fa-image me-1"></i> Ảnh
+                        đại diện</button></li>
+                <li class="nav-item"><button class="nav-link"
+                        data-bs-toggle="tab" data-bs-target="#tab-thongtin"><i
+                            class="fas fa-id-card me-1"></i> Thông tin cá
+                        nhân</button></li>
+                <li class="nav-item"><button class="nav-link"
+                        data-bs-toggle="tab" data-bs-target="#tab-email"><i
+                            class="fas fa-envelope me-1"></i>
+                        Email</button></li>
+                <li class="nav-item"><button class="nav-link"
+                        data-bs-toggle="tab" data-bs-target="#tab-matkhau"><i
+                            class="fas fa-key me-1"></i> Đổi
+                        mật khẩu</button></li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Ảnh đại diện -->
+                <div class="tab-pane fade show active" id="tab-avatar">
+                    <ul class="nav nav-pills mb-3">
+                        <li class="nav-item"><button class="nav-link active"
+                                data-bs-toggle="pill"
+                                data-bs-target="#avatar-view"> <i
+                                    class="fas fa-eye me-1"></i>
+                                Xem</button></li>
+                        <li class="nav-item"><button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#avatar-edit"><i
+                                    class="fas fa-pen me-1"></i> Cập
+                                nhật</button></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="avatar-view">
+                            <img
+                                th:src="@{${taiKhoan.avatar != null && !taiKhoan.avatar.isEmpty() ? taiKhoan.avatar : '/photos/avartar.jpg'}}"
+                                class="img-thumbnail mb-3"
+                                style="max-width: 200px; object-fit: cover;" />
+                        </div>
+                        <div class="tab-pane fade" id="avatar-edit">
+                            <form th:action="@{/tai-khoan/cap-nhat-avatar}"
+                                method="post" enctype="multipart/form-data">
+                                <input type="file" name="avatar"
+                                    class="form-control mb-3" required>
+                                <button type="submit" class="btn btn-success"><i
+                                        class="fas fa-save me-1"></i> Lưu
+                                    ảnh</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thông tin cá nhân -->
+                <div class="tab-pane fade" id="tab-thongtin">
+                    <ul class="nav nav-pills mb-3">
+                        <li class="nav-item"><button class="nav-link active"
+                                data-bs-toggle="pill"
+                                data-bs-target="#info-view"><i
+                                    class="fas fa-eye me-1"></i>
+                                Xem</button></li>
+                        <li class="nav-item"><button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#info-edit"><i
+                                    class="fas fa-pen me-1"></i>Cập
+                                nhật</button></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="info-view">
+                            <p><strong>Họ tên:</strong> <span
+                                    th:text="${taiKhoan.name}">---</span></p>
+                            <p><strong>Số điện thoại:</strong> <span
+                                    th:text="${taiKhoan.phone}">---</span></p>
+                        </div>
+                        <div class="tab-pane fade" id="info-edit">
+                            <form th:action="@{/tai-khoan/cap-nhat}"
+                                method="post" th:object="${taiKhoanUpdateDto}">
+                                <div class="mb-3">
+                                    <label><i class="fas fa-user me-1"></i>Họ
+                                        tên</label>
+                                    <input type="text" th:field="*{name}"
+                                        class="form-control" />
+                                    <div class="text-danger"
+                                        th:if="${#fields.hasErrors('name')}"
+                                        th:errors="*{name}"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label><i class="fas fa-phone me-1"></i>Số
+                                        điện thoại</label>
+                                    <input type="text" th:field="*{phone}"
+                                        class="form-control" />
+                                    <div class="text-danger"
+                                        th:if="${#fields.hasErrors('phone')}"
+                                        th:errors="*{phone}"></div>
+                                </div>
+                                <button type="submit"
+                                    class="btn btn-success">Lưu thay
+                                    đổi</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="tab-pane fade" id="tab-email">
+                    <ul class="nav nav-pills mb-3">
+                        <li class="nav-item"><button class="nav-link active"
+                                data-bs-toggle="pill"
+                                data-bs-target="#email-view"><i
+                                    class="fas fa-eye me-1"></i>Xem</button></li>
+                        <li class="nav-item"><button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#email-edit"><i
+                                    class="fas fa-pen me-1"></i>Cập
+                                nhật</button></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="email-view">
+                            <p><strong>Email:</strong> <span
+                                    th:text="${taiKhoan.email}">---</span></p>
+                        </div>
+                        <div class="tab-pane fade" id="email-edit">
+                            <form th:action="@{/tai-khoan/cap-nhat-email}"
+                                method="post" th:object="${emailDto}">
+                                <div class="mb-3">
+                                    <label><i class="fas fa-envelope me-1"></i>
+                                        Email mới</label>
+                                    <input type="email" th:field="*{email}"
+                                        class="form-control" />
+                                    <div class="text-danger"
+                                        th:if="${#fields.hasErrors('email')}"
+                                        th:errors="*{email}"></div>
+                                </div>
+                                <button type="submit" class="btn btn-success"><i
+                                        class="fas fa-check me-1"></i> Cập nhật
+                                    email</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Đổi mật khẩu -->
+                <div class="tab-pane fade" id="tab-matkhau">
+                    <ul class="nav nav-pills mb-3">
+                        <li class="nav-item"><button class="nav-link active"
+                                data-bs-toggle="pill"
+                                data-bs-target="#mk-view">Hướng
+                                dẫn</button></li>
+                        <li class="nav-item"><button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#mk-edit">Đổi mật
+                                khẩu</button></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="mk-view">
+                            <p>Bạn nên thay đổi mật khẩu định kỳ để tăng bảo mật
+                                tài khoản.</p>
+                        </div>
+                        <div class="tab-pane fade" id="mk-edit">
+                            <form th:action="@{/tai-khoan/doi-mat-khau}"
+                                method="post" th:object="${passwordDto}">
+                                <div class="mb-3">
+                                    <label><i class="fas fa-lock me-1"></i> Mật
+                                        khẩu hiện tại</label>
+                                    <input type="password"
+                                        th:field="*{oldPassword}"
+                                        class="form-control" />
+                                    <div class="text-danger"
+                                        th:if="${#fields.hasErrors('oldPassword')}"
+                                        th:errors="*{oldPassword}"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label><i
+                                            class="fas fa-unlock-alt me-1"></i>Mật
+                                        khẩu mới</label>
+                                    <input type="password"
+                                        th:field="*{newPassword}"
+                                        class="form-control" />
+                                    <div class="text-danger"
+                                        th:if="${#fields.hasErrors('newPassword')}"
+                                        th:errors="*{newPassword}"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label><i
+                                            class="fas fa-check-circle me-1"></i>Nhập
+                                        lại mật khẩu mới</label>
+                                    <input type="password"
+                                        th:field="*{confirmPassword}"
+                                        class="form-control" />
+                                    <div class="text-danger"
+                                        th:if="${#fields.hasErrors('confirmPassword')}"
+                                        th:errors="*{confirmPassword}"></div>
+                                </div>
+                                <button type="submit" class="btn btn-success"><i
+                                        class="fas fa-sync-alt me-1"></i> Cập
+                                    nhật mật
+                                    khẩu</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script th:inline="javascript">
+            function switchTab(targetId) {
+                const trigger = document.querySelector(`[data-bs-target="#${targetId}"]`);
+                if (trigger) trigger.click();
+            }
+            document.addEventListener("DOMContentLoaded", function() {
+                if (document.querySelector("#info-edit .text-danger")) {
+                    switchTab("tab-thongtin");
+                    const sub = document.querySelector('[data-bs-target="#info-edit"]');
+                    if (sub) sub.click();
+                } else if (document.querySelector("#email-edit .text-danger")) {
+                    switchTab("tab-email");
+                    const sub = document.querySelector('[data-bs-target="#email-edit"]');
+                    if (sub) sub.click();
+                } else if (document.querySelector("#mk-edit .text-danger")) {
+                    switchTab("tab-matkhau");
+                    const sub = document.querySelector('[data-bs-target="#mk-edit"]');
+                    if (sub) sub.click();
+                }
+
+                const tabValue = /*[[${tab}]]*/ null;
+
+                console.log("Tab cần giữ lại:", tabValue);
+
+                if (tabValue !== null) {
+                    switchTab(tabValue);
+
+                    const map = {
+                        'tab-thongtin': 'info-edit',
+                        'tab-email': 'email-edit',
+                        'tab-matkhau': 'mk-edit',
+                        'tab-avatar': 'avatar-edit'
+                    };
+
+                    const subId = map[tabValue];
+                    if (subId) {
+                        const subBtn = document.querySelector(`[data-bs-target="#${subId}"]`);
+                        if (subBtn) subBtn.click();
+                    }
+                }
+            });
+        </script>
+        </main>
+    </body>
+
+</html>

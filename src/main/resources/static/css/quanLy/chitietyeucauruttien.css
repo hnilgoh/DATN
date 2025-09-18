@@ -1,0 +1,119 @@
+.chitietyeucauruttien {
+    padding: 0px 80px;
+}
+
+.chitietyeucauruttien .main-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+}
+
+.chitietyeucauruttien .header-section {
+    background: linear-gradient(135deg, #0d1b7b 0%, #152551 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 20px 20px 0 0;
+    text-align: center;
+    position: relative;
+}
+
+.chitietyeucauruttien .header-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.chitietyeucauruttien .detail-card {
+    border: none;
+    margin: 2rem;
+}
+
+.chitietyeucauruttien .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.chitietyeucauruttien .detail-label {
+    flex-shrink: 0;
+    /* giữ nguyên chiều rộng label */
+}
+
+.chitietyeucauruttien .detail-value {
+    text-align: right;
+    /* badge hoặc text sẽ nằm bên phải */
+}
+
+.chitietyeucauruttien .detail-label i {
+    margin-right: 0.5rem;
+    color: #4facfe;
+}
+
+.chitietyeucauruttien .btn-approve i {
+    color: white;
+}
+
+.chitietyeucauruttien .amount-highlight {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.chitietyeucauruttien .status-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+.chitietyeucauruttien .status-pending {
+    background: #ffeaa7;
+    color: #d63031;
+}
+
+.chitietyeucauruttien .status-approved {
+    background: #55efc4;
+    color: #00695c;
+}
+
+.chitietyeucauruttien .status-rejected {
+    background: #fd79a8;
+    color: white;
+}
+
+.chitietyeucauruttien .action-section {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.chitietyeucauruttien .action-btn {
+    border-radius: 25px;
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    margin: 0.5rem;
+    border: none;
+}
+
+.chitietyeucauruttien .btn-approve {
+    background: linear-gradient(135deg, #00b894, #55efc4);
+    color: white;
+}
+
+.chitietyeucauruttien .btn-reject {
+    background: linear-gradient(135deg, #e84393, #fd79a8);
+    color: white;
+}
+
+.chitietyeucauruttien .back-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    color: white;
+    text-decoration: none;
+}

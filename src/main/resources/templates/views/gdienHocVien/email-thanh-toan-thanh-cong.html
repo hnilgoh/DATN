@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+    <head>
+        <meta charset="UTF-8">
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+        
+        .header {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header">✅ Thanh toán thành công!</div>
+            <p>Xin chào <strong th:text="${tenNguoiDung}">Người
+                    dùng</strong>,</p>
+            <p>Cảm ơn bạn đã đăng ký khóa học tại hệ thống.</p>
+            <p><strong>Thông tin giao dịch:</strong></p>
+            <ul>
+                <li><strong>Mã giao dịch:</strong> <span
+                        th:text="${giaoDichId}">ID</span></li>
+                <li><strong>Tổng tiền:</strong> <span class="highlight"
+                        th:text="${tongTien}">0</span> ₫</li>
+            </ul>
+            <p>Bạn có thể đăng nhập vào hệ thống để bắt đầu học ngay hôm
+                nay.</p>
+            <div class="footer text-black">
+                Trân trọng,<br> Đội ngũ hỗ trợ <strong>GLOBALEDU</strong>
+            </div>
+        </div>
+    </body>
+
+</html>

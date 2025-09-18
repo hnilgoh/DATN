@@ -1,0 +1,204 @@
+.danhmuc {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f2f5f9;
+    margin: 0;
+    padding: 0;
+}
+
+.danhmuc .title-section {
+    font-weight: 700;
+    font-size: 28px;
+    color: #34495e;
+    margin-bottom: 30px;
+    animation: fadeInDown 0.5s ease;
+}
+
+.danhmuc .form-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.danhmuc .form-danh-muc label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+    color: #2c3e50;
+}
+
+.danhmuc .form-danh-muc input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.danhmuc .form-danh-muc input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.danhmuc .btn-submit {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.danhmuc .btn-submit:hover {
+    background: linear-gradient(135deg, #2980b9, #2471a3);
+    transform: scale(1.03);
+}
+
+.danhmuc .list-card {
+    margin: 50px 30px;
+    padding: 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    animation: fadeInUp 0.6s ease;
+}
+
+.danhmuc .table-danhmuc {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.danhmuc .table-danhmuc thead {
+    background: #344785;
+    color: white;
+}
+
+.danhmuc .table-danhmuc th,
+.danhmuc .table-danhmuc td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.danhmuc .table-danhmuc tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.danhmuc .btn-table {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.3s ease;
+    color: white;
+}
+
+.danhmuc .btn-table.edit {
+    background-color: #fdaa25;
+    color: white;
+}
+
+.danhmuc .btn-table.edit:hover {
+    background-color: #e28e07;
+    color: white;
+}
+
+.danhmuc .btn-table.enable {
+    background-color: white;
+    color: #27ae60;
+    border: 1px solid #27ae60;
+}
+
+.danhmuc .btn-table.enable:hover {
+    background-color: #20914f;
+    color: white !important;
+}
+
+.danhmuc .btn-table.disable {
+    background-color: white;
+    color: rgb(215, 6, 6);
+    border: 1px solid rgb(215, 6, 6);
+}
+
+.danhmuc .btn-table.disable:hover {
+    background-color: rgb(215, 6, 6);
+    color: white !important;
+}
+
+.danhmuc .btn-table:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+.danhmuc .empty-note {
+    margin-top: 40px;
+    padding: 15px;
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+
+/* Animation */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.danhmuc .row-disabled {
+    background-color: #ffffff;
+    color: black;
+}
+
+.danhmuc .row-disabled td {
+    color: black;
+}
+
+.danhmuc .row-active {
+    background-color: #ccc;
+}
+
+.danhmuc .table-danhmuc tbody tr:hover {
+    background-color: #b8b6b6;
+}
+
+.danhmuc .table-danhmuc tbody tr.row-disabled:hover {
+    background-color: #b7b2b2;
+}

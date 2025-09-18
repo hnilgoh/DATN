@@ -1,0 +1,605 @@
+:root {
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+}
+
+.quanlydanhgia .header-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px 20px 0 0;
+    /* bo góc trên nếu cần */
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.quanlydanhgia .header-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+}
+
+.quanlydanhgia .header-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.quanlydanhgia .header-content {
+    position: relative;
+    z-index: 2;
+}
+
+.quanlydanhgia .page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.quanlydanhgia .page-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+
+/* Form tổng thể */
+
+.quanlydanhgia .filter-form {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    border-radius: 0 0 0 0 !important;
+    padding-bottom: 50px !important;
+}
+
+
+/* Select */
+
+.quanlydanhgia .custom-select {
+    padding: 0.75rem 1rem;
+    border: 2px solid #dee2e6;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.quanlydanhgia .custom-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, .25);
+}
+
+
+/* Button */
+
+.quanlydanhgia .btn {
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.quanlydanhgia .btn-primary {
+    background: linear-gradient(to right, #2563eb, #4f46e5);
+    border: none;
+}
+
+.quanlydanhgia .btn-primary:hover {
+    background: linear-gradient(to right, #1d4ed8, #4338ca);
+}
+
+.quanlydanhgia .btn-outline-secondary:hover {
+    background-color: #e9ecef;
+}
+
+
+/* Bảng đẹp hơn */
+
+.quanlydanhgia .custom-table {
+    border-radius: 0 0 0.95rem 0.95rem !important;
+    overflow: hidden;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+
+/* Header */
+
+.quanlydanhgia .custom-table thead {
+    background: linear-gradient(to right, #2563eb, #4f46e5);
+    color: #fff;
+    font-weight: 600;
+}
+
+
+/* Hover */
+
+.quanlydanhgia .custom-table tbody tr:hover {
+    background-color: #f1f5ff;
+    transition: 0.2s;
+}
+
+
+/* Nút xem chi tiết */
+
+.quanlydanhgia .custom-table .btn-outline-primary {
+    border-radius: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.quanlydanhgia .custom-table .btn-outline-primary:hover {
+    background: linear-gradient(to right, #2563eb, #4f46e5);
+    color: #fff;
+}
+
+.quanlydanhgia .course-info-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.quanlydanhgia .course-info-card:hover {
+    transform: translateY(-5px);
+}
+
+.quanlydanhgia .card-body {
+    padding: 2.5rem;
+}
+
+.quanlydanhgia .course-title {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quanlydanhgia .course-title i {
+    color: #6366f1;
+    -webkit-text-fill-color: #6366f1;
+}
+
+.quanlydanhgia .course-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.quanlydanhgia .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 15px;
+    border-left: 4px solid #6366f1;
+    transition: all 0.3s ease;
+}
+
+.quanlydanhgia .info-item:hover {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    transform: translateX(5px);
+}
+
+.quanlydanhgia .info-label {
+    font-weight: 600;
+    color: #475569;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.quanlydanhgia .info-label i {
+    color: #6366f1;
+    width: 16px;
+}
+
+.quanlydanhgia .info-value {
+    font-weight: 500;
+    color: #1e293b;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.quanlydanhgia .course-id {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    width: fit-content;
+}
+
+.quanlydanhgia .course-name {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #1e293b;
+}
+
+.quanlydanhgia .course-description {
+    color: #64748b;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.quanlydanhgia .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.quanlydanhgia .stat-item {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    padding: 1.5rem;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.quanlydanhgia .stat-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.quanlydanhgia .stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+}
+
+.quanlydanhgia .rating-icon {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.quanlydanhgia .stat-content {
+    flex: 1;
+}
+
+.quanlydanhgia .stat-label {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.quanlydanhgia .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.quanlydanhgia .rating-value {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #f59e0b;
+}
+
+.quanlydanhgia .star-emoji {
+    font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .quanlydanhgia .card-body {
+        padding: 1.5rem;
+    }
+    .quanlydanhgia .course-title {
+        font-size: 1.5rem;
+    }
+    .quanlydanhgia .stats-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .quanlydanhgia .stat-item {
+        padding: 1rem;
+    }
+    .quanlydanhgia .stat-value {
+        font-size: 1.25rem;
+    }
+}
+
+
+/* Animation */
+
+.quanlydanhgia .course-info-card {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quanlydanhgia .info-item {
+    opacity: 0;
+    animation: slideInLeft 0.6s ease forwards;
+}
+
+.quanlydanhgia .info-item:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.quanlydanhgia .info-item:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.quanlydanhgia .info-item:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.quanlydanhgia .stat-item {
+    opacity: 0;
+    animation: bounceIn 0.6s ease forwards;
+}
+
+.quanlydanhgia .stat-item:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.quanlydanhgia .stat-item:nth-child(2) {
+    animation-delay: 0.6s;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.quanlydanhgia .empty-state-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    padding: 2rem;
+}
+
+.quanlydanhgia .empty-state-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 500px;
+    width: 100%;
+    transition: transform 0.3s ease;
+    animation: fadeInUp 0.8s ease;
+}
+
+.quanlydanhgia .empty-state-card:hover {
+    transform: translateY(-5px);
+}
+
+.quanlydanhgia .empty-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: pulse 2s infinite;
+}
+
+.quanlydanhgia .empty-icon::before {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: rgba(251, 191, 36, 0.2);
+    border-radius: 50%;
+    animation: ripple 2s infinite;
+}
+
+.quanlydanhgia .empty-icon i {
+    font-size: 2.5rem;
+    color: white;
+    z-index: 1;
+}
+
+.quanlydanhgia .empty-title {
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.quanlydanhgia .empty-message {
+    color: #64748b;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.quanlydanhgia .empty-suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.quanlydanhgia .suggestion-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    border-radius: 15px;
+    color: #475569;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-left: 4px solid #6366f1;
+    opacity: 0;
+    animation: slideInLeft 0.6s ease forwards;
+}
+
+.quanlydanhgia .suggestion-item:hover {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    transform: translateX(5px);
+    border-left-color: #8b5cf6;
+}
+
+.quanlydanhgia .suggestion-item i {
+    color: #6366f1;
+    font-size: 1.1rem;
+}
+
+.quanlydanhgia .suggestion-item:nth-child(1) {
+    animation-delay: 0.3s;
+}
+
+.quanlydanhgia .suggestion-item:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .quanlydanhgia .empty-state-card {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+    }
+    .quanlydanhgia .empty-icon {
+        width: 80px;
+        height: 80px;
+    }
+    .quanlydanhgia .empty-icon i {
+        font-size: 2rem;
+    }
+    .quanlydanhgia .empty-title {
+        font-size: 1.5rem;
+    }
+    .quanlydanhgia .empty-message {
+        font-size: 1rem;
+    }
+}
+
+.quanlydanhgia .review-item {
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quanlydanhgia .review-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.quanlydanhgia .review-stars {
+    font-size: 14px;
+    letter-spacing: 2px;
+}

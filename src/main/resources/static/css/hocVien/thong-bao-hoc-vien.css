@@ -1,0 +1,63 @@
+.thongbao .tb-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.thongbao h1 {
+    font-size: 26px;
+    margin-bottom: 30px;
+    color: #16203b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.thongbao .notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.thongbao .notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #0d6efd;
+    position: relative;
+}
+
+.thongbao .notification-item.unread {
+    background: #e9f3ff;
+    border-left-color: #198754;
+}
+
+.thongbao .notification-icon {
+    font-size: 24px;
+    color: #0d6efd;
+    margin-top: 4px;
+}
+
+.thongbao .notification-content h4 {
+    margin: 0 0 6px;
+    font-size: 17px;
+    color: #16203b;
+}
+
+.thongbao .notification-content p {
+    margin: 0 0 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+.thongbao .notification-time {
+    font-size: 13px;
+    color: #888;
+}

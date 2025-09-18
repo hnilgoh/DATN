@@ -1,0 +1,78 @@
+.verify {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 15px;
+    text-align: center;
+}
+
+.verify .container {
+    max-width: 1400px;
+    /* tăng chiều ngang form */
+    width: 100%;
+    animation: slideInLeft 1s ease-out;
+}
+
+.verify .verify-card {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+.verify .card-title {
+    background: linear-gradient(90deg, #007bff, #00c6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.verify .form-control {
+    border-radius: 4px;
+    padding: 14px;
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+}
+
+.verify button[type="submit"],
+.verify .btn-primary {
+    background-color: #1b2a4e;
+    border: none;
+    padding: 10px 24px;
+    font-weight: bold;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.verify button:hover,
+.verify .btn-primary:hover {
+    background-color: #1f3c7f;
+}
+
+.verify .btn-link {
+    font-weight: 500;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.verify .btn-link:hover {
+    text-decoration: underline;
+}
+
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

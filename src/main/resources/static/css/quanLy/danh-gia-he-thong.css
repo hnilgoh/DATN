@@ -1,0 +1,472 @@
+.danhgiahethong {
+    background-color: #dfe9f9;
+    padding-bottom: 50px;
+}
+
+.danhgiahethong .nav-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid #779ff5;
+    border-radius: 0;
+    padding: 12px 0;
+    background-color: white;
+    font-weight: 500;
+    color: #6b7280;
+    /* text-gray-500 */
+}
+
+.danhgiahethong .nav-tabs .nav-link.active {
+    background-color: #bbcfee;
+    border-bottom: 2px solid #214cc1;
+    color: #0d47a1;
+    font-weight: 600;
+}
+
+.danhgiahethong #filterForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    max-width: 100%;
+    margin: auto;
+    flex-wrap: wrap;
+}
+
+
+/* Label */
+
+.danhgiahethong #filterForm label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+
+/* Select box */
+
+.danhgiahethong #filterForm .form-select {
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    transition: all 0.2s ease-in-out;
+}
+
+.danhgiahethong #filterForm .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+}
+
+.danhgiahethong #filterForm label i {
+    color: #ff9800;
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+.danhgiahethong .fa-solid {
+    color: #ff5309;
+    margin-right: 6px;
+    font-size: 18px;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    #filterForm {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+
+/* Toàn bộ khu vực đánh giá */
+
+.danhgiahethong .rating-section .card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: linear-gradient(180deg, #ffffff, #fafafa);
+}
+
+.danhgiahethong .rating-section .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Header của card */
+
+.danhgiahethong .rating-section .card-header {
+    background: linear-gradient(90deg, #ffdd55, #ff9800);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-size: 1.15rem;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+
+/* Số trung bình đánh giá */
+
+.danhgiahethong .rating-section .card-body h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #ff9800;
+    text-shadow: 0 2px 4px rgba(255, 152, 0, 0.2);
+}
+
+
+/* Icon sao */
+
+.danhgiahethong .rating-section .card-body .stars {
+    font-size: 2rem;
+    letter-spacing: 3px;
+}
+
+
+/* Tổng lượt đánh giá */
+
+.danhgiahethong .rating-section .card-body p {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+
+/* Chart container */
+
+.danhgiahethong .rating-section #ratingChart {
+    max-width: 100%;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .danhgiahethong .rating-section .card-body h1 {
+        font-size: 3rem;
+    }
+    .danhgiahethong .rating-section .card-body .stars {
+        font-size: 1.5rem;
+    }
+}
+
+
+/* Container nền mờ */
+
+.danhgiahethong .modern-table-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Bảng chính */
+
+.danhgiahethong .modern-table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    width: 100%;
+}
+
+
+/* Header */
+
+.danhgiahethong .modern-table thead tr {
+    background: linear-gradient(90deg, #4f46e5, #6366f1);
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.danhgiahethong .modern-table thead th {
+    padding: 12px 16px;
+    border: none;
+}
+
+
+/* Các dòng dữ liệu */
+
+.danhgiahethong .modern-table tbody tr {
+    background: #f9fafb;
+    transition: all 0.2s ease-in-out;
+    border-radius: 8px;
+}
+
+.danhgiahethong .modern-table tbody td {
+    padding: 12px 16px;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #374151;
+}
+
+
+/* Hiệu ứng hover */
+
+.danhgiahethong .modern-table tbody tr:hover {
+    background: #eef2ff;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+
+/* Ngôi sao đánh giá */
+
+.danhgiahethong .rating-star {
+    font-size: 16px;
+    color: #f59e0b;
+    letter-spacing: 1px;
+}
+
+
+/* Nút xem chi tiết */
+
+.danhgiahethong .btn-detail {
+    background: linear-gradient(90deg, #6366f1, #4f46e5);
+    color: #fff;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.danhgiahethong .btn-detail:hover {
+    background: linear-gradient(90deg, #4f46e5, #4338ca);
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+}
+
+.danhgiahethong thead tr {
+    background: linear-gradient(90deg, #4f46e5, #6366f1);
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    box-shadow: 0 3px 8px rgba(99, 102, 241, 0.4);
+    /* Viền sáng nhẹ */
+}
+
+.danhgiahethong thead th {
+    padding: 14px 16px;
+    border: none;
+    vertical-align: middle;
+    letter-spacing: 0.5px;
+}
+
+.danhgiahethong thead i {
+    font-size: 15px;
+    vertical-align: middle;
+    opacity: 0.9;
+}
+
+
+/* Hiệu ứng hover nhẹ */
+
+.danhgiahethong thead tr:hover {
+    background: linear-gradient(90deg, #4338ca, #6366f1);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.6);
+    transition: all 0.3s ease;
+}
+
+
+/* Form lọc hiện đại */
+
+.danhgiahethong #filterCommentForm .form-select {
+    transition: all 0.3s ease-in-out;
+}
+
+.danhgiahethong #filterCommentForm .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+}
+
+
+/* Bảng hiện đại */
+
+.danhgiahethong .table th,
+.table td {
+    vertical-align: middle;
+}
+
+.danhgiahethong .table tbody tr {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+}
+
+.danhgiahethong .table tbody tr:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.danhgiahethong .btn-delete-comment {
+    border-radius: 50px;
+    transition: all 0.2s;
+}
+
+.danhgiahethong .btn-delete-comment:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+
+/* Modal nền trong suốt nhẹ */
+
+.danhgiahethong #feedbackDetailModal .modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Modal content */
+
+.danhgiahethong #feedbackDetailModal .modal-content {
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+}
+
+
+/* Hiệu ứng nổi khi mở modal */
+
+.danhgiahethong #feedbackDetailModal .modal-content.show {
+    transform: scale(1);
+}
+
+
+/* Header */
+
+.danhgiahethong #feedbackDetailModal .modal-header {
+    background: linear-gradient(90deg, #4e73df, #1cc88a);
+    color: #fff;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+
+/* Button đóng */
+
+.danhgiahethong #feedbackDetailModal .btn-close {
+    filter: brightness(0) invert(1);
+    transition: transform 0.2s ease;
+}
+
+.danhgiahethong #feedbackDetailModal .btn-close:hover {
+    transform: scale(1.2);
+}
+
+
+/* Tên khóa học */
+
+.danhgiahethong #feedbackDetailModal #detail-course {
+    color: #1a73e8;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+
+/* Ảnh khóa học */
+
+.danhgiahethong #feedbackDetailModal #detail-avatar {
+    border-radius: 0.8rem;
+    border: 2px solid #f0f0f0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.danhgiahethong #feedbackDetailModal #detail-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Điểm đánh giá */
+
+.danhgiahethong #feedbackDetailModal #detail-rating {
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+    padding: 6px 14px;
+    border-radius: 0.8rem;
+    background: #fff3cd;
+    color: #856404;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.danhgiahethong #feedbackDetailModal #detail-rating:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+
+/* Avatar học viên */
+
+.danhgiahethong #feedbackDetailModal #student-avatar {
+    border: 3px solid #e0e0e0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.danhgiahethong #feedbackDetailModal #student-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+
+/* Nội dung đánh giá */
+
+.danhgiahethong #feedbackDetailModal #detail-content {
+    border-radius: 1rem;
+    background: #f9f9f9;
+    padding: 1rem;
+    line-height: 1.6;
+    font-size: 1rem;
+    color: #333;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    overflow-y: auto;
+}
+
+
+/* Ngày đánh giá */
+
+.danhgiahethong #feedbackDetailModal #detail-date {
+    font-style: italic;
+    color: #888;
+    font-size: 0.85rem;
+}
+
+
+/* Scrollbar đẹp */
+
+.danhgiahethong #feedbackDetailModal #detail-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.danhgiahethong #feedbackDetailModal #detail-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.danhgiahethong #feedbackDetailModal #detail-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .danhgiahethong #feedbackDetailModal .modal-dialog {
+        max-width: 90%;
+    }
+    .danhgiahethong #feedbackDetailModal #detail-avatar {
+        height: 100px;
+    }
+    .danhgiahethong #feedbackDetailModal #detail-rating {
+        font-size: 2rem;
+    }
+}

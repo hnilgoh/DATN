@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <title>Danh sách giảng viên</title>
+        <meta charset="UTF-8" />
+    </head>
+
+    <body>
+        <main class="danhsachgiangvien">
+            <div class="table-wrapper">
+                <h2><i class="fas fa-chalkboard-teacher"></i> Danh sách giảng
+                    viên
+                </h2>
+
+                <div th:if="${success}" class="alert alert-success"
+                    th:text="${success}"></div>
+                <div th:if="${error}" class="alert alert-danger"
+                    th:text="${error}"></div>
+
+                <div class="table-responsive">
+                    <table
+                        class="table table-bordered align-middle text-center">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-user me-1"></i> Họ tên</th>
+                                <th><i class="fas fa-envelope me-1"></i> Email
+                                </th>
+                                <th><i class="fas fa-phone me-1"></i> SĐT</th>
+                                <th><i class="fas fa-briefcase me-1"></i> Công
+                                    việc
+                                </th>
+                                <th><i class="fas fa-calendar-alt me-1"></i>
+                                    Ngày đăng ký</th>
+                                <th><i class="fas fa-toggle-on me-1"></i> Trạng
+                                    thái
+                                </th>
+                                <th><i class="fas fa-cogs me-1"></i> Hành động
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="tk : ${giangVienList}">
+                                <td th:text="${tk.name}">Tên</td>
+                                <td
+                                    th:text="${@textUtils.maskEmail(tk.email)}">Email</td>
+                                <td
+                                    th:text="${@textUtils.maskPhone(tk.phone)}">SĐT</td>
+                                <td th:text="${tk.giangVien.congViec}">Công việc
+                                </td>
+                                <td
+                                    th:text="${#temporals.format(tk.giangVien.ngayThamGia, 'dd/MM/yyyy HH:mm')}">Ngày</td>
+                                <td>
+                                    <span
+                                        th:text="${tk.status ? 'Hoạt động' : 'Đã khóa'}"
+                                        th:classappend="${tk.status} ? 'text-success fw-bold' : 'text-danger fw-bold'">
+                                    </span>
+                                </td>
+                                <td>
+                                    <div
+                                        class="d-flex gap-2 justify-content-center">
+                                        <button type="button" class="btn btn-sm"
+                                            th:classappend="${tk.status} ? 'btn-outline-danger' : 'btn-outline-success'"
+                                            th:data-id="${tk.taikhoanId}"
+                                            th:data-name="${tk.name}"
+                                            th:data-status="${tk.status}"
+                                            onclick="openConfirmModal(this)"
+                                            th:utext="${tk.status} ? '&#128274; Khóa' : '&#128275; Mở'">
+                                        </button>
+
+                                        <a
+                                            th:href="@{/{prefix}/quanly-giangvien/giangvien/{id}/chitiet(prefix=${prefix}, id=${tk.giangVien.giangvienId})}"
+                                            class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-info-circle"></i>
+                                            Chi tiết
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${giangVienList.size() == 0}">
+                                <td colspan="7" class="text-muted">Không có
+                                    giảng viên nào.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal xác nhận -->
+            <div class="modal fade" id="confirmModal" tabindex="-1"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow">
+                        <div class="modal-header text-black">
+                            <h5 class="modal-title"><i
+                                    class="fas fa-exclamation-triangle me-2"></i>
+                                Xác nhận thay đổi trạng thái</h5>
+                            <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <p class="mb-0">Bạn có chắc chắn muốn <strong
+                                    id="modalActionText"></strong> tài khoản
+                                <strong id="modalUserName"></strong>?</p>
+                        </div>
+                        <div class="modal-footer justify-content-end">
+                            <form id="confirmForm" method="post" class="mb-0">
+                                <button type="submit"
+                                    class="btn btn-outline-danger px-4 me-2">
+                                    <i class="fas fa-check-circle me-1"></i> Xác
+                                    nhận
+                                </button>
+                            </form>
+                            <button type="button"
+                                class="btn btn-outline-secondary px-4"
+                                data-bs-dismiss="modal">
+                                <i class="fas fa-times-circle me-1"></i> Hủy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            function openConfirmModal(button) {
+                const id = button.getAttribute("data-id");
+                const name = button.getAttribute("data-name");
+                const status = button.getAttribute("data-status") === "true";
+
+                // Hiển thị hành động tương ứng
+                const action = status ? "khóa" : "mở khóa";
+                document.getElementById("modalActionText").textContent = action;
+                document.getElementById("modalUserName").textContent = name;
+
+                // Cập nhật form action
+                const prefix = window.location.pathname.split('/')[1]; // lấy /admin hoặc /nhanvien
+                document.getElementById("confirmForm").action = `/${prefix}/quanly-giangvien/toggle-status/${id}`;
+
+                // Hiển thị modal
+                const modal = new bootstrap.Modal(document.getElementById("confirmModal"));
+                modal.show();
+            }
+        </script>
+
+        </main>
+    </body>
+
+</html>

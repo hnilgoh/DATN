@@ -1,0 +1,96 @@
+#themgiakhoahoc {
+    background-color: #f8f9fa;
+    padding: 50px 0;
+}
+
+
+/* ==== themgiakhoahoc: Tiêu đề ==== */
+
+.themgiakhoahoc-title {
+    color: #16203b;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+
+/* ==== themgiakhoahoc: Card form ==== */
+
+.themgiakhoahoc-card {
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+
+/* ==== themgiakhoahoc: Label ==== */
+
+.themgiakhoahoc-label {
+    color: #16203b;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+
+/* ==== themgiakhoahoc: Input ==== */
+
+.themgiakhoahoc-input {
+    margin-bottom: 20px;
+}
+
+
+/* ==== themgiakhoahoc: Readonly price field ==== */
+
+#giaKhuyenMai {
+    background-color: #e9ecef;
+}
+
+
+/* ==== themgiakhoahoc: Buttons ==== */
+
+.themgiakhoahoc-btn {
+    color: #16203b;
+    border: 1px solid #16203b;
+}
+
+.themgiakhoahoc-btn:hover {
+    background-color: #16203b;
+    color: white;
+}
+
+.fa-money-bill-wave {
+    color: #2ecc71;
+    /* xanh lá cho giá */
+}
+
+.fa-percent {
+    color: #3498db;
+    /* xanh dương cho % giảm */
+}
+
+.fa-tag {
+    color: #9b59b6;
+    /* tím cho giá sau khi giảm */
+}
+
+.fa-calendar-day {
+    color: #f1c40f;
+    /* vàng cho ngày bắt đầu */
+}
+
+.fa-calendar-check {
+    color: #27ae60;
+    /* xanh lá cho ngày kết thúc */
+}
+
+.fa-arrow-left {
+    color: #e67e22;
+    /* cam cho nút quay lại */
+}
+
+.fa-check {
+    color: #2ecc71;
+    /* xanh lá cho nút hoàn tất */
+}

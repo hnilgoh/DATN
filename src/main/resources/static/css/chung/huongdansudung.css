@@ -1,0 +1,103 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.huongdansudung .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px 50px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.huongdansudung h1 {
+    text-align: center;
+    font-size: 1.7em;
+    color: #32426d;
+    margin-bottom: 60px;
+}
+
+.huongdansudung .feature-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 80px;
+    gap: 40px;
+}
+
+.huongdansudung .feature-text {
+    flex: 1 1 500px;
+}
+
+.huongdansudung .feature-text ul li {
+    line-height: 1.9;
+}
+
+.huongdansudung .feature-text h4 {
+    font-size: 1.7em;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.huongdansudung .feature-text p {
+    line-height: 1.6;
+    font-size: 1.1em;
+}
+
+.huongdansudung .feature-img {
+    flex: 1 1 400px;
+    text-align: center;
+}
+
+.huongdansudung .feature-img img {
+    max-width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.huongdansudung .banner {
+    flex: 1 1 400px;
+    text-align: center;
+}
+
+.huongdansudung .banner img {
+    max-width: 100%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.huongdansudung .contact {
+    text-align: center;
+    padding: 40px;
+    background: #32426d;
+    color: white;
+    border-radius: 16px;
+    margin-top: 60px;
+}
+
+.huongdansudung .contact i {
+    margin-right: 8px;
+}
+
+.huongdansudung .feature-box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.huongdansudung .feature-box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.huongdansudung .accordion-collapse {
+    transition: height 0.35s ease;
+}

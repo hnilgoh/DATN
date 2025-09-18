@@ -1,0 +1,97 @@
+/* ========== THIẾT KẾ CAO CẤP TẠO KHÓA HỌC ========== */
+
+.tao-khoa-hoc-page {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f4f6fa;
+    padding: 40px;
+}
+
+
+/* Card Form */
+
+.tao-khoa-hoc-page .form-card {
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px 32px;
+    box-shadow: 0 8px 24px rgba(22, 32, 59, 0.06);
+    transition: all 0.3s ease;
+}
+
+.tao-khoa-hoc-page .form-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(22, 32, 59, 0.1);
+}
+
+
+/* Nhãn + ô nhập */
+
+.tao-khoa-hoc-page .form-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #16203b;
+    display: block;
+}
+
+.tao-khoa-hoc-page .form-control {
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.tao-khoa-hoc-page .form-control:focus {
+    border-color: #16203b;
+    box-shadow: 0 0 0 3px rgba(22, 32, 59, 0.15);
+    outline: none;
+}
+
+
+/* Lỗi */
+
+.tao-khoa-hoc-page .form-error {
+    font-size: 0.875rem;
+    color: #e63946;
+    margin-top: 4px;
+}
+
+
+/* Nút chính */
+
+.tao-khoa-hoc-page .btn-submit {
+    background-color: #16203b;
+    color: white;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.tao-khoa-hoc-page .btn-submit:hover {
+    background-color: #0e1428;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .tao-khoa-hoc-page {
+        padding: 20px;
+    }
+    .tao-khoa-hoc-page .form-card {
+        padding: 20px;
+    }
+}
+
+.tao-khoa-hoc-page .themkhoahoc-btn {
+    color: #16203b;
+    border: 1px solid #16203b;
+}
+
+.tao-khoa-hoc-page .themkhoahoc-btn:hover {
+    background-color: #16203b;
+    color: white;
+}

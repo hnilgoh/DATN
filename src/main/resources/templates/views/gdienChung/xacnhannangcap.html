@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>xác nhận nâng cấp</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+        <main class="xacnhannangcap">
+            <div class="upgrade-container">
+                <div class="card upgrade-card">
+                    <!-- Header -->
+                    <div class="card-header">
+                        <div class="upgrade-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3>Nâng cấp tài khoản</h3>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="card-body">
+                        <p class="description-text">
+                            Email <span class="email-highlight"
+                                th:text="${session.registrationEmail}"></span>
+                            đã được đăng ký với vai trò là một học viên.
+                        </p>
+
+                        <!-- Danh sách quyền lợi -->
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span>Tạo và quản lý khóa học</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-users"></i>
+                                <span>Quản lý học viên</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Theo dõi tiến độ học tập</span>
+                            </div>
+                        </div>
+
+                        <p class="description-text">
+                            Bạn có muốn nâng cấp tài khoản này lên thành
+                            <strong>Giảng viên</strong> không?
+                        </p>
+
+                        <!-- Nút hành động -->
+                        <div
+                            class="d-flex flex-column flex-sm-row justify-content-center">
+                            <a th:href="@{/dang-ky-giang-vien/upgrade-details}"
+                                class="btn btn-primary btn-upgrade">
+                                <i class="fas fa-arrow-up me-2"></i>Đồng ý nâng
+                                cấp
+                            </a>
+                            <a th:href="@{/}" class="btn btn-cancel">
+                                <i class="fas fa-times me-2"></i>Hủy bỏ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

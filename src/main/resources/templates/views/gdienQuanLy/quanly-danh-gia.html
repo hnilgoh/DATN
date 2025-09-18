@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Quản lý đánh giá & bình luận</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet" />
+    </head>
+
+    <body>
+        <main class="danhgiahethong">
+            <div class="container">
+                <div class="text-center mb-5 pt-5">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-2">🌟 Quản lý
+                        Đánh giá & Bình luận</h2>
+                    <p class="text-gray-600">
+                        🌐 Tổng quan đánh giá & bình luận khóa học của hệ thống
+                    </p>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="nav nav-tabs w-100 mt-4" role="tablist"
+                    style="border-bottom: none;">
+                    <li class="nav-item flex-fill text-center">
+                        <a
+                            class="nav-link active d-flex justify-content-center align-items-center gap-2"
+                            data-bs-toggle="tab" href="#reviews" role="tab">
+                            📋 <span>Đánh giá</span>
+                        </a>
+                    </li>
+                    <li class="nav-item flex-fill text-center">
+                        <a
+                            class="nav-link d-flex justify-content-center align-items-center gap-2"
+                            data-bs-toggle="tab" href="#comments" role="tab">
+                            💬 <span>Bình luận</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div
+                    class="tab-content border rounded-bottom shadow-sm p-3 bg-white">
+                    <div class="tab-pane fade show active" id="reviews">
+                        <form class="row g-3 mb-4" id="filterForm">
+                            <div class="col-md-5">
+                                <label class="form-label fw-semibold">
+                                    <i class="fa-solid fa-book-open"></i> Khóa
+                                    học
+                                </label>
+                                <select class="form-select" name="courseId">
+                                    <option value>-- Chọn --</option>
+                                    <option th:each="c : ${courses}"
+                                        th:value="${c.khoahocId}"
+                                        th:text="${c.tenKhoaHoc}"
+                                        th:selected="${c.khoahocId == selectedCourseId}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">
+                                    <i class="fa-solid fa-star"></i> Số sao
+                                </label>
+                                <select class="form-select" name="rating">
+                                    <option value>-- Tất cả --</option>
+                                    <option
+                                        th:each="i : ${#numbers.sequence(1,5)}"
+                                        th:value="${i}"
+                                        th:text="${i + ' sao'}"
+                                        th:selected="${i == selectedRating}">
+                                    </option>
+                                </select>
+                            </div>
+                        </form>
+
+                        <div
+                            class="row row-cols-1 row-cols-md-2 g-4 rating-section mt-4">
+                            <!-- Trung bình đánh giá -->
+                            <div class="col-md-6">
+                                <div
+                                    class="card h-100 shadow-sm border-0 rounded-3">
+                                    <div class="card-header">
+                                        ⭐ Trung bình đánh giá
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h1
+                                            th:attr="title='Trung bình ' + ${avgRating} + ' trên 5 sao'"
+                                            th:text="${#numbers.formatDecimal(avgRating, 1, 1)}">0.0</h1>
+
+                                        <div class="mb-3 stars"
+                                            style="color: gold;">
+                                            <span
+                                                th:each="i : ${#numbers.sequence(1,5)}"
+                                                th:text="${i <= avgRating ? '★' : '☆'}">★</span>
+                                        </div>
+
+                                        <p
+                                            th:text="'Từ ' + ${totalReviews} + ' đánh giá'">0
+                                            đánh giá</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phân bố sao đánh giá -->
+                            <div class="col-md-6">
+                                <div
+                                    class="card h-100 shadow-sm border-0 rounded-3">
+                                    <div class="card-header">
+                                        <i class="fa-solid fa-chart-column"></i>
+                                        Phân bố sao đánh giá
+                                    </div>
+                                    <div
+                                        class="card-body d-flex align-items-center justify-content-center">
+                                        <canvas id="ratingChart"
+                                            height="170"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bảng -->
+                        <div class="table-responsive modern-table-container">
+                            <table class="table modern-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th><i
+                                                class="bi bi-journal-text me-1"></i>
+                                            Khóa học</th>
+                                        <th><i
+                                                class="bi bi-person-badge me-1"></i>
+                                            Giảng viên</th>
+                                        <th><i class="bi bi-envelope me-1"></i>
+                                            Học viên</th>
+                                        <th><i
+                                                class="bi bi-chat-left-text me-1"></i>
+                                            Nội dung</th>
+                                        <th><i class="bi bi-eye me-1"></i> Xem
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="feedbackTableBody">
+                                    <tr th:each="fb : ${feedbackList}">
+                                        <td>
+                                            <div class="course-title"
+                                                th:text="${fb.khoahoc.tenKhoaHoc}"></div>
+                                            <div class="course-meta">
+                                                <span class="course-date"
+                                                    th:text="${#temporals.format(fb.ngayDanhGia, 'dd/MM/yyyy')}"></span>
+                                                <span class="rating-star"
+                                                    th:each="i : ${#numbers.sequence(1,5)}"
+                                                    th:text="${i <= fb.diemDanhGia ? '★' : '☆'}"></span>
+                                            </div>
+                                        </td>
+                                        <td
+                                            th:text="${fb.khoahoc.giangVien.taikhoan.name}"></td>
+                                        <td
+                                            th:text="${@textUtils.maskEmail(fb.taikhoan.email)}"></td>
+                                        <td th:text="${fb.noiDung}"></td>
+                                        <td>
+                                            <button class="btn btn-detail"
+                                                th:attr="data-danhgia-id=${fb.danhgiaId}">
+                                                Xem
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Bình luận -->
+                    <div class="tab-pane fade" id="comments" role="tabpanel">
+                        <!-- Bộ lọc -->
+                        <form
+                            class="row g-3 align-items-center mb-4 p-3 bg-white shadow-sm rounded-4"
+                            id="filterCommentForm"
+                            style="max-width: 100%; backdrop-filter: blur(5px);">
+                            <div class="col-md-5">
+                                <label
+                                    class="form-label fw-semibold text-secondary">
+                                    <i class="fas fa-graduation-cap"></i> Khóa
+                                    học
+                                </label>
+                                <select
+                                    class="form-select form-select-lg border-2 border-primary"
+                                    name="courseId" id="commentCourseSelect">
+                                    <option value>-- Chọn khóa học --</option>
+                                    <option th:each="c : ${courses}"
+                                        th:value="${c.khoahocId}"
+                                        th:text="${c.tenKhoaHoc}"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 ms-auto">
+                                <label
+                                    class="form-label fw-semibold text-secondary">
+                                    <i class="fas fa-sort"></i> Sắp xếp
+                                </label>
+                                <select
+                                    class="form-select form-select-lg border-2 border-primary"
+                                    name="sortComment" id="sortCommentSelect">
+                                    <option value="desc">Mới nhất</option>
+                                    <option value="asc">Cũ nhất</option>
+                                </select>
+                            </div>
+                        </form>
+
+                        <!-- Bảng bình luận hiện đại -->
+                        <div
+                            class="table-responsive shadow-sm rounded-4 overflow-hidden">
+                            <table class="table align-middle mb-0"
+                                style="border-collapse: separate; border-spacing: 0 0.5rem;">
+                                <thead class="bg-primary text-white">
+                                    <tr>
+                                        <th class="fw-semibold"><i
+                                                class="bi bi-book"></i> Khóa học
+                                        </th>
+                                        <th class="fw-semibold"><i
+                                                class="bi bi-person"></i> Học
+                                            viên
+                                        </th>
+                                        <th class="fw-semibold"><i
+                                                class="bi bi-chat-left-text"></i>
+                                            Nội dung</th>
+                                        <th class="fw-semibold"><i
+                                                class="bi bi-calendar"></i> Ngày
+                                        </th>
+                                        <th class="fw-semibold text-center"><i
+                                                class="bi bi-trash"></i> Xóa
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="commentTableBody">
+                                    <tr th:each="c : ${commentList}"
+                                        class="bg-white shadow-sm rounded-3">
+                                        <td
+                                            th:text="${c.baiGiang.chuong.khoahoc.tenKhoaHoc}">KH</td>
+                                        <td
+                                            th:text="${c.taikhoan.email}">HV</td>
+                                        <td th:text="${c.noiDung}">Nội dung</td>
+                                        <td
+                                            th:text="${#temporals.format(c.ngayBinhLuan, 'dd/MM/yyyy')}">01/01/2024</td>
+                                        <td class="text-center">
+                                            <button
+                                                class="btn btn-sm btn-outline-danger btn-delete-comment"
+                                                th:attr="data-id=${c.binhluanId}">
+                                                <i
+                                                    class="bi bi-x-circle me-1"></i>Xóa
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Chart -->
+            <script
+                src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <script th:inline="javascript">
+            const chartData = /*[[${chartData}]]*/ []; // Mảng gồm số lượt đánh giá ứng với 1⭐ → 5⭐
+
+            const ctx = document.getElementById('ratingChart');
+
+            const ratingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['1 ⭐', '2 ⭐', '3 ⭐', '4 ⭐', '5 ⭐'],
+                    datasets: [{
+                        label: 'Số lượt đánh giá',
+                        data: chartData,
+                        backgroundColor: (context) => {
+                            const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 300);
+                            gradient.addColorStop(0, '#ffdd55');
+                            gradient.addColorStop(1, '#ffc107');
+                            return gradient;
+                        },
+                        hoverBackgroundColor: '#ffca28',
+                        borderRadius: 8,
+                        borderSkipped: false,
+                        barThickness: 30
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => `${context.raw} lượt đánh giá`
+                            }
+                        },
+                        title: {
+                            display: false,
+                            text: 'Phân bố sao đánh giá',
+                            font: {
+                                size: 18,
+                                weight: 'bold'
+                            },
+                            color: '#000'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Mức sao',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#000'
+                            },
+                            ticks: {
+                                color: '#000',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            grid: {
+                                color: '#f0f0f0'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            stepSize: 1,
+                            title: {
+                                display: true,
+                                text: 'Số lượt đánh giá',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#000'
+                            },
+                            ticks: {
+                                precision: 0,
+                                color: '#000',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            grid: {
+                                color: '#f0f0f0'
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const selects = document.querySelectorAll('#filterForm select');
+                selects.forEach(select => {
+                    select.addEventListener('change', handleFilterChange);
+                });
+                async function handleFilterChange() {
+                    const form = document.getElementById('filterForm');
+                    const formData = new FormData(form);
+                    const params = new URLSearchParams(formData);
+                    const response = await fetch(`/quanly-danh-gia-binh-luan/api/danh-gia?${params}`);
+                    const data = await response.json();
+
+                    renderFeedbackTable(data.feedbackList);
+
+                    // Cập nhật tổng quan
+                    document.querySelector('.display-2').textContent = data.avgRating.toFixed(1);
+                    document.querySelector('.text-muted.fs-6.mb-1').textContent = `Từ ${data.totalReviews} đánh giá`;
+
+                    // Cập nhật chart
+                    ratingChart.data.datasets[0].data = data.chartData;
+                    ratingChart.update();
+                }
+
+
+                function renderFeedbackTable(data) {
+                    const tbody = document.querySelector('#feedbackTableBody');
+                    tbody.innerHTML = '';
+
+                    data.forEach(fb => {
+                        const stars = [...Array(5)].map((_, i) => i < fb.diemDanhGia ? '★' : '☆').join('');
+                        const row = `
+                <tr>
+                    <td>${fb.khoahoc.tenKhoaHoc}</td>
+                    <td>${fb.khoahoc.giangVien.taikhoan.name}</td>
+                    <td>${fb.taikhoan.email}</td>
+                    <td class="text-warning">${stars}</td>
+                    <td>${fb.noiDung}</td>
+                    <td>${new Date(fb.ngayDanhGia).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary btn-detail" data-khoahoc-id="${fb.khoahoc.khoahocId}">Chi tiết</button>
+                    </td>
+                </tr>
+            `;
+                        tbody.insertAdjacentHTML('beforeend', row);
+                    });
+                }
+            });
+        </script>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const commentCourseSelect = document.getElementById('commentCourseSelect');
+                const sortCommentSelect = document.getElementById('sortCommentSelect');
+                const commentTbody = document.getElementById('commentTableBody');
+
+                // Sự kiện thay đổi bộ lọc
+                [commentCourseSelect, sortCommentSelect].forEach(el => {
+                    el.addEventListener('change', fetchComments);
+                });
+
+                // Hàm load danh sách bình luận
+                async function fetchComments() {
+                    const params = new URLSearchParams({
+                        courseId: commentCourseSelect.value,
+                        sortComment: sortCommentSelect.value
+                    });
+
+                    try {
+                        const res = await fetch(`/quanly-danh-gia-binh-luan/api/binh-luan?${params}`);
+                        if (!res.ok) throw new Error("Không thể tải dữ liệu");
+                        const data = await res.json();
+                        console.log(data);
+                        renderCommentTable(data);
+                    } catch (err) {
+                        console.error("Lỗi khi tải bình luận:", err);
+                        commentTbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Lỗi tải dữ liệu</td></tr>`;
+                    }
+                }
+
+                // Hàm render bảng bình luận
+                function renderCommentTable(data) {
+                    commentTbody.innerHTML = '';
+
+                    if (data.length === 0) {
+                        commentTbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Không có bình luận</td></tr>`;
+                        return;
+                    }
+
+                    data.forEach(c => {
+                        const row = `
+                <tr>
+                    <td>${c.courseName}</td>
+                    <td>${c.email}</td>
+                    <td>${c.content}</td>
+                    <td>${new Date(c.date).toLocaleDateString()}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-danger btn-delete-comment"
+                                data-id="${c.binhluanId}">
+                            <i class="bi bi-x-circle me-1"></i>Xóa
+                        </button>
+                    </td>
+                </tr>
+            `;
+                        commentTbody.insertAdjacentHTML('beforeend', row);
+                    });
+                }
+
+                // Event delegation cho nút Xóa
+                commentTbody.addEventListener('click', function(e) {
+                    const btn = e.target.closest('.btn-delete-comment');
+                    if (!btn) return;
+
+                    const commentId = btn.dataset.id;
+                    if (!commentId) return;
+
+                    if (confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
+                        fetch(`/quanly-danh-gia-binh-luan/api/binh-luan/${commentId}`, {
+                                method: 'DELETE'
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    btn.closest('tr').remove();
+                                } else {
+                                    alert('Xóa thất bại!');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Lỗi:', error);
+                                alert('Có lỗi xảy ra!');
+                            });
+                    }
+                });
+            });
+        </script>
+
+            <!-- Modal Chi tiết đánh giá -->
+            <div class="modal fade" id="feedbackDetailModal" tabindex="-1"
+                aria-labelledby="feedbackDetailLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered"
+                    style="max-width: 800px;">
+                    <div class="modal-content shadow-lg rounded-4 border-0"
+                        style="height: 500px; overflow: hidden;">
+
+                        <!-- Header -->
+                        <div
+                            class="modal-header bg-primary text-white border-0">
+                            <h5 class="modal-title fw-bold"
+                                id="feedbackDetailLabel">Chi tiết đánh giá</h5>
+                            <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"
+                                aria-label="Đóng"></button>
+                        </div>
+
+                        <!-- Body -->
+                        <div
+                            class="modal-body p-4 d-flex flex-column justify-content-between">
+
+                            <!-- Ảnh khóa học + Tên -->
+                            <div class="text-center mb-3">
+                                <img id="detail-avatar"
+                                    src="/default-course.png" alt="Ảnh khóa học"
+                                    class="rounded shadow-sm mb-2"
+                                    style="height: 120px; width: auto; object-fit: cover;">
+                                <h4 id="detail-course"
+                                    class="fw-bold text-primary mb-0"
+                                    style="font-size: 1.4rem;"></h4>
+                            </div>
+
+                            <!-- Giảng viên + Điểm đánh giá -->
+                            <div
+                                class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="text-secondary fw-medium fs-6">
+                                    Giảng viên: <span
+                                        id="detail-lecturer"></span>
+                                </div>
+                                <div id="detail-rating"
+                                    class="text-warning fw-bold bg-light rounded shadow-sm px-3 py-1 fs-5">
+                                </div>
+                            </div>
+
+                            <!-- Nội dung đánh giá + Avatar học viên -->
+                            <div class="d-flex gap-3"
+                                style="flex: 1; overflow-y: auto;">
+                                <!-- Avatar học viên -->
+                                <div class="text-center"
+                                    style="min-width: 100px;">
+                                    <img id="student-avatar"
+                                        src="/default-avatar.png"
+                                        alt="Avatar học viên"
+                                        class="rounded-circle shadow-sm mb-2"
+                                        style="width: 80px; height: 80px; object-fit: cover;">
+                                    <div class="text-muted small">
+                                        <strong>Học viên:</strong> <span
+                                            id="detail-student"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Nội dung -->
+                                <div class="position-relative flex-grow-1">
+                                    <!-- Ngày đánh giá -->
+                                    <div id="detail-date"
+                                        class="position-absolute top-0 end-0 text-muted small"
+                                        style="padding: 3px 6px;"></div>
+
+                                    <!-- Nội dung chính -->
+                                    <div id="detail-content"
+                                        class="border rounded-3 bg-light p-3 text-dark shadow-sm"
+                                        style="font-size: 1rem; line-height: 1.5; overflow-wrap: break-word; height: 100%;">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelector('#feedbackTableBody').addEventListener('click', async function(e) {
+                    const btn = e.target.closest('.btn-detail');
+                    if (!btn) return;
+
+                    const danhgiaId = btn.getAttribute('data-danhgia-id');
+
+                    try {
+                        const res = await fetch(`/quanly-danh-gia-binh-luan/api/chi-tiet-danh-gia/${danhgiaId}`);
+                        if (!res.ok) throw new Error();
+
+                        const fb = await res.json();
+                        document.getElementById('detail-avatar').src = fb.avatar || '/default-course.png';
+                        document.getElementById('student-avatar').src = fb.avatarHocVien || '/default-avatar.png';
+
+                        document.getElementById('detail-course').textContent = fb.khoaHoc || 'N/A';
+                        document.getElementById('detail-lecturer').textContent = fb.giangVien || 'N/A';
+                        document.getElementById('detail-student').textContent = fb.hocVien || 'N/A';
+                        document.getElementById('detail-date').textContent = new Date(fb.ngay).toLocaleDateString();
+                        document.getElementById('detail-rating').innerHTML = '★'.repeat(fb.sao) + '☆'.repeat(5 - fb.sao);
+                        document.getElementById('detail-content').textContent = fb.noiDung || '(Không có nội dung)';
+
+                        const modal = new bootstrap.Modal(document.getElementById('feedbackDetailModal'));
+                        modal.show();
+                    } catch (err) {
+                        alert("Không thể tải dữ liệu chi tiết.");
+                    }
+                });
+            });
+        </script>
+
+        </main>
+    </body>
+
+</html>

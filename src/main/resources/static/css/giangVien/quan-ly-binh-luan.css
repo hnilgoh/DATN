@@ -1,0 +1,92 @@
+.binhluan .quanlybinhluan {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.binhluan .quanlybinhluan h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #16203b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.binhluan .comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.binhluan .comment-card {
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    padding: 20px;
+    background: #f9f9fb;
+}
+
+.binhluan .comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.binhluan .comment-header .user {
+    font-weight: 600;
+    color: #16203b;
+}
+
+.binhluan .comment-header .date {
+    font-size: 14px;
+    color: #888;
+}
+
+.binhluan .comment-lesson {
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.binhluan .comment-content {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.binhluan .reply-form textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.binhluan .reply-form button {
+    background-color: #16203b;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.binhluan .reply-form button:hover {
+    background-color: #1d2a4c;
+}
+
+.binhluan .reply-box {
+    background: #eef2f7;
+    border-left: 4px solid #28a745;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #2b2b2b;
+}

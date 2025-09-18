@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Trang Nhân Viên</title>
+    </head>
+
+    <body>
+        <main class="homequanly">
+            <div class="container py-4">
+                <h2 class="mb-4 mt-4 fw-bold text-primary-custom">
+                    📊 Bảng điều khiển hệ thống
+                </h2>
+
+                <!-- Thống kê -->
+                <div class="row g-4 mb-4 justify-content-center">
+                    <div class="col-md-4">
+                        <a th:href="@{/{p}/khoa-hoc-he-thong(p=${prefix})}"
+                            style="text-decoration: none; color: inherit">
+                            <div class="highlight-box text-center">
+                                <h5>📘 KHÓA HỌC ĐANG MỞ</h5>
+                                <p th:text="${tongDaXuatBan}"></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a th:href="@{/{p}/quanly-giangvien(p=${prefix})}"
+                            style="text-decoration: none; color: inherit">
+                            <div class="highlight-box text-center">
+                                <h5>👨‍🏫 TỔNG GIẢNG VIÊN</h5>
+                                <p th:text="${soGiangVien}"></p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a th:href="@{/{p}/quanly-hocvien(p=${prefix})}"
+                            style="text-decoration: none; color: inherit">
+                            <div class="highlight-box text-center">
+                                <h5>🎓 TỔNG HỌC VIÊN</h5>
+                                <p th:text="${tongHocVienDangKy}"></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Doanh thu theo tháng + Doanh thu quý này (cùng hàng) -->
+                <div class="row g-4 mb-5 mt-3">
+                    <!-- Doanh thu quý này -->
+                    <div class="col-md-3">
+                        <a href="/admin/doanhthu"
+                            style="text-decoration: none; color: inherit">
+                            <div
+                                class="highlight text-center h-100 d-flex flex-column">
+                                <h5>💰 TỔNG DOANH THU</h5>
+
+                                <!-- Số tiền -->
+                                <p>
+                                    <i class="bi bi-currency-dollar me-2"></i>
+                                    <span
+                                        th:text="${tongDoanhThu != null} ? ${#numbers.formatDecimal(tongDoanhThu, 0, 'COMMA', 0, 'POINT')} + ' VNĐ' : '0 VNĐ'">
+                                    </span>
+                                </p>
+
+                                <!-- Ảnh minh họa -->
+                                <img class="highlight-img mt-0"
+                                    src="/photos/doanhthu3.png"
+                                    alt="Ảnh doanh thu" />
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Biểu đồ doanh thu theo tháng -->
+                    <div class="col-md-9">
+                        <div class="card shadow-sm p-4 h-100">
+                            <h5 class="mb-4 text-warning fw-bold">
+                                <i class="bi bi-currency-dollar me-2"></i>Doanh
+                                thu theo tháng
+                            </h5>
+                            <canvas id="doanhThuChart" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Biểu đồ -->
+                <div class="card shadow-sm p-4 mb-5">
+                    <h5 class="mb-4 text-primary fw-bold">
+                        <i class="bi bi-bar-chart-line me-2"></i>Top 5 khóa học
+                        được học viên đăng ký nhiều nhất
+                    </h5>
+                    <canvas id="khoaHocChart" height="200"></canvas>
+                </div>
+
+                <!-- Biểu đồ tròn & Nhiệm vụ hôm nay (trên cùng 1 hàng) -->
+                <div class="row g-4 mb-5">
+                    <!-- Nhiệm vụ hôm nay -->
+                    <div class="col-md-6">
+                        <div class="card modern-task-card shadow-lg h-100">
+                            <div class="card-header modern-card-header">
+                                <div class="header-content">
+                                    <div class="header-icon">
+                                        <i class="fas fa-clipboard-list"></i>
+                                    </div>
+                                    <div class="header-text">
+                                        <h5 class="header-title">Nhiệm vụ hôm
+                                            nay
+                                        </h5>
+                                        <p class="header-subtitle">Danh sách cần
+                                            xử lý</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul
+                                class="list-group modern-list-group list-group-flush">
+                                <li
+                                    class="list-group-item modern-list-item d-flex justify-content-between align-items-center"
+                                    th:each="khoaHoc : ${danhSach}">
+                                    <div class="task-content">
+                                        <div class="task-icon">
+                                            <i class="fas fa-book"></i>
+                                        </div>
+                                        <span class="task-name"
+                                            th:text="${khoaHoc.tenKhoaHoc}">Lập
+                                            trình Web Frontend với
+                                            React.js</span>
+                                    </div>
+                                    <a
+                                        th:href="@{/kiem-duyet-khoa-hoc/{id}(id=${khoaHoc.khoahocId})}"
+                                        class="modern-btn">
+                                        <i class="fas fa-eye me-1"></i> Xem chi
+                                        tiết
+                                    </a>
+                                </li>
+                                <li
+                                    class="list-group-item modern-empty-state text-center"
+                                    th:if="${#lists.isEmpty(danhSach)}">
+                                    <div class="empty-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="empty-text">
+                                        Không có khóa học cần duyệt hôm nay
+                                    </div>
+                                    <div class="empty-emoji">🎉</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Biểu đồ tròn -->
+                    <div class="col-md-6">
+                        <div class="card shadow-sm p-4 h-100">
+                            <h5 class="mb-4 text-success fw-bold">
+                                <i class="bi bi-pie-chart me-2"></i>Biểu Đồ Tỉ
+                                Lệ Giảng Viên & Học Viên
+                            </h5>
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nhiệm vụ và Thông báo -->
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card shadow-sm fixed-card">
+                            <div
+                                class="card-header card-header-custom d-flex justify-content-between align-items-center">
+                                <span>💳 Giao dịch gần đây</span>
+                                <a
+                                    th:href="@{/{prefix}/quanly-giao-dich(prefix=${prefix})}"
+                                    th:text="${prefix} == 'admin' ? 'Chi Tiết - Giao dịch' : 'Chi tiết - Giao dịch'">
+                                </a>
+                            </div>
+
+                            <div class="card-body p-2">
+                                <div
+                                    th:if="${listGiaoDich == null or #lists.isEmpty(listGiaoDich)}"
+                                    class="text-muted text-center py-3">
+                                    <i class="fas fa-inbox fa-2x mb-2"></i><br>
+                                    Không có giao dịch nào.
+                                </div>
+
+                                <!-- Danh sách giao dịch -->
+                                <div th:each="gd : ${listGiaoDich}"
+                                    class="d-flex align-items-start mb-3 p-2 border rounded shadow-sm small bg-light">
+
+                                    <!-- Icon -->
+                                    <div class="me-2">
+                                        <i
+                                            class="fas fa-receipt text-success fa-lg"></i>
+                                    </div>
+
+                                    <!-- Nội dung chính + tiền & trạng thái -->
+                                    <div
+                                        class="flex-grow-1 d-flex justify-content-between">
+
+                                        <!-- Bên trái: thông tin học viên -->
+                                        <div>
+                                            <div class="fw-bold"
+                                                th:text="${gd.tenhocvien}">Tên
+                                                học viên</div>
+                                            <div class="text-muted small"
+                                                th:text="${gd.hinhThucThanhToan}">Hình
+                                                thức
+                                            </div>
+                                        </div>
+
+                                        <!-- Bên phải: tiền & trạng thái -->
+                                        <div class="text-end">
+                                            <div class="fw-bold text-primary"
+                                                th:text="${#numbers.formatDecimal(gd.tongtien, 0, 'COMMA', 2, 'POINT')} + ' đ'">
+                                                0 đ
+                                            </div>
+                                            <div class="small">
+                                                <span
+                                                    th:switch="${gd.trangthai.name()}">
+                                                    <span th:case="'HOAN_THANH'"
+                                                        class="badge bg-success">Hoàn
+                                                        thành</span>
+                                                    <span th:case="'CHO_XU_LY'"
+                                                        class="badge bg-warning text-dark">Chờ
+                                                        xử lý</span>
+                                                    <span th:case="'THAT_BAI'"
+                                                        class="badge bg-danger">Thất
+                                                        bại</span>
+                                                    <span th:case="*"
+                                                        class="badge bg-secondary">Không
+                                                        xác định</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card shadow-sm fixed-card">
+                            <div class="card-header card-header-custom">
+                                📢 Thông báo hệ thống
+                            </div>
+                            <div class="card-body p-2">
+                                <!-- Nếu không có thông báo -->
+                                <div
+                                    th:if="${danhSachThongBao == null or #lists.isEmpty(danhSachThongBao)}"
+                                    class="text-muted text-center py-3">
+                                    <i class="fas fa-inbox fa-2x mb-2"></i><br>
+                                    Không có thông báo nào.
+                                </div>
+
+                                <!-- Danh sách thông báo -->
+                                <div th:each="tb : ${danhSachThongBao}"
+                                    class="d-flex align-items-start mb-3 p-2 border rounded shadow-sm small bg-light">
+                                    <div class="me-2">
+                                        <i
+                                            class="fas fa-bell text-warning fa-lg"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-bold"
+                                            th:text="${tb.tieuDe}">Tiêu đề thông
+                                            báo
+                                        </div>
+                                        <div class="text-muted small"
+                                            th:text="${#temporals.format(tb.ngaygui,'dd/MM/yyyy')}">01/01/2024</div>
+                                        <div class="text-dark small"
+                                            style="max-width: 100%; white-space: normal; word-wrap: break-word;"
+                                            th:utext="${tb.noiDung}">
+                                            Nội dung thông báo...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Biểu đồ danh mục -->
+                <div class="card shadow-sm p-4 mb-5 mt-5">
+                    <h5 class="chart-title text-info fw-bold">
+                        <i class="bi bi-diagram-3 me-2"></i>Biểu Đồ Danh Mục
+                        Khóa Học
+                    </h5>
+                    <canvas id="danhMucChart" height="250"></canvas>
+                </div>
+            </div>
+            <!-- ChartJS -->
+            <script
+                src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+            <script th:inline="javascript">
+            /*<![CDATA[*/
+            const khoaHocLabels = /*[[${topKhoaHocLabels}]]*/ ["KH1", "KH2", "KH3", "KH4", "KH5"];
+            const khoaHocData = /*[[${topKhoaHocSoLuong}]]*/ [30, 25, 22, 18, 15];
+
+            const ctx = document.getElementById('khoaHocChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line', // 🟢 Đổi sang biểu đồ đường
+                data: {
+                    labels: khoaHocLabels,
+                    datasets: [{
+                        label: 'Số lượng học viên',
+                        data: khoaHocData,
+                        fill: false,
+                        borderColor: '#0d6efd',
+                        backgroundColor: '#0d6efd',
+                        tension: 0.3, // Làm cong đường
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#0d6efd',
+                        pointHoverRadius: 6,
+                        pointRadius: 5,
+                        pointHoverBackgroundColor: '#0d6efd',
+                        pointHoverBorderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Số học viên'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Khóa học'
+                            }
+                        }
+                    }
+                }
+            });
+            /*]]>*/
+        </script>
+
+            <script th:inline="javascript">
+            /*<![CDATA[*/
+            const roleLabels = /*[[${roleLabels}]]*/ ["Học viên", "Giảng viên"];
+            const roleCounts = /*[[${roleCounts}]]*/ [100, 20];
+
+            const ctxPie = document.getElementById('pieChart').getContext('2d');
+            new Chart(ctxPie, {
+                type: 'pie',
+                data: {
+                    labels: roleLabels,
+                    datasets: [{
+                        data: roleCounts,
+                        backgroundColor: [
+                            '#4e73df',
+                            '#1cc88a'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    }
+                }
+            });
+            /*]]>*/
+        </script>
+
+            <script th:inline="javascript">
+            /*<![CDATA[*/
+            const doanhThuLabels = /*[[${doanhThuLabels}]]*/ ["Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8"];
+            const doanhThuData = /*[[${doanhThuData}]]*/ [15000000, 18000000, 21000000, 16500000, 19500000, 23000000];
+
+            const ctxDoanhThu = document.getElementById('doanhThuChart').getContext('2d');
+            new Chart(ctxDoanhThu, {
+                type: 'bar',
+                data: {
+                    labels: doanhThuLabels,
+                    datasets: [{
+                        label: 'Tổng doanh thu (VNĐ)',
+                        data: doanhThuData,
+                        backgroundColor: '#f6c23e',
+                        borderRadius: 8,
+                        barThickness: 40
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return new Intl.NumberFormat('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'VND'
+                                    }).format(context.parsed.y);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('vi-VN') + ' đ';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'VNĐ'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            /*]]>*/
+        </script>
+
+            <script th:inline="javascript">
+            const labels = /*[[${labelsDanhMuc}]]*/ ["Lập trình", "Marketing", "Thiết kế"];
+            const data = /*[[${values}]]*/ [12, 9, 7];
+
+            const ctxDanhMuc = document.getElementById('danhMucChart').getContext('2d');
+            const myChart = new Chart(ctxDanhMuc, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Số khóa học đã xuất bản',
+                        data: data,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // biểu đồ thanh ngang
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+        </main>
+    </body>
+
+</html>

@@ -1,0 +1,133 @@
+.xacthuc {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, hsl(0, 0%, 82%) 0%, #f8f9fa 2%);
+    padding: 20px 0;
+}
+
+.xacthuc .xacthuc__section {
+    min-height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+}
+
+.xacthuc .xacthuc__img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    animation: slideInRight 1s ease-out;
+}
+
+.xacthuc .xacthuc__wrapper {
+    background-color: transparent;
+    padding: 40px;
+    animation: slideInLeft 1s ease-out;
+}
+
+.xacthuc .xacthuc h3 {
+    background: linear-gradient(90deg, #007bff, #00c6ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.xacthuc .form-control {
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 1.05rem;
+}
+
+.xacthuc .xacthuc__btn {
+    background-color: #1b2a4e;
+    border: none;
+    padding: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    color: white;
+}
+
+.xacthuc .xacthuc__btn:hover {
+    background-color: #213973;
+}
+
+
+/* Modal */
+
+.xacthuc .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.xacthuc .modal-box {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 20px;
+    text-align: center;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.xacthuc .modal-message {
+    font-size: 1.2rem;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.xacthuc .modal-close-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.xacthuc .modal-close-btn:hover {
+    background-color: #0056b3;
+}
+
+
+/* Animations */
+
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

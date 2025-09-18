@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Thêm câu hỏi trắc nghiệm</title>
+    </head>
+
+    <body>
+        <main class="tracnghiem">
+            <div class="tieu-de-bai-giang mb-4">
+                <h5 class="m-0">
+                    <i class="fas fa-book-open me-2"></i> Tên bài giảng:
+                    <span th:text="${baiGiang.tenBaiGiang}">Tên bài giảng</span>
+                </h5>
+            </div>
+
+            <div class="alert alert-warning"
+                th:if="${#lists.isEmpty(tracNghiem.cauHoiList)}">
+                📭 Hiện chưa có câu hỏi nào. Hãy nhấn "➕ Thêm câu hỏi" để bắt
+                đầu.
+            </div>
+
+            <form id="tracNghiemForm" th:action="@{/giangvien/cau-hoi/xu-ly}"
+                method="post" th:object="${tracNghiem}">
+
+                <input type="hidden" name="baiGiangId"
+                    th:value="${baiGiang.baiGiangId}" />
+
+                <div class="mb-3">
+                    <label><i class="fas fa-file-alt me-2 text-primary"></i> Nội
+                        dung bài
+                        trắc nghiệm:</label>
+                    <textarea class="form-control" name="tenbai"
+                        th:text="*{tenbai}"
+                        placeholder="Nhập nội dung chính của trắc nghiệm"
+                        rows="3" required></textarea>
+
+                </div>
+
+                <!-- Lặp qua các câu hỏi -->
+                <div th:each="cauHoi, idx : *{cauHoiList}"
+                    class="card mb-4 p-4">
+                    <div
+                        class="card-header d-flex justify-content-between align-items-center px-4 py-3"
+                        style="background-color: #0a398a; color: white;">
+                        <div>
+                            <i
+                                class="fas fa-question-circle me-2 text-warning"></i>
+                            <strong>Câu hỏi [[${idx.index + 1}]]</strong>
+                        </div>
+
+                        <button type="button"
+                            class="btn btn-sm btn-outline-light"
+                            data-bs-toggle="collapse"
+                            th:attr="data-bs-target='#collapseCauHoi__' + ${idx.index}"
+                            onclick="toggleCollapse(this)">
+                            <i class="fas fa-chevron-up me-1"></i> Thu gọn
+                        </button>
+                    </div>
+
+                    <div th:id="'collapseCauHoi__' + ${idx.index}"
+                        class="collapse show">
+                        <div class="card-body card-cau-hoi px-4 py-4">
+                            <div class="mb-3">
+                                <input type="text" class="form-control"
+                                    th:name="'cauHoiList[' + ${idx.index} + '].tenCauHoi'"
+                                    th:value="${cauHoi.tenCauHoi}"
+                                    placeholder="Nhập nội dung câu hỏi"
+                                    required />
+                                <input type="hidden"
+                                    th:name="'cauHoiList[' + ${idx.index} + '].cauHoiId'"
+                                    th:value="${cauHoi.cauHoiId}" />
+                            </div>
+
+                            <!-- Đáp án -->
+                            <div th:each="dapAn, dIdx : ${cauHoi.dapAnList}"
+                                class="mb-3 ms-3 row align-items-center">
+                                <div class="col-md-9">
+                                    <label style="padding-right: 7px;">
+                                        [[${'ABCD'.charAt(dIdx.index)}]]:</label>
+                                    <input type="text"
+                                        class="form-control d-inline-block w-75"
+                                        th:name="'cauHoiList[' + ${idx.index} + '].dapAnList[' + ${dIdx.index} + '].noiDungDapAn'"
+                                        th:value="${dapAn.noiDungDapAn}"
+                                        required />
+                                </div>
+
+                                <div class="col-md-3 d-flex align-items-center">
+                                    <input type="hidden"
+                                        th:name="'cauHoiList[' + ${idx.index} + '].dapAnList[' + ${dIdx.index} + '].thuTuDapAn'"
+                                        th:value="${dapAn.thuTuDapAn}" />
+
+                                    <input type="radio"
+                                        th:name="'cauHoiList[' + ${idx.index} + '].dapAnDungIndex'"
+                                        th:value="${dIdx.index}"
+                                        th:checked="${dapAn.dapAnDung} == true"
+                                        class="form-check-input radio-lon" />
+
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label><i
+                                        class="fas fa-lightbulb me-2 text-warning"></i>Giải
+                                    thích:</label>
+                                <textarea class="form-control"
+                                    th:name="'cauHoiList[' + ${idx.index} + '].giaiThich'"
+                                    placeholder="Giải thích (tuỳ chọn)">[[${cauHoi.giaiThich}]]</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-3 nut-thao-tac">
+                    <div class="d-flex gap-2">
+                        <button type="submit" name="action" value="themCauHoi"
+                            class="btn btn-outline-primary">➕ Thêm câu
+                            hỏi</button>
+                        <button type="submit" name="action" value="luuToanBo"
+                            class="btn btn-success"
+                            onclick="return kiemTraChonDapAnDung();">💾 Lưu
+                            trắc
+                            nghiệm</button>
+                    </div>
+
+                    <button type="button" class="btn themkhoahoc-btn ms-auto"
+                        th:onclick="|window.location.href='/giangvien/them-moi-khoa-hoc/them-chuong?khoahocId=${baiGiang.chuong.khoahoc.khoahocId}'|">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </button>
+                </div>
+            </form>
+
+            <div class="modal fade" id="modalLoiDapAn" tabindex="-1"
+                aria-labelledby="modalLoiDapAnLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered"
+                    style="max-width: 600px;">
+                    <div class="modal-content border-0 rounded-3 shadow"
+                        style="border-left: 5px solid #dc3545;">
+                        <div class="modal-header text-white"
+                            style="background-color: #16203b;">
+                            <h5 class="modal-title d-flex align-items-center"
+                                id="noiDungModalLoiDapAn">
+                                <i
+                                    class="bi bi-exclamation-triangle-fill me-2 text-warning fs-4"></i>
+                                Lỗi hệ thống
+                            </h5>
+                            <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"
+                                aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <p class="mb-0 fs-5 text-danger">
+                                ⚠️ Bạn chưa chọn đáp án đúng cho câu hỏi. Hãy
+                                kiểm tra lại!
+                            </p>
+                        </div>
+                        <div
+                            class="modal-footer d-flex justify-content-between">
+                            <!-- Nút "Thoát" -->
+                            <button type="button" class="btn text-white"
+                                style="background-color: #16203b"
+                                th:onclick="|window.location.href='/giangvien/them-moi-khoa-hoc/them-chuong?khoahocId=${baiGiang.chuong.khoahoc.khoahocId}'|">
+                                <i class="fas fa-arrow-left me-1"></i> Thoát
+                            </button>
+
+                            <!-- Nút "Đóng" -->
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+                                <i class="fas fa-times me-1"></i> Đóng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Thành Công -->
+            <div class="modal fade" id="modalThanhCong" tabindex="-1"
+                aria-labelledby="modalThanhCongLabel" aria-hidden="true"
+                th:if="${success}">
+                <div class="modal-dialog modal-dialog-centered"
+                    style="max-width: 600px;">
+                    <div class="modal-content border-0 rounded-3 shadow"
+                        style="border-left: 5px solid #198754;">
+                        <div class="modal-header text-white"
+                            style="background-color: #16203b;">
+                            <h5 class="modal-title d-flex align-items-center"
+                                id="modalThanhCongLabel">
+                                <i
+                                    class="bi bi-check-circle-fill me-2 text-success fs-4"></i>
+                                Thành công
+                            </h5>
+                            <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"
+                                aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <p class="mb-0 fs-5 text-success"
+                                th:text="${success}">Thao tác thành công!
+                            </p>
+                        </div>
+                        <div
+                            class="modal-footer d-flex justify-content-between">
+                            <!-- Nút "Thoát" -->
+                            <button type="button" class="btn text-white"
+                                style="background-color: #16203b"
+                                th:onclick="|window.location.href='/giangvien/them-moi-khoa-hoc/them-chuong?khoahocId=${baiGiang.chuong.khoahoc.khoahocId}'|">
+                                <i class="fas fa-arrow-left me-1"></i> Thoát
+                            </button>
+
+                            <!-- Nút "Đóng" -->
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+                                <i class="fas fa-times me-1"></i> Đóng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalThongBaoLoi" tabindex="-1"
+                aria-labelledby="modalThongBaoLoiLabel" aria-hidden="true"
+                th:if="${error}">
+                <div class="modal-dialog modal-dialog-centered"
+                    style="max-width: 600px;">
+                    <div class="modal-content border-0 rounded-3 shadow"
+                        style="border-left: 5px solid #dc3545;">
+                        <div class="modal-header text-white"
+                            style="background-color: #16203b;">
+                            <h5 class="modal-title d-flex align-items-center"
+                                id="modalThongBaoLoiLabel">
+                                <i
+                                    class="bi bi-exclamation-circle-fill me-2 text-danger fs-4"></i>
+                                Lỗi
+                            </h5>
+                            <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"
+                                aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <p class="mb-0 fs-5 text-danger"
+                                th:text="${error}">Có lỗi xảy ra!</p>
+                        </div>
+                        <div
+                            class="modal-footer d-flex justify-content-between">
+                            <!-- Nút "Thoát" -->
+                            <button type="button" class="btn text-white"
+                                style="background-color: #16203b"
+                                th:onclick="|window.location.href='/giangvien/them-moi-khoa-hoc/them-chuong?khoahocId=${baiGiang.chuong.khoahoc.khoahocId}'|">
+                                <i class="fas fa-arrow-left me-1"></i> Thoát
+                            </button>
+
+                            <!-- Nút "Đóng" -->
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+                                <i class="fas fa-times me-1"></i> Đóng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            function kiemTraChonDapAnDung() {
+                const form = document.getElementById("tracNghiemForm");
+                const soCauHoi = form.querySelectorAll("[name*='tenCauHoi']").length;
+
+                for (let i = 0; i < soCauHoi; i++) {
+                    const radios = form.querySelectorAll(`input[name="cauHoiList[${i}].dapAnDungIndex"]`);
+                    let coChon = false;
+
+                    radios.forEach(radio => {
+                        if (radio.checked) {
+                            coChon = true;
+                        }
+                    });
+
+                    if (!coChon) {
+                        const modalBody = document.getElementById("noiDungModalLoiDapAn");
+                        modalBody.innerText = `❌ Bạn chưa chọn đáp án đúng cho câu hỏi số ${i + 1}.`;
+
+                        const modal = new bootstrap.Modal(document.getElementById('modalLoiDapAn'));
+                        modal.show();
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        </script>
+
+            <script>
+            function toggleCollapse(button) {
+                const icon = button.querySelector('i');
+                const isCollapsed = icon.classList.contains('fa-chevron-up');
+
+                if (isCollapsed) {
+                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                    button.innerHTML = '<i class="fas fa-chevron-down me-1"></i> Mở rộng';
+                } else {
+                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                    button.innerHTML = '<i class="fas fa-chevron-up me-1"></i> Thu gọn';
+                }
+            }
+        </script>
+
+            <script th:if="${success}">
+            window.addEventListener('DOMContentLoaded', () => {
+                const modalSuccess = new bootstrap.Modal(document.getElementById('modalThanhCong'));
+                modalSuccess.show();
+            });
+        </script>
+
+            <script th:if="${error}">
+            window.addEventListener('DOMContentLoaded', () => {
+                const modalError = new bootstrap.Modal(document.getElementById('modalThongBaoLoi'));
+                modalError.show();
+            });
+        </script>
+        </main>
+    </body>
+
+</html>

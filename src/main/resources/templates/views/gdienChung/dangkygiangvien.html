@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Đăng ký Giảng viên - GLOBALEDU</title>
+    </head>
+
+    <body>
+        <main class="gv-register d-flex align-items-center">
+            <div class="container">
+                <div class="gv-register__container">
+                    <div class="row g-0 align-items-center">
+                        <!-- Cột hình ảnh -->
+                        <div class="col-lg-6">
+                            <div class="gv-register__image-section">
+                                <img th:src="@{/photos/giangvien.png}"
+                                    alt="Giảng viên"
+                                    class="gv-register__illustration">
+                            </div>
+                        </div>
+
+                        <!-- Cột form -->
+                        <div class="col-lg-6">
+                            <div class="gv-register__form-section">
+                                <div class="text-center mb-4">
+                                    <h3 class="gv-register__title">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        Đăng ký trở thành Giảng viên
+                                    </h3>
+                                    <p class="gv-register__subtitle">
+                                        <i class="fas fa-rocket"></i> Bắt đầu sự
+                                        nghiệp giảng dạy của bạn tại GLOBALEDU
+                                    </p>
+                                </div>
+
+                                <span id="serverError" th:if="${error}"
+                                    th:text="${error}" hidden></span>
+
+                                <!-- Form -->
+                                <form
+                                    th:action="@{/dang-ky-giang-vien/send-otp}"
+                                    method="post">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">
+                                            <i class="fas fa-envelope"></i>
+                                            Địa chỉ Email
+                                        </label>
+                                        <input type="email" class="form-control"
+                                            id="email" name="email"
+                                            placeholder="Nhập địa chỉ email của bạn"
+                                            required>
+                                    </div>
+                                    <div class="d-grid">
+                                        <button type="submit"
+                                            class="btn gv-register__btn">
+                                            <i class="fas fa-paper-plane"></i>
+                                            Gửi mã xác thực
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <div class="gv-register__login-link">
+                                    <i class="fas fa-user"></i> Đã có tài khoản?
+                                    <a th:href="@{/auth/dangnhap}">Đăng nhập</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toast-container position-fixed top-0 end-0 p-3">
+                <div id="toastMessage" class="toast align-items-center border-0"
+                    role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body" id="toastBody"></div>
+                        <button type="button" class="btn-close me-2 m-auto"
+                            data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            function showToast(message, isSuccess = true) {
+                const toastEl = document.getElementById("toastMessage");
+                const toastBody = document.getElementById("toastBody");
+
+                toastBody.textContent = message;
+                toastEl.classList.remove("text-bg-success", "text-bg-danger");
+                toastEl.classList.add(isSuccess ? "text-bg-success" : "text-bg-danger");
+
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const serverError = document.getElementById("serverError");
+                if (serverError) {
+                    showToast(serverError.textContent, false); // false = lỗi → màu đỏ
+                }
+            });
+        </script>
+        </main>
+    </body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi" th:fragment="view(content, title)">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GLOBALEDU</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="/photos/favicon.ico">
+
+        <!-- Bootstrap CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+        <!-- CSS chung và dành cho học viên -->
+        <link rel="stylesheet" href="/css/all.css">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+            integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    </head>
+
+    <body>
+        <header th:replace="~{views/layouts/header}">Header</header>
+
+        <!-- Nav cho ADMIN hoặc NHANVIEN -->
+        <nav th:replace="~{views/layouts/navquanly}"
+            sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_NHANVIEN')">Nav</nav>
+
+        <!-- Nav cho GIANGVIEN -->
+        <nav th:replace="~{views/layouts/navgiangvien}"
+            sec:authorize="hasRole('ROLE_GIANGVIEN')">Nav</nav>
+
+        <main th:replace="${content}">
+            <h1>Content</h1>
+        </main>
+
+        <footer th:replace="~{views/layouts/footer}">Footer</footer>
+
+        <!-- Bootstrap JS -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+        <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
+
+        <script th:src="@{/js/main.js}"></script>
+        <script th:src="@{/js/giohang.js}"></script>
+    </body>
+
+</html>

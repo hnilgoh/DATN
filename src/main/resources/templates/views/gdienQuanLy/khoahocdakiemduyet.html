@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <title>Khóa học đã kiểm duyệt</title>
+    </head>
+
+    <body>
+        <main class="dakiemduyet">
+            <div class="container">
+                <!-- Header -->
+                <div class="header-section">
+                    <i class="fas fa-graduation-cap header-icon"></i>
+                    <h1 class="header-title">Quản lý Khóa học</h1>
+                    <p class="header-subtitle">Danh sách các khóa học đã kiểm
+                        duyệt</p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="d-flex justify-content-center mb-4">
+                    <ul class="nav custom-tabs" id="tabKiemDuyet"
+                        role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="duyet-tab"
+                                data-bs-toggle="tab" data-bs-target="#daDuyet"
+                                type="button" role="tab">
+                                <i class="fas fa-check-circle"></i> Đã duyệt
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tuChoi-tab"
+                                data-bs-toggle="tab" data-bs-target="#daTuChoi"
+                                type="button" role="tab">
+                                <i class="fas fa-times-circle"></i> Đã từ chối
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="tabKiemDuyetContent">
+                    <!-- Đã duyệt -->
+                    <div class="tab-pane fade show active" id="daDuyet"
+                        role="tabpanel">
+                        <div th:if="${#lists.isEmpty(daDuyet)}"
+                            class="text-center text-muted">
+                            <i class="fas fa-folder-open me-1"></i>Không có khóa
+                            học đã duyệt.
+                        </div>
+                        <div th:each="khoaHoc : ${daDuyet}" class="course-card">
+                            <div class="status-badge approved">
+                                <i class="fas fa-check-circle me-1"></i> Đã
+                                duyệt
+                            </div>
+                            <h5 class="course-title text-success"
+                                th:text="${khoaHoc.tenKhoaHoc}">Tên khóa
+                                học</h5>
+                            <div class="instructor-info">
+                                <div class="instructor-avatar"><i
+                                        class="fas fa-user"></i></div>
+                                <div>
+                                    <strong
+                                        th:text="${khoaHoc.giangVien?.taikhoan?.name ?: 'Đang cập nhật'}">Tên
+                                        GV</strong>
+                                    <br><small class="text-muted">Giảng
+                                        viên</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Đã từ chối -->
+                    <div class="tab-pane fade" id="daTuChoi" role="tabpanel">
+                        <div th:if="${#lists.isEmpty(daTuChoi)}"
+                            class="text-center text-muted">
+                            <i class="fas fa-folder-open me-1"></i>Không có khóa
+                            học bị từ chối.
+                        </div>
+                        <div th:each="khoaHoc : ${daTuChoi}"
+                            class="course-card rejected">
+                            <div class="status-badge rejected">
+                                <i class="fas fa-times-circle me-1"></i> Đã từ
+                                chối
+                            </div>
+                            <h5 class="course-title text-danger"
+                                th:text="${khoaHoc.tenKhoaHoc}">Tên khóa
+                                học</h5>
+                            <div class="instructor-info">
+                                <div class="instructor-avatar"><i
+                                        class="fas fa-user-slash"></i></div>
+                                <div>
+                                    <strong
+                                        th:text="${khoaHoc.giangVien?.taikhoan?.name ?: 'Đang cập nhật'}">Tên
+                                        GV</strong>
+                                    <br><small class="text-muted">Giảng
+                                        viên</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

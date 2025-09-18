@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Chi tiết học viên</title>
+    </head>
+
+    <body>
+        <main class="chitiethocvien fade-in">
+            <h3 class="page-title">
+                <i class="fas fa-user-graduate"></i> Thống kê học viên theo khóa
+                học
+            </h3>
+
+            <!-- Nút điều hướng -->
+            <div
+                class="navigation-buttons d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/giangvien/trang-giang-vien"
+                    class="btn btn-custom btn-home">
+                    <i class="fas fa-home"></i> Trang chủ
+                </a>
+            </div>
+
+            <!-- Bộ lọc -->
+            <div class="filter-section">
+                <form method="get" th:action="@{/giangvien/thong-ke-hoc-vien}">
+                    <label for="khoaHocSelect" class="filter-label">
+                        <i class="fas fa-book"></i> Chọn khóa học:
+                    </label>
+                    <select id="khoaHocSelect" name="khoaHocId"
+                        class="form-select" onchange="this.form.submit()">
+                        <option value>-- Chọn khóa học --</option>
+                        <option th:each="kh : ${dsKhoaHocCoHocVien}"
+                            th:value="${kh.khoaHocId}"
+                            th:text="${kh.tenKhoaHoc + ' (' + kh.soLuongHocVien + ' HV)'}"
+                            th:selected="${kh.khoaHocId == selectedKhoaHocId}">
+                        </option>
+                    </select>
+                </form>
+            </div>
+
+            <!-- Danh sách học viên -->
+            <div th:if="${dsHocVien != null}" class="student-list-section">
+                <h4 class="section-title">
+                    <i class="fas fa-users"></i> Danh sách học viên của khóa:
+                    <span th:text="${tenKhoaHocDaChon}"></span>
+                </h4>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-user"></i> Họ tên</th>
+                                <th><i class="fas fa-envelope"></i> Email</th>
+                                <th><i class="fas fa-phone"></i> Số điện thoại
+                                </th>
+                                <th><i class="fas fa-cogs"></i> Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="hv : ${dsHocVien}">
+                                <td th:text="${hv.hoTen}">Nguyễn Văn A</td>
+                                <td th:text="${hv.email}">abc@gmail.com</td>
+                                <td th:text="${hv.soDienThoai}">0123456789</td>
+                                <td class="text-center">
+                                    <form
+                                        th:action="@{/giangvien/chi-tiet-hoc-vien/{id}(id=${hv.id})}"
+                                        method="get">
+                                        <button type="submit"
+                                            class="btn btn-detail">
+                                            <i class="fas fa-eye"></i> Xem chi
+                                            tiết
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div th:if="${dsHocVien == null}" class="empty-state">
+                <div class="empty-content">
+                    <div class="empty-icon-wrapper">
+                        <i class="fas fa-graduation-cap empty-icon"></i>
+                    </div>
+                    <h4 class="empty-title">Chưa có dữ liệu học viên</h4>
+                    <p class="empty-description">Vui lòng chọn một khóa học từ
+                        danh sách bên trên để xem danh sách học viên tương ứng.
+                    </p>
+                    <div class="empty-decoration">
+                        <div class="decoration-dot"></div>
+                        <div class="decoration-dot"></div>
+                        <div class="decoration-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

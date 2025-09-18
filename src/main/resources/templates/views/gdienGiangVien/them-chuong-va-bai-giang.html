@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Các bước tạo khóa học</title>
+    </head>
+
+    <body>
+        <main class=" tao-khoa-hoc-page container py-5"
+            style="padding-left: 100px; padding-right: 100px;">
+            <div class="tieude">
+                <h3>➕Tạo nội dung khóa học</h3>
+            </div>
+
+            <!-- Container thông báo -->
+            <div class="my-3">
+                <!-- Thông báo thành công -->
+                <div th:if="${thongbao}"
+                    class="alert alert-success alert-dismissible fade show shadow-sm rounded px-4 py-3 border-0"
+                    role="alert" style="background-color: #e6f4ea;">
+                    <span th:text="${thongbao}" class="fw-medium">Thông
+                        báo</span>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="alert" aria-label="Đóng"></button>
+                </div>
+
+                <!-- Thông báo lỗi -->
+                <div th:if="${loi}"
+                    class="alert alert-danger alert-dismissible fade show shadow-sm rounded px-4 py-3 border-0"
+                    role="alert" style="background-color: #fbeaea;">
+                    <span th:text="${loi}" class="fw-medium">Lỗi</span>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="alert" aria-label="Đóng"></button>
+                </div>
+
+                <!-- Hiển thị lỗi -->
+                <div th:if="${loidinhdang}" th:utext="${loidinhdang}"
+                    class="alert alert-danger"></div>
+            </div>
+
+            <form th:if="${chuongForm != null}" id="form-tao-khoa-hoc"
+                th:action="@{/giangvien/them-moi-khoa-hoc/luu-chuong-va-baigiang}"
+                th:object="${chuongForm}" method="post">
+                <input type="hidden" name="khoahocId"
+                    th:value="${khoahoc.khoahocId}" />
+
+                <div
+                    class="d-flex justify-content-between align-items-center mt-3"
+                    th:if="${khoahoc.trangThai.name() == 'DRAFT'}">
+                    <a href="#"
+                        class="text-decoration-none text-primary fw-bold"
+                        onclick="xuLyTroVeTrangChu(event)">
+                        ← Về bảng điều khiển
+                    </a>
+                    <button id="btnLuuBanNhaps1" type="submit"
+                        class="btn themkhoahoc-btn">
+                        <i class="fas fa-upload me-2"></i>Lưu bản nháp
+                    </button>
+                </div>
+
+                <div id="chuong-container"
+                    th:if="${chuongForm.chuongs != null}">
+                    <div th:each="chuong, cStat : ${chuongForm.chuongs}"
+                        class="card mt-4 chuong-item"
+                        th:attr="data-chuong-id=${chuong.chuongId}"
+                        style="background-color: #E9ECEF;">
+                        <div
+                            class="card-header d-flex justify-content-between align-items-center">
+                            <strong class="chuong-title"
+                                th:text="'Phần ' + ${cStat.index + 1}">Phần</strong>
+                            <div class="d-flex gap-2">
+                                <button type="submit"
+                                    class="btn btn-sm btn-success"
+                                    th:name="saveChuongIndex"
+                                    th:value="${cStat.index}"
+                                    title="Lưu chương này">
+                                    <i class="bi bi-save"></i>
+                                </button>
+
+                                <button type="button"
+                                    class="btn btn-sm btn-outline-secondary btn-toggle-mota"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-trigger="hover"
+                                    data-bs-placement="top" title="Mô tả">
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+
+                                <button type="button"
+                                    class="btn btn-sm btn-danger"
+                                    th:onclick="'moModalXoaChuong(' + ${chuong.chuongId} + ')'">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+
+                                <button type="button"
+                                    class="btn btn-sm btn-outline-dark btn-toggle-chuong"
+                                    onclick="toggleChuongNoiDung(this)"
+                                    title="Thu gọn / Mở rộng">
+                                    <i class="bi bi-chevron-down"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <label class="form-label mb-2">📚Tên chương:</label>
+                            <input type="text" class="form-control mb-3"
+                                th:name="'chuongs[' + ${cStat.index} + '].tenchuong'"
+                                th:value="${chuong.tenchuong}"
+                                placeholder="nhập tên chương" />
+
+                            <input type="hidden"
+                                th:name="'chuongs[' + ${cStat.index} + '].chuongId'"
+                                th:value="${chuong.chuongId}" />
+
+                            <div class="mo-ta-chuong mt-2 mb-3"
+                                style="display:none;">
+                                <label class="form-label mb-2">📘 Mô tả
+                                    chương:</label>
+                                <textarea class="form-control" rows="2"
+                                    th:name="'chuongs[' + ${cStat.index} + '].mota'"
+                                    th:text="${chuong.mota}"
+                                    placeholder="nhập mô tả chương"></textarea>
+                            </div>
+
+                            <div class="bai-giang-container">
+                                <div
+                                    th:each="baiGiang, bStat : ${chuong.baiGiangs}"
+                                    class="baigiang-item border p-3 rounded mb-3">
+
+                                    <input type="hidden"
+                                        th:name="'chuongs[' + ${cStat.index} + '].baiGiangs[' + ${bStat.index} + '].baiGiangId'"
+                                        th:value="${baiGiang.baiGiangId}" />
+
+                                    <div
+                                        class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                                        <strong
+                                            class="baigiang-title flex-grow-1"
+                                            th:text="'Bài giảng ' + ${bStat.index + 1}">Bài
+                                            giảng</strong>
+
+                                        <div class="d-flex gap-2">
+                                            <button type="button"
+                                                class="btn btn-outline-primary btn-sm btn-chon-loai"
+                                                data-value="VIDEO">Video</button>
+                                            <button type="button"
+                                                class="btn btn-outline-primary btn-sm btn-chon-loai"
+                                                data-value="TAILIEU">Bài
+                                                viết</button>
+                                            <button type="button"
+                                                class="btn btn-outline-primary btn-sm btn-chon-loai"
+                                                data-value="TRACNGHIEM">Trắc
+                                                nghiệm</button>
+                                        </div>
+
+                                        <!-- ✅ Nút lưu bài giảng -->
+                                        <button type="submit"
+                                            class="btn btn-sm btn-success"
+                                            th:name="saveBaiGiang"
+                                            th:value="${cStat.index + '-' + bStat.index}"
+                                            title="Lưu bài giảng này">
+                                            <i class="bi bi-save"></i>
+                                        </button>
+
+                                        <!-- Nếu đã có ID → dùng modal xác nhận -->
+                                        <button type="button"
+                                            class="btn btn-sm btn-outline-danger"
+                                            th:if="${baiGiang.baiGiangId != null}"
+                                            th:onclick="'moModalXoaBaiGiang(' + ${baiGiang.baiGiangId} + ')'"
+                                            title="Xóa bài giảng"
+                                            data-bs-toggle="tooltip">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+
+                                    </div>
+
+                                    <label class="form-label mb-2">📝 Tên bài
+                                        học:</label>
+                                    <input type="text" class="form-control mb-2"
+                                        th:name="'chuongs[' + ${cStat.index} + '].baiGiangs[' + ${bStat.index} + '].tenBaiGiang'"
+                                        th:value="${baiGiang.tenBaiGiang}"
+                                        placeholder="nhập tên bài học" />
+
+                                    <input type="hidden"
+                                        class="loai-bai-giang-input"
+                                        th:name="'chuongs[' + ${cStat.index} + '].baiGiangs[' + ${bStat.index} + '].loaiBaiGiang'"
+                                        th:value="${baiGiang.loaiBaiGiang}" />
+
+                                    <label class="form-label mb-2">🎬 Nội
+                                        dung:</label>
+                                    <textarea class="form-control"
+                                        th:name="'chuongs[' + ${cStat.index} + '].baiGiangs[' + ${bStat.index} + '].mota'"
+                                        th:text="${baiGiang.mota}"
+                                        placeholder="nhập mô tả nội dung"></textarea>
+
+                                    <!-- VIDEO -->
+                                    <div class="video-fields mt-2"
+                                        th:style="${baiGiang.loaiBaiGiang?.name() == 'VIDEO'} ? 'display: block;' : 'display: none;'">
+                                        <label
+                                            class="form-label mb-2"><strong>🎥
+                                                Đường
+                                                dẫn video:</strong></label>
+                                        <input type="text"
+                                            class="form-control mb-2"
+                                            th:name="'chuongs[' + ${cStat.index} + '].baiGiangs[' + ${bStat.index} + '].videoBaiGiang.url_video'"
+                                            th:value="${baiGiang.videoBaiGiang?.url_video}"
+                                            placeholder="https://..."
+                                            pattern="^(https?:\/\/)?(www\.youtube\.com|youtu\.be)\/.+$"
+                                            title="Link video của bạn không hợp lệ (ví dụ: https://youtu.be/abc123)"
+                                            th:disabled="${baiGiang.loaiBaiGiang?.name() != 'VIDEO'}" />
+                                        <p class="m-2"><i>Bạn hãy gắn đường dẫn
+                                                video của bạn vào đây.</i></p>
+                                    </div>
+
+                                    <!-- BÀI VIẾT -->
+                                    <div class="baiviet-fields mt-2"
+                                        th:style="${baiGiang.loaiBaiGiang?.name() == 'TAILIEU'} ? 'display: block;' : 'display: none;'">
+
+                                        <label class="form-label mb-2">
+                                            <strong>📄 Nội
+                                                dung tài liệu:</strong></label>
+                                        <textarea class="form-control"
+                                            th:name="'chuongs[' + ${cStat.index} + '].baiGiangs[' + ${bStat.index} + '].baiViet.noidung'"
+                                            th:text="${baiGiang.baiViet?.noidung}"
+                                            placeholder="Nội dung bài viết"
+                                            th:disabled="${baiGiang.loaiBaiGiang?.name() != 'TAILIEU'}"></textarea>
+                                        <p class="m-2"><i>Điền chi tiết nội dung
+                                                giảng dạy hoặc phần bài tập kèm
+                                                theo.</i></p>
+                                    </div>
+
+                                    <div class="tracnghiem-fields mt-2"
+                                        th:style="${baiGiang.loaiBaiGiang?.name() == 'TRACNGHIEM'} ? 'display:block;' : 'display:none;'">
+
+                                        <!-- <a
+                                            th:href="@{/giangvien/cau-hoi/them(baiGiangId=${baiGiang.baiGiangId})}"
+                                            class="btn btn-outline-primary btn-sm">
+                                            ➕ Thêm hoặc sửa câu hỏi
+                                        </a> -->
+
+                                        <a
+                                            th:href="@{/giangvien/cau-hoi/them(baiGiangId=${baiGiang.baiGiangId})}"
+                                            class="btn btn-outline-primary btn-sm"
+                                            onclick="saveScrollPosition(this)">
+                                            ➕ Thêm hoặc sửa câu hỏi
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <button type="button"
+                                class="btn btn-outline-secondary mt-2"
+                                onclick="themBaiGiang(this)">
+                                + Mục giáo trình
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="d-flex justify-content-between align-items-center mt-3">
+                    <!-- Nhóm 2 nút đầu bên trái -->
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-primary"
+                            onclick="themChuong()">+ Phần</button>
+                        <!-- <button type="submit" class="btn themkhoahoc-btn"> <i
+                                class="fas fas fa-upload me-2"></i>Lưu
+                            bản nháp</button> -->
+
+                        <div th:if="${khoahoc.trangThai.name() == 'DRAFT'}">
+                            <button id="btnLuuBanNhaps" type="submit"
+                                class="btn themkhoahoc-btn">
+                                <i class="fas fas fa-upload me-2"></i>Lưu bản
+                                nháp
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nút bên phải -->
+                    <button type="button" class="btn themkhoahoc-btn"
+                        th:onclick="|window.location.href='/giangvien/them-moi-khoa-hoc/gia?khoahocId=${khoahoc.khoahocId}'|">
+                        <i class="fas fa-arrow-left me-2"></i>Quay lại bước 2
+                    </button>
+                </div>
+            </form>
+
+            <div id="yeuCauDuyetContainer" style="margin-top: 30px;">
+                <div style="margin-bottom: 10px;">
+                    <input type="checkbox" id="dongYChinhSach">
+                    <label for="dongYChinhSach" style="cursor:pointer;">
+                        Tôi đồng ý với <strong>chính sách</strong>: Sau khi khóa
+                        học xuất bản,
+                        bạn sẽ <strong>không thể cập nhật</strong> khóa học nữa.
+                    </label>
+                </div>
+
+                <button type="button" class="btn" id="btnYeuCauDuyet"
+                    style="background-color: #16203b; color: white;"
+                    th:data-khoahoc-id="${khoahoc.khoahocId}" disabled>
+                    <i class="fas fa-paper-plane"></i>
+                    Yêu cầu duyệt
+                </button>
+            </div>
+
+            <!-- Modal xác nhận xóa chương -->
+            <div class="modal fade" id="modalXoaChuong" tabindex="-1"
+                aria-labelledby="xoaChuongLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form method="post"
+                        th:action="@{/giangvien/them-moi-khoa-hoc/xoa-chuong}">
+                        <input type="hidden" name="chuongId"
+                            id="inputChuongIdXoa" />
+                        <input type="hidden" name="khoahocId"
+                            th:value="${khoahoc.khoahocId}" />
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="xoaChuongLabel">Xác
+                                    nhận xóa chương</h5>
+                                <button type="button" class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Đóng"></button>
+                            </div>
+                            <div class="modal-body">
+                                Bạn có chắc chắn muốn xóa chương này? Tất cả bài
+                                giảng trong chương cũng sẽ bị xóa.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Hủy</button>
+                                <button type="submit"
+                                    class="btn btn-danger">Xóa</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal xác nhận xóa bài giảng -->
+            <div class="modal fade" id="modalXoaBaiGiang" tabindex="-1"
+                aria-labelledby="xoaBaiGiangLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form method="post"
+                        th:action="@{/giangvien/them-moi-khoa-hoc/xoa-baigiang}">
+                        <input type="hidden" name="baiGiangId"
+                            id="inputBaiGiangIdXoa" />
+                        <input type="hidden" name="khoahocId"
+                            th:value="${khoahoc.khoahocId}" />
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"
+                                    id="xoaBaiGiangLabel">Xác nhận xóa bài giảng
+                                </h5>
+                                <button type="button" class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Đóng"></button>
+                            </div>
+                            <div class="modal-body">
+                                Bạn có chắc chắn muốn xóa bài giảng này?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Hủy</button>
+                                <button type="submit"
+                                    class="btn btn-danger">Xóa</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Template ẩn -->
+            <template id="chuong-template">
+                <div class="card mt-4 chuong-item"
+                    style="background-color: #E9ECEF;">
+                    <div
+                        class="card-header d-flex justify-content-between align-items-center">
+                        <strong class="chuong-title">Phần</strong>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-sm btn-success"
+                                name="saveChuongIndex" value="__index__"
+                                title="Lưu chương này">
+                                <i class="bi bi-save"></i>
+                            </button>
+
+                            <button type="button"
+                                class="btn btn-sm btn-outline-secondary btn-toggle-mota"
+                                data-bs-toggle="tooltip"
+                                data-bs-trigger="hover"
+                                data-bs-placement="top" title="Mô tả">
+                                <i class="bi bi-plus-circle"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-sm btn-danger"
+                                onclick="xoaChuong(this)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <label class="form-label mb-2">📚 Tên chương:</label>
+                        <input type="text" name="chuongs[__index__].tenchuong"
+                            class="form-control mb-3"
+                            placeholder="nhập tên chương">
+
+                        <div class="mo-ta-chuong mt-2 mb-3"
+                            style="display: none;">
+                            <label class="form-label mb-2">📘 Mô tả
+                                chương:</label>
+                            <textarea class="form-control"
+                                name="chuongs[__index__].mota"
+                                rows="2"
+                                placeholder="nhập mô tả chương"></textarea>
+                        </div>
+
+                        <div class="bai-giang-container"></div>
+                        <button type="button"
+                            class="btn btn-outline-secondary mt-2"
+                            onclick="themBaiGiang(this)">+ Mục giáo
+                            trình</button>
+                    </div>
+                </div>
+            </template>
+
+            <template id="baigiang-template">
+                <div class="baigiang-item border p-3 rounded mb-3">
+                    <div
+                        class="d-flex justify-content-between align-items-center mb-2">
+                        <strong class="baigiang-title">Bài giảng </strong>
+                        <div class="d-flex gap-2">
+                            <!-- Các nút chọn loại bài giảng -->
+
+                            <div class="d-flex gap-2">
+                                <button type="button"
+                                    class="btn btn-outline-primary btn-sm btn-chon-loai"
+                                    data-value="VIDEO">Video</button>
+                                <button type="button"
+                                    class="btn btn-outline-primary btn-sm btn-chon-loai"
+                                    data-value="TAILIEU">Bài
+                                    viết</button>
+                                <button type="button"
+                                    class="btn btn-outline-primary btn-sm btn-chon-loai"
+                                    data-value="TRACNGHIEM">Trắc
+                                    nghiệm</button>
+                            </div>
+
+                            <!-- ✅ Nút lưu bài giảng -->
+                            <button type="submit"
+                                class="btn btn-sm btn-success"
+                                name="saveBaiGiang"
+                                value="__cIndex__-__bIndex__"
+                                title="Lưu bài giảng này">
+                                <i class="bi bi-save"></i>
+                            </button>
+
+                            <button type="button"
+                                class="btn btn-sm btn-outline-danger"
+                                onclick="xoaBaiGiang(this)"
+                                title="Xóa bài giảng"
+                                data-bs-toggle="tooltip">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="form-label mb-2">📝 Tên bài học:</label>
+                    <input type="text"
+                        name="chuongs[__cIndex__].baiGiangs[__bIndex__].tenBaiGiang"
+                        class="form-control mb-2"
+                        placeholder="nhập tên bài học">
+
+                    <input type="hidden"
+                        name="chuongs[__cIndex__].baiGiangs[__bIndex__].loaiBaiGiang"
+                        class="loai-bai-giang-input" value />
+
+                    <label class="form-label mb-2">🎬 Nội dung:</label>
+                    <textarea
+                        name="chuongs[__cIndex__].baiGiangs[__bIndex__].mota"
+                        class="form-control"
+                        placeholder="nhập mô tả nội dung"></textarea>
+
+                    <!-- VIDEO -->
+                    <div class="video-fields mt-2">
+                        <label class="form-label mb-2"><strong>🎥 Đường dẫn
+                                video:</strong></label>
+                        <input type="text"
+                            name="chuongs[__cIndex__].baiGiangs[__bIndex__].videoBaiGiang.url_video"
+                            class="form-control mb-2"
+                            placeholder="https://..."
+                            pattern="^(https?:\/\/)?(www\.youtube\.com|youtu\.be)\/.+$"
+                            title="Link video của bạn không hợp lệ (ví dụ: https://youtu.be/abc123)">
+                        <p class="m-2"><i>Bạn hãy gắn đường dẫn video của bạn
+                                vào đây.</i></p>
+                    </div>
+
+                    <!-- BÀI VIẾT -->
+                    <div class="baiviet-fields mt-2" style="display: none;">
+
+                        <label class="form-label mb-2"><strong>📄 Nội dung tài
+                                liệu:</strong></label>
+                        <textarea
+                            name="chuongs[__cIndex__].baiGiangs[__bIndex__].baiViet.noidung"
+                            class="form-control"
+                            placeholder="Nội dung bài viết"
+                            disabled></textarea>
+                        <p class="m-2"><i>Điền chi tiết
+                                nội dung
+                                giảng dạy hoặc phần bài tập kèm theo.</i></p>
+                    </div>
+
+                    <!-- TRẮC NGHIỆM -->
+                    <div class="tracnghiem-fields mt-2" style="display: none;">
+
+                        <input type="hidden"
+                            name="chuongs[__cIndex__].baiGiangs[__bIndex__].tracNghiem.tracnghiemId"
+                            value />
+
+                        <!-- Nút chuyển trang để thêm/sửa câu hỏi -->
+                        <a href="#" class="btn btn-outline-primary btn-sm mt-2"
+                            onclick="return false;">
+                            ➕ Thêm hoặc sửa câu hỏi
+                        </a>
+                    </div>
+                </div>
+            </template>
+            <script th:src="@{/js/themkhoahoc.js}"></script>
+            <style>
+            p i {
+                font-size: 13px;
+            }
+            
+            .tieude {
+                width: 355px;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-left: 5px solid #0c498a;
+                background: #f9f9f9;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                color: #0c498a;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                margin-bottom: 20px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+        </style>
+
+            <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Gọi hàm khôi phục trạng thái thu gọn khi load lại trang
+                restoreChuongCollapseState();
+
+                // Gắn sự kiện toggle cho tất cả nút toggle
+                document.querySelectorAll('.btn-toggle-chuong').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        toggleChuongNoiDung(btn);
+                    });
+                });
+            });
+
+            function toggleChuongNoiDung(button) {
+                const chuongItem = button.closest('.chuong-item');
+                const cardBody = chuongItem.querySelector('.card-body');
+                const icon = button.querySelector('i');
+                const chuongId = chuongItem.dataset.chuongId;
+
+                const collapsedChuongs = JSON.parse(localStorage.getItem('collapsedChuongs')) || [];
+
+                if (cardBody.style.display === "none") {
+                    cardBody.style.display = "block";
+                    icon.classList.remove('bi-chevron-right');
+                    icon.classList.add('bi-chevron-down');
+
+                    // Bỏ khỏi danh sách thu gọn
+                    const index = collapsedChuongs.indexOf(chuongId);
+                    if (index !== -1) collapsedChuongs.splice(index, 1);
+                } else {
+                    cardBody.style.display = "none";
+                    icon.classList.remove('bi-chevron-down');
+                    icon.classList.add('bi-chevron-right');
+
+                    // Thêm vào danh sách thu gọn nếu chưa có
+                    if (!collapsedChuongs.includes(chuongId)) {
+                        collapsedChuongs.push(chuongId);
+                    }
+                }
+
+                localStorage.setItem('collapsedChuongs', JSON.stringify(collapsedChuongs));
+            }
+
+            function restoreChuongCollapseState() {
+                const collapsedChuongs = JSON.parse(localStorage.getItem('collapsedChuongs')) || [];
+
+                collapsedChuongs.forEach(function(chuongId) {
+                    const chuongItem = document.querySelector(`.chuong-item[data-chuong-id="${chuongId}"]`);
+                    if (chuongItem) {
+                        const cardBody = chuongItem.querySelector('.card-body');
+                        const button = chuongItem.querySelector('.btn-toggle-chuong');
+                        const icon = button.querySelector('i');
+
+                        if (cardBody) {
+                            cardBody.style.display = "none";
+                            icon.classList.remove('bi-chevron-down');
+                            icon.classList.add('bi-chevron-right');
+                        }
+                    }
+                });
+            }
+        </script>
+
+            <script>
+            function saveScrollPosition(linkElement) {
+                const scrollY = window.scrollY || document.documentElement.scrollTop;
+                // Lưu scroll và ID bài giảng (nếu cần)
+                sessionStorage.setItem("scrollY", scrollY);
+                sessionStorage.setItem("scrollBack", "true");
+
+                // Điều hướng thủ công
+                window.location.href = linkElement.getAttribute("href");
+                return false; // ngăn redirect mặc định
+            }
+
+            window.addEventListener("DOMContentLoaded", () => {
+                if (sessionStorage.getItem("scrollBack") === "true") {
+                    const scrollY = sessionStorage.getItem("scrollY");
+                    if (scrollY !== null) {
+                        window.scrollTo({
+                            top: parseInt(scrollY),
+                            behavior: "smooth"
+                        });
+                    }
+                    // Clear để không scroll lại lần sau
+                    sessionStorage.removeItem("scrollBack");
+                    sessionStorage.removeItem("scrollY");
+                }
+            });
+        </script>
+
+            <!-- Modal thông báo -->
+            <div class="modal fade" id="modalThongBaoYeuCau" tabindex="-1"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title" id="modalTitle">Thông báo
+                            </h5>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body" id="modalBody">
+                            <!-- Nội dung sẽ được thay bằng JS -->
+                        </div>
+                        <div class="modal-footer">
+                            <a href="/giangvien/khoa-hoc-da-tao"
+                                class="btn btn-success">Về danh sách khóa
+                                học</a>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal chưa có thay đổi -->
+            <div class="modal fade" id="modalChuaThayDoi" tabindex="-1"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header"
+                            style="background-color: #2d43b1; color: #fff;">
+                            <h5 class="modal-title">Thông báo</h5>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn chưa thực hiện thay đổi gì mới để lưu!
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary"
+                                data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalCanhBaoHoanThanhBaiGiang"
+                tabindex="-1" aria-labelledby="modalLabelCanhBao"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h5 class="modal-title" id="modalLabelCanhBao">Chưa
+                                hoàn thiện bài giảng</h5>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            Vui lòng hoàn thiện tất cả bài giảng trước khi yêu
+                            cầu duyệt khóa học.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            let originalFormData = "";
+
+            document.addEventListener("DOMContentLoaded", function() {
+                const form = document.getElementById("form-tao-khoa-hoc");
+                if (form) {
+                    // Lưu lại dữ liệu ban đầu dưới dạng chuỗi JSON
+                    originalFormData = new FormData(form);
+                    originalFormData = JSON.stringify(Array.from(originalFormData.entries()));
+                }
+
+                // Gắn sự kiện cho tất cả nút submit trong form
+                form.querySelectorAll("button[type='submit']").forEach(function(btn) {
+                    btn.addEventListener("click", function(e) {
+                        const currentFormData = new FormData(form);
+                        const currentDataStr = JSON.stringify(Array.from(currentFormData.entries()));
+
+                        if (currentDataStr === originalFormData) {
+                            e.preventDefault(); // chặn submit
+                            showChuaThayDoiModal();
+                        }
+                    });
+                });
+            });
+        </script>
+
+            <script>
+            function showChuaThayDoiModal() {
+                const modal = new bootstrap.Modal(document.getElementById("modalChuaThayDoi"));
+                modal.show();
+            }
+        </script>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const btn = document.getElementById('btnYeuCauDuyet');
+                const chkChinhSach = document.getElementById('dongYChinhSach');
+
+                if (!btn || !chkChinhSach) return;
+
+                // Bật/tắt nút theo checkbox
+                chkChinhSach.addEventListener('change', function() {
+                    btn.disabled = !chkChinhSach.checked;
+                });
+
+                // Xử lý khi click nút yêu cầu duyệt
+                btn.addEventListener('click', function() {
+                    if (btn.disabled) return;
+
+                    // Kiểm tra tất cả bài giảng đã chọn loại chưa
+                    const chuongItems = document.querySelectorAll(".chuong-item");
+                    let chuaHoanThanh = false;
+
+                    chuongItems.forEach(chuong => {
+                        const baiGiangs = chuong.querySelectorAll(".baigiang-item");
+                        baiGiangs.forEach(bai => {
+                            const loai = bai.querySelector(".loai-bai-giang-input");
+                            if (!loai || !loai.value) {
+                                chuaHoanThanh = true;
+                            }
+                        });
+                    });
+
+                    if (chuaHoanThanh) {
+                        // Hiện modal cảnh báo
+                        const modal = new bootstrap.Modal(document.getElementById("modalCanhBaoHoanThanhBaiGiang"));
+                        modal.show();
+                        return;
+                    }
+
+                    // Nếu đã hoàn thiện → gửi yêu cầu duyệt
+                    const khoaHocId = btn.getAttribute('data-khoahoc-id');
+                    const originalContent = btn.innerHTML;
+
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Đang gửi...';
+
+                    fetch('/khoa-hoc/yeu-cau-duyet?id=' + encodeURIComponent(khoaHocId), {
+                            method: 'POST'
+                        })
+                        .then(response => {
+                            if (response.ok) return response.text();
+                            else throw new Error('Lỗi mạng hoặc server không phản hồi');
+                        })
+                        .then(msg => {
+                            // Modal thành công
+                            document.getElementById('modalTitle').textContent = 'Thành công';
+                            document.getElementById('modalBody').textContent = msg || 'Yêu cầu duyệt đã được gửi!';
+                            const modal = new bootstrap.Modal(document.getElementById('modalThongBaoYeuCau'));
+                            modal.show();
+
+                            // Ẩn các nút lưu nháp
+                            const btnLuu1 = document.getElementById('btnLuuBanNhaps1');
+                            const btnLuu2 = document.getElementById('btnLuuBanNhaps');
+                            if (btnLuu1) btnLuu1.style.display = 'none';
+                            if (btnLuu2) btnLuu2.style.display = 'none';
+
+                            btn.disabled = true;
+                            btn.innerHTML = '<i class="fas fa-check-circle me-2"></i>Đã gửi yêu cầu duyệt';
+                            btn.classList.add('disabled');
+
+                            setTimeout(function() {
+                                window.location.href = '/giangvien/khoa-hoc-da-tao';
+                            }, 2000);
+                        })
+                        .catch(error => {
+                            // Modal thất bại
+                            document.getElementById('modalTitle').textContent = 'Thất bại';
+                            document.getElementById('modalBody').textContent = 'Gửi yêu cầu thất bại: ' + error.message;
+                            const modal = new bootstrap.Modal(document.getElementById('modalThongBaoYeuCau'));
+                            modal.show();
+
+                            // Khôi phục lại nút
+                            btn.disabled = false;
+                            btn.innerHTML = originalContent;
+                        });
+                });
+            });
+        </script>
+
+            <!-- Toast cảnh báo chưa chọn loại bài giảng -->
+            <div class="position-fixed end-0 p-3"
+                style="z-index: 9999; bottom: 100px;">
+                <div id="toastCanhBaoLoaiBaiGiang"
+                    class="toast align-items-center text-white bg-danger border-0"
+                    data-bs-delay="3000" role="alert" aria-live="assertive"
+                    aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            Vui lòng hoàn thành bài giảng trước khi thêm bài
+                            giảng mới!
+                        </div>
+                        <button type="button"
+                            class="btn-close btn-close-white me-2 m-auto"
+                            data-bs-dismiss="toast" aria-label="Đóng"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toast cảnh báo chưa chọn loại bài giảng mà ấn thêm chương -->
+            <div class="position-fixed end-0 p-3"
+                style="z-index: 9999; bottom: 100px;">
+                <div id="toastCanhBaoLoaiBaiGiangChuong"
+                    class="toast align-items-center text-white bg-danger border-0"
+                    data-bs-delay="3000" role="alert" aria-live="assertive"
+                    aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            Vui lòng hoàn thành bài giảng trước khi thêm chương
+                            mới!
+                        </div>
+                        <button type="button"
+                            class="btn-close btn-close-white me-2 m-auto"
+                            data-bs-dismiss="toast" aria-label="Đóng"></button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            let formChanged = false;
+
+            document.addEventListener("DOMContentLoaded", function() {
+                const form = document.getElementById("form-tao-khoa-hoc");
+
+                if (form) {
+                    form.addEventListener("change", () => formChanged = true);
+
+                    // Khi nhấn submit (Lưu bản nháp hoặc Yêu cầu duyệt) thì reset trạng thái thay đổi
+                    form.addEventListener("submit", () => formChanged = false);
+                }
+            });
+
+            function xuLyTroVeTrangChu(event) {
+                event.preventDefault();
+
+                if (formChanged) {
+                    const modal = new bootstrap.Modal(document.getElementById('modalXacNhanTroVe'));
+                    modal.show();
+                } else {
+                    window.location.href = '/giangvien/trang-giang-vien'; // <-- thay bằng URL thật của bạn
+                }
+            }
+
+            function thucHienTroVeTrangChu() {
+                window.location.href = '/giangvien/trang-giang-vien'; // <-- thay bằng URL thật của bạn
+            }
+        </script>
+
+            <div class="modal fade" id="modalXacNhanTroVe" tabindex="-1"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h5 class="modal-title">Xác nhận</h5>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Thông tin bạn vừa nhập chưa được lưu. Bạn có chắc
+                                chắn muốn rời khỏi trang này không?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Ở lại</button>
+                            <button type="button" class="btn btn-danger"
+                                onclick="thucHienTroVeTrangChu()">Rời
+                                khỏi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

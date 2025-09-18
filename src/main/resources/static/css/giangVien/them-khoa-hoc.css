@@ -1,0 +1,97 @@
+.themkhoahoc body {
+    font-family: Arial;
+    background-color: #f7f7f7;
+    padding: 40px;
+    color: #16203b;
+}
+
+.themkhoahoc form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+    max-width: 700px;
+    margin: auto;
+}
+
+.themkhoahoc h2 {
+    color: #16203b;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.themkhoahoc label {
+    display: block;
+    margin-top: 16px;
+    font-weight: bold;
+}
+
+.themkhoahoc input[type="text"],
+.themkhoahoc textarea,
+.themkhoahoc select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 6px;
+}
+
+.themkhoahoc input[type="file"] {
+    margin-top: 6px;
+}
+
+.themkhoahoc button {
+    margin-top: 24px;
+    background-color: #16203b;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.themkhoahoc button:hover {
+    background-color: #0f1a2e;
+}
+
+.themkhoahoc .box-khuyen-mai {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+}
+
+.themkhoahoc .box-khuyen-mai label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.themkhoahoc .box-khuyen-mai input {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.themkhoahoc .box-khuyen-mai input:focus {
+    border-color: #007bff;
+}
+
+.themkhoahoc .custom-outline {
+    background-color: white;
+    border: 2px solid #16203b;
+    color: #16203b;
+    transition: all 0.3s ease;
+}
+
+.themkhoahoc .custom-outline:hover {
+    background-color: #16203b;
+    color: white;
+}

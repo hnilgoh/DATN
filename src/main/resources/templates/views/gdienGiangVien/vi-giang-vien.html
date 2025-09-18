@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Ví Giảng Viên</title>
+    </head>
+
+    <body>
+        <main class="vigiangvien">
+            <div id="toastContainer" class="position-fixed top-0 end-0 p-3"
+                style="z-index: 1055;"></div>
+
+            <div class="container mt-4">
+                <h2 class="vigiangvien-heading">
+                    <i class="fas fa-wallet me-2 vigiangvien-icon-vang"></i> Ví
+                    Giảng Viên
+                </h2>
+
+                <!-- Thông báo -->
+                <div th:if="${param.success}"
+                    class="alert alert-success mt-3">Yêu cầu rút tiền đã gửi
+                    thành công!</div>
+                <div th:if="${param.error}" class="alert alert-danger mt-3">Số
+                    tiền rút không hợp lệ hoặc vượt quá số dư!</div>
+
+                <div class="row mb-3">
+                    <!-- Số dư hiện tại -->
+                    <div class="col-md-4">
+                        <div
+                            class="card shadow-sm border-0 h-100 rounded-4 bg-light-subtle">
+                            <div class="card-body text-center mt-3">
+                                <h6 class="text-muted">
+                                    <i
+                                        class="bi bi-wallet2 text-primary me-2"></i>
+                                    Số Dư Hiện Tại
+                                </h6>
+                                <h4 class="text-success fw-bold mb-5">
+                                    <i class="bi bi-cash-stack me-2"></i>
+                                    <span
+                                        th:text="${#numbers.formatDecimal(soDu, 0, 'COMMA', 0, 'POINT')}"></span>
+                                    VNĐ
+                                </h4>
+
+                                <!-- Bố cục hiển thị doanh thu và số lần nhận -->
+                                <div
+                                    class="d-flex justify-content-between mt-5">
+                                    <div
+                                        class="d-flex flex-column align-items-center">
+                                        <i
+                                            class="bi bi-cash-coin fs-4 text-success"></i>
+                                        <small class="text-muted mt-1">Doanh thu
+                                            tháng này</small>
+                                        <span class="fw-bold text-dark"
+                                            th:text="${#numbers.formatDecimal(tongThuThang, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></span>
+                                    </div>
+                                    <div
+                                        class="d-flex flex-column align-items-center">
+                                        <i
+                                            class="bi bi-hand-index-thumb fs-4 text-primary"></i>
+                                        <small class="text-muted mt-1">Số lần
+                                            nhận</small>
+                                        <span id="so-lan-nhan"
+                                            class="fw-bold text-dark"
+                                            th:text="${soLanNhanThang} + ' lượt'"
+                                            onclick="moModalLichSuNhanTien()"
+                                            style="cursor: pointer;"></span>
+                                    </div>
+                                </div>
+
+                                <button type="button"
+                                    class="btn btn-outline-success btn-sm mt-5"
+                                    onclick="moTabRutTien()">Rút tiền</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Lịch sử nhận tiền -->
+                    <div class="col-md-8">
+                        <div class="card h-100">
+                            <div class="card-header"> <i
+                                    class="fas fa-money-bill-wave me-2"></i>Lịch
+                                Sử Nhận Tiền</div>
+                            <div class="card-body d-flex flex-column"
+                                style="min-height: 350px;">
+                                <div class="flex-grow-1">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã</th>
+                                                <th>Số tiền</th>
+                                                <th>Ngày</th>
+                                                <th>Khóa học</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="lich-su-nhan-tien-body">
+                                            <tr
+                                                th:each="item : ${lichSuThuNhap}">
+                                                <td
+                                                    th:text="${item.doanhthuId}"></td>
+                                                <td
+                                                    th:text="${#numbers.formatDecimal(item.sotiennhan, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                                                <td
+                                                    th:text="${#temporals.format(item.ngaynhan, 'dd-MM-yyyy HH:mm')}"></td>
+                                                <td
+                                                    th:text="${item.dangHoc != null and item.dangHoc.khoahoc != null ? item.dangHoc.khoahoc.tenKhoaHoc : 'Không rõ'}"></td>
+                                            </tr>
+                                            <tr
+                                                th:if="${lichSuThuNhap.isEmpty()}">
+                                                <td colspan="4"
+                                                    class="text-center">Không có
+                                                    dữ liệu
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="pagination"
+                                    class="mt-3 d-flex justify-content-center flex-wrap gap-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" id="viTabs"
+                            role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="yeu-cau-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#yeu-cau" type="button"
+                                    role="tab" aria-controls="yeu-cau"
+                                    aria-selected="true"> <i
+                                        class="fas fa-hand-holding-usd me-2"></i>
+                                    Yêu cầu rút
+                                    tiền</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="lich-su-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#lich-su" type="button"
+                                    role="tab" aria-controls="lich-su"
+                                    aria-selected="false"><i
+                                        class="fas fa-clock me-2"></i>Lịch sử
+                                    rút
+                                    tiền</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="dang-cho-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#dang-cho" type="button"
+                                    role="tab" aria-controls="dang-cho"
+                                    aria-selected="false"> <i
+                                        class="fas fa-hourglass-half me-2"></i>
+                                    Yêu cầu đang chờ xử
+                                    lý</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body tab-content" id="viTabsContent">
+                        <!-- Tab 1: Yêu cầu rút tiền -->
+                        <div class="tab-pane fade show active" id="yeu-cau"
+                            role="tabpanel" aria-labelledby="yeu-cau-tab">
+                            <form id="formRutTien" onsubmit="return false;">
+                                <div class="mb-3">
+                                    <label class="form-label">Số tiền muốn rút
+                                        (tối thiểu 100.000 VNĐ)</label>
+                                    <input type="number" name="soTienRut"
+                                        class="form-control" min="100000"
+                                        required>
+                                </div>
+                                <button type="button" class="btn btn-success"
+                                    onclick="handleRutTien()">Gửi yêu
+                                    cầu</button>
+                            </form>
+                        </div>
+
+                        <!-- Tab 2: Lịch sử rút tiền -->
+                        <div class="tab-pane fade" id="lich-su" role="tabpanel"
+                            aria-labelledby="lich-su-tab">
+                            <table class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th><i class="fas fa-hashtag me-2"></i>
+                                            Mã
+                                        </th>
+                                        <th><i
+                                                class="fas fa-dollar-sign me-2"></i>
+                                            Số tiền</th>
+                                        <th><i
+                                                class="fas fa-calendar-alt me-2"></i>
+                                            Ngày
+                                        </th>
+                                        <th><i
+                                                class="fas fa-info-circle me-2"></i>
+                                            Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item : ${lichSuRutTien}">
+                                        <td th:text="${item.rutTienId}"></td>
+                                        <td
+                                            th:text="${#numbers.formatDecimal(item.soTienRut, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                                        <td
+                                            th:text="${#temporals.format(item.ngayrut, 'dd-MM-yyyy HH:mm')}"></td>
+                                        <td
+                                            th:switch="${item.trangthai.name()}">
+                                            <span th:case="'DANG_CHO_XU_LY'"
+                                                class="text-warning">Đang chờ xử
+                                                lý</span>
+                                            <span th:case="'THANH_CONG'"
+                                                class="text-success">Thành
+                                                công</span>
+                                            <span th:case="'TU_CHOI'"
+                                                class="text-danger">Từ
+                                                chối</span>
+                                            <span th:case="*">Không xác
+                                                định</span>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${lichSuRutTien.isEmpty()}">
+                                        <td colspan="4"
+                                            class="text-center">Không có dữ liệu
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Tab 3: Yêu cầu đang chờ xử lý -->
+                        <div class="tab-pane fade" id="dang-cho" role="tabpanel"
+                            aria-labelledby="dang-cho-tab">
+                            <table class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th><i class="fas fa-hashtag me-2"></i>
+                                            Mã
+                                        </th>
+                                        <th><i
+                                                class="fas fa-dollar-sign me-2"></i>
+                                            Số tiền</th>
+                                        <th><i
+                                                class="fas fa-calendar-alt me-2"></i>
+                                            Ngày
+                                        </th>
+                                        <th><i
+                                                class="fas fa-info-circle me-2"></i>
+                                            Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item : ${yeuCauDangXuLy}">
+                                        <td th:text="${item.rutTienId}"></td>
+                                        <td
+                                            th:text="${#numbers.formatDecimal(item.soTienRut, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                                        <td
+                                            th:text="${#temporals.format(item.ngayrut, 'dd-MM-yyyy HH:mm')}"></td>
+                                        <td
+                                            th:switch="${item.trangthai.name()}">
+                                            <span th:case="'DANG_CHO_XU_LY'"
+                                                class="text-warning">Đang chờ xử
+                                                lý</span>
+                                            <span th:case="'THANH_CONG'"
+                                                class="text-success">Thành
+                                                công</span>
+                                            <span th:case="'TU_CHOI'"
+                                                class="text-danger">Từ
+                                                chối</span>
+                                            <span th:case="*">Không xác
+                                                định</span>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${yeuCauDangXuLy.isEmpty()}">
+                                        <td colspan="4"
+                                            class="text-center">Không có yêu cầu
+                                            nào đang xử lý</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Nhập Thông Tin Ngân Hàng -->
+                <div class="modal fade" id="modalSTK" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Nhập thông tin ngân hàng
+                                </h5>
+                            </div>
+                            <div class="modal-body">
+                                <input id="soTaiKhoan" type="text"
+                                    class="form-control mb-2"
+                                    placeholder="Số tài khoản" required>
+                                <input list="dsNganHang" id="tenNganHang"
+                                    class="form-control mb-2"
+                                    placeholder="Nhập hoặc chọn ngân hàng"
+                                    required>
+                                <datalist id="dsNganHang">
+                                    <option
+                                        value="Vietcombank (Ngân hàng TMCP Ngoại thương Việt Nam)">
+                                        <option
+                                            value="VietinBank (Ngân hàng TMCP Công Thương Việt Nam)">
+                                            <option
+                                                value="BIDV (Ngân hàng TMCP Đầu tư và Phát triển Việt Nam)">
+                                                <option
+                                                    value="Agribank (Ngân hàng Nông nghiệp và Phát triển Nông thôn)">
+                                                    <option
+                                                        value="Techcombank (Ngân hàng TMCP Kỹ Thương Việt Nam)">
+                                                        <option
+                                                            value="ACB (Ngân hàng TMCP Á Châu)">
+                                                        </datalist>
+
+                                                        <!-- ✅ Nút đổi ngân hàng NẰM NGOÀI datalist -->
+                                                        <div
+                                                            class="text-end mt-1">
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-link p-0 mt-2"
+                                                                onclick="moModalDoiSTK()">Đổi
+                                                                tài khoản ngân
+                                                                hàng</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                            class="btn btn-primary"
+                                                            onclick="submitThongTinNganHang()">Lưu</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal Đổi STK -->
+                                        <div class="modal fade" id="modalDoiSTK"
+                                            tabindex="-1">
+                                            <div
+                                                class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5
+                                                            class="modal-title">Đổi
+                                                            tài khoản ngân hàng
+                                                        </h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input
+                                                            id="doi_soTaiKhoan"
+                                                            type="text"
+                                                            class="form-control mb-2"
+                                                            placeholder="Số tài khoản mới"
+                                                            required>
+                                                        <input list="dsNganHang"
+                                                            id="doi_tenNganHang"
+                                                            class="form-control mb-2"
+                                                            placeholder="Nhập hoặc chọn ngân hàng mới"
+                                                            required>
+                                                        <datalist
+                                                            id="dsNganHang">
+                                                            <option
+                                                                value="Vietcombank (Ngân hàng TMCP Ngoại thương Việt Nam)">
+                                                                <option
+                                                                    value="VietinBank (Ngân hàng TMCP Công Thương Việt Nam)">
+                                                                    <option
+                                                                        value="BIDV (Ngân hàng TMCP Đầu tư và Phát triển Việt Nam)">
+                                                                        <option
+                                                                            value="Agribank (Ngân hàng Nông nghiệp và Phát triển Nông thôn)">
+                                                                            <option
+                                                                                value="Techcombank (Ngân hàng TMCP Kỹ Thương Việt Nam)">
+                                                                                <option
+                                                                                    value="ACB (Ngân hàng TMCP Á Châu)">
+                                                                                </datalist>
+                                                                            </div>
+                                                                            <div
+                                                                                class="modal-footer">
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="btn btn-primary"
+                                                                                    onclick="xacNhanDoiSTK()">Xác
+                                                                                    nhận</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Modal Nhập OTP -->
+                                                                <div
+                                                                    class="modal fade"
+                                                                    id="modalOTP"
+                                                                    tabindex="-1">
+                                                                    <div
+                                                                        class="modal-dialog modal-dialog-centered">
+                                                                        <div
+                                                                            class="modal-content">
+                                                                            <div
+                                                                                class="modal-header">
+                                                                                <h5
+                                                                                    class="modal-title">Xác
+                                                                                    thực
+                                                                                    OTP
+                                                                                </h5>
+                                                                            </div>
+                                                                            <div
+                                                                                class="modal-body">
+                                                                                <input
+                                                                                    id="otp"
+                                                                                    type="text"
+                                                                                    class="form-control mb-2"
+                                                                                    placeholder="Nhập mã OTP vừa nhận qua email">
+
+                                                                                <!-- 🔒 Thêm cảnh báo nổi bật -->
+                                                                                <div
+                                                                                    class="otp-alert mt-3">
+                                                                                    <span
+                                                                                        class="otp-icon">🔒</span>
+                                                                                    <span
+                                                                                        class="otp-text">Mã
+                                                                                        OTP
+                                                                                        chỉ
+                                                                                        được
+                                                                                        sử
+                                                                                        dụng
+                                                                                        <b>một
+                                                                                            lần
+                                                                                            duy
+                                                                                            nhất</b>.
+                                                                                        Không
+                                                                                        chia
+                                                                                        sẻ
+                                                                                        với
+                                                                                        bất
+                                                                                        kỳ
+                                                                                        ai.</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="modal-footer">
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="btn btn-primary"
+                                                                                    onclick="submitOTP()">Xác
+                                                                                    nhận</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <script
+                                                                th:inline="javascript">
+            const giangVienId = /*[[${giangvienId}]]*/ 0;
+            let soTaiKhoan = '';
+            let tenNganHang = '';
+            let isFirstTime = true;
+            let isChangingBankInfo = false; // ✅ THÊM BIẾN NÀY
+
+            $(document).ready(function() {
+                fetch('/giangvien/vi-giang-vien/thong-tin-ngan-hang')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data.soTaiKhoan && data.tenNganHang) {
+                            isFirstTime = false;
+                            soTaiKhoan = data.soTaiKhoan;
+                            tenNganHang = data.tenNganHang;
+
+                            $('#soTaiKhoan').val(soTaiKhoan).prop('readonly', true);
+                            $('#tenNganHang').val(tenNganHang).prop('readonly', true);
+                        } else {
+                            isFirstTime = true;
+                            $('#soTaiKhoan').val('').prop('readonly', false);
+                            $('#tenNganHang').val('').prop('readonly', false);
+                        }
+                    });
+
+                $('#modalOTP').on('show.bs.modal', function() {
+                    $('#otp').val('');
+                });
+            });
+
+            // ✅ MỞ FORM RÚT TIỀN
+            function handleRutTien() {
+                const soTienRut = $("input[name='soTienRut']").val();
+                if (!soTienRut || soTienRut < 100000) {
+                    showToast('Số tiền rút tối thiểu là 100.000 VNĐ', false);
+                    return;
+                }
+
+                isChangingBankInfo = false; // không phải đang đổi STK
+                $('#modalSTK').modal('show');
+            }
+
+            // ✅ LƯU STK và GỬI OTP TÙY THEO TRẠNG THÁI
+            function submitThongTinNganHang() {
+                soTaiKhoan = $('#soTaiKhoan').val();
+                tenNganHang = $('#tenNganHang').val();
+                if (!soTaiKhoan || !tenNganHang) {
+                    showToast('Vui lòng nhập đầy đủ số tài khoản và tên ngân hàng!', false);
+                    return;
+                }
+
+                $('#modalSTK').modal('hide');
+                $('#modalOTP').modal('show');
+
+                const url = isChangingBankInfo ?
+                    '/giangvien/vi-giang-vien/gui-otp-doi-stk' // nếu đổi STK → gửi OTP riêng nếu cần
+                    :
+                    '/giangvien/vi-giang-vien/gui-otp';
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        soTaiKhoan,
+                        tenNganHang
+                    })
+                }).then(res => {
+                    if (!res.ok) {
+                        showToast('Không gửi được mã xác thực! Vui lòng thử lại.', false);
+                        $('#modalOTP').modal('hide');
+                    }
+                });
+            }
+
+            // ✅ XÁC NHẬN OTP
+            function submitOTP() {
+                const otp = $('#otp').val();
+                const soTienRut = $("input[name='soTienRut']").val();
+
+                if (!otp) {
+                    showToast('Vui lòng nhập mã xác thực!', false);
+                    return;
+                }
+
+                if (isChangingBankInfo) {
+                    fetch('/giangvien/vi-giang-vien/cap-nhat-ngan-hang', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            giangVienId,
+                            soTaiKhoan,
+                            tenNganHang,
+                            otp
+                        })
+                    }).then(res => {
+                        $('#modalOTP').modal('hide');
+                        if (res.ok) {
+                            showToast('Cập nhật tài khoản ngân hàng thành công!', true);
+                            $('#soTaiKhoan').val(soTaiKhoan).prop('readonly', true);
+                            $('#tenNganHang').val(tenNganHang).prop('readonly', true);
+                            isChangingBankInfo = false;
+                        } else {
+                            showToast('Cập nhật thất bại!', false);
+                        }
+                    });
+                } else {
+                    fetch('/giangvien/vi-giang-vien/xac-thuc-otp', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            soTaiKhoan,
+                            tenNganHang,
+                            soTienRut,
+                            otp
+                        })
+                    }).then(async res => {
+                        $('#modalOTP').modal('hide');
+                        if (res.ok) {
+                            showToast('✅ Yêu cầu rút tiền đã xác thực! Hệ thống sẽ xử lý trong vòng 24h.', true);
+
+                            // ✅ Xóa input rút tiền cho sạch form lại
+                            $("input[name='soTienRut']").val('');
+                        } else {
+                            const msg = await res.text();
+                            showToast(msg || 'Mã xác thực không đúng hoặc đã hết hạn!', false);
+                        }
+                    });
+                }
+            }
+
+
+            // ✅ CHO PHÉP ĐỔI THÔNG TIN STK
+            function choPhepDoiThongTin() {
+                isChangingBankInfo = true;
+                $('#soTaiKhoan').prop('readonly', false).val('').focus();
+                $('#tenNganHang').prop('readonly', false).val('');
+            }
+
+
+            // Mở modal đổi tài khoản
+            function moModalDoiSTK() {
+                $('#modalDoiSTK').modal('show');
+            }
+
+            // Khi bấm xác nhận đổi STK → gửi OTP đổi STK
+            function xacNhanDoiSTK() {
+                const stkMoi = $('#doi_soTaiKhoan').val();
+                const bankMoi = $('#doi_tenNganHang').val();
+
+                if (!stkMoi || !bankMoi) {
+                    showToast('Vui lòng nhập đầy đủ thông tin!', false);
+                    return;
+                }
+
+                isChangingBankInfo = true;
+                soTaiKhoan = stkMoi;
+                tenNganHang = bankMoi;
+
+                $('#modalDoiSTK').modal('hide');
+                $('#modalOTP').modal('show');
+
+                fetch('/giangvien/vi-giang-vien/gui-otp-doi-stk', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        soTaiKhoan,
+                        tenNganHang
+                    })
+                }).then(res => {
+                    if (!res.ok) {
+                        showToast('Không gửi được mã xác thực!', false);
+                        $('#modalOTP').modal('hide');
+                    }
+                });
+            }
+
+            function showToast(message, isSuccess = true) {
+                const toastId = `toast-${Date.now()}`;
+                const toastHtml = `
+                <div id="${toastId}" class="toast align-items-center text-white ${isSuccess ? 'bg-success' : 'bg-danger'} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                </div>`;
+                $('#toastContainer').append(toastHtml);
+
+                // Tự đóng sau 5s
+                setTimeout(() => {
+                    $(`#${toastId}`).remove();
+                }, 5000);
+            }
+        </script>
+
+                                                            <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const rowsPerPage = 5;
+                const tbody = document.getElementById("lich-su-nhan-tien-body");
+                const rows = Array.from(tbody.querySelectorAll("tr"));
+                const pagination = document.getElementById("pagination");
+
+                function showPage(page) {
+                    const start = (page - 1) * rowsPerPage;
+                    const end = start + rowsPerPage;
+
+                    rows.forEach((row, index) => {
+                        row.style.display = index >= start && index < end ? "" : "none";
+                    });
+
+                    renderPagination(page);
+                }
+
+                function renderPagination(currentPage) {
+                    const totalPages = Math.ceil(rows.length / rowsPerPage);
+                    pagination.innerHTML = '';
+
+                    if (totalPages <= 1) return;
+
+                    function createButton(page) {
+                        const btn = document.createElement("button");
+                        btn.className = `btn btn-sm ${page === currentPage ? 'btn-primary' : 'btn-outline-primary'}`;
+                        btn.textContent = page;
+                        btn.style.minWidth = "25px";
+                        btn.style.padding = "2px 6px";
+                        btn.style.fontSize = "12px";
+                        btn.addEventListener("click", () => showPage(page));
+                        pagination.appendChild(btn);
+                    }
+
+                    function createEllipsis() {
+                        const span = document.createElement("span");
+                        span.textContent = "...";
+                        span.className = "mx-1";
+                        pagination.appendChild(span);
+                    }
+
+                    // Luôn hiện trang 1
+                    createButton(1);
+
+                    // Hiện dấu ... nếu currentPage > 4
+                    if (currentPage > 4) {
+                        createEllipsis();
+                    }
+
+                    // Xác định khoảng nút ở giữa
+                    const startPage = Math.max(2, currentPage - 2);
+                    const endPage = Math.min(totalPages - 1, currentPage + 2);
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        createButton(i);
+                    }
+
+                    // Hiện dấu ... nếu currentPage < totalPages -3
+                    if (currentPage < totalPages - 3) {
+                        createEllipsis();
+                    }
+
+                    // Luôn hiện trang cuối nếu >1
+                    if (totalPages > 1) {
+                        createButton(totalPages);
+                    }
+                }
+
+                if (rows.length > 0) {
+                    showPage(1);
+                }
+            });
+        </script>
+
+                                                            <script>
+            function moTabRutTien() {
+                // Kích hoạt tab "Yêu cầu rút tiền"
+                const tabTrigger = document.querySelector('#yeu-cau-tab');
+                const tab = new bootstrap.Tab(tabTrigger);
+                tab.show();
+
+                // Cuộn xuống vị trí tab
+                document.getElementById("yeu-cau").scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
+        </script>
+
+                                                            <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                document.querySelector(".vigiangvien").classList.add("loaded");
+            });
+        </script>
+                                                        </main>
+                                                    </body>
+
+                                                </html>

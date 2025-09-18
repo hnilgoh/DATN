@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Quản lý yêu cầu rút tiền</title>
+    </head>
+
+    <body>
+        <main class="yeucauruttien">
+            <div class="container mt-4">
+                <div class="card mt-3">
+                    <!-- Header -->
+                    <div class="tabs-header">
+                        <h2 class="tabs-title">
+                            <i class="fas fa-tasks me-2"></i> Quản lý yêu cầu
+                            rút tiền
+                        </h2>
+                        <p class="tabs-subtitle">Theo dõi và xử lý các yêu cầu
+                            của hệ thống</p>
+                    </div>
+                    <div class="card-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-tabs-custom" id="tabYeuCau"
+                            role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="dangcho-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#dangcho" type="button"
+                                    role="tab" aria-controls="dangcho"
+                                    aria-selected="true">
+                                    <span class="status-icon status-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </span>
+                                    Đang chờ xử lý
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="thanhcong-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#thanhcong" type="button"
+                                    role="tab" aria-controls="thanhcong"
+                                    aria-selected="false">
+                                    <span class="status-icon status-success">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    Thành công
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tuchoi-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#tuchoi" type="button"
+                                    role="tab" aria-controls="tuchoi"
+                                    aria-selected="false">
+                                    <span class="status-icon status-rejected">
+                                        <i class="fas fa-times"></i>
+                                    </span>
+                                    Từ chối
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab content -->
+                        <div class="tab-content mt-3" id="tabYeuCauContent">
+
+                            <!-- Đang chờ xử lý -->
+                            <div class="tab-pane fade show active" id="dangcho"
+                                role="tabpanel" aria-labelledby="dangcho-tab">
+                                <div class="card shadow-lg border-0 rounded-4">
+                                    <div class="card-body p-0">
+                                        <table class="table custom-table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th><i
+                                                            class="fas fa-hashtag me-1 text-primary"></i>
+                                                        Mã</th>
+                                                    <th><i
+                                                            class="fas fa-chalkboard-teacher me-1 text-success"></i>
+                                                        Tên giảng viên</th>
+                                                    <th><i
+                                                            class="fas fa-user me-1 text-info"></i>
+                                                        Chủ tài khoản</th>
+                                                    <th><i
+                                                            class="fas fa-wallet me-1 text-warning"></i>
+                                                        Số tiền rút</th>
+                                                    <th><i
+                                                            class="fas fa-calendar-alt me-1 text-danger"></i>
+                                                        Ngày yêu cầu</th>
+                                                    <th><i
+                                                            class="fas fa-clipboard-check me-1 text-success"></i>
+                                                        Trạng thái</th>
+                                                    <th><i
+                                                            class="fas fa-cogs me-1 text-dark"></i>
+                                                        Hành động</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr
+                                                    th:each="item : ${danhSachDangCho}">
+                                                    <td
+                                                        th:text="${item.rutTienId}"></td>
+                                                    <td
+                                                        th:text="${item.tenGiangVien}"></td>
+                                                    <td
+                                                        th:text="${item.tenGiangVien}"></td>
+                                                    <td
+                                                        class="fw-bold text-success"
+                                                        th:text="${#numbers.formatDecimal(item.soTienRut, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                                                    <td
+                                                        th:text="${#temporals.format(item.ngayrut, 'dd-MM-yyyy HH:mm')}"></td>
+                                                    <td>
+                                                        <span
+                                                            class="badge bg-warning text-dark px-3 py-2 rounded-pill shadow-sm">
+                                                            Đang chờ xử lý
+                                                        </span>
+                                                    </td>
+                                                    <td class="d-flex gap-2">
+                                                        <!-- ADMIN -->
+                                                        <form
+                                                            th:action="@{'/admin/yeu-cau-rut-tien/' + ${item.rutTienId} + '/duyet'}"
+                                                            method="post"
+                                                            th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                                                            <button
+                                                                type="submit"
+                                                                class="btn btn-success btn-sm action-btn">
+                                                                <i
+                                                                    class="fas fa-check"></i>
+                                                                Đồng ý
+                                                            </button>
+                                                        </form>
+                                                        <form
+                                                            th:action="@{'/admin/yeu-cau-rut-tien/' + ${item.rutTienId} + '/tuchoi'}"
+                                                            method="post"
+                                                            th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                                                            <button
+                                                                type="submit"
+                                                                class="btn btn-danger btn-sm action-btn">
+                                                                <i
+                                                                    class="fas fa-times"></i>
+                                                                Từ chối
+                                                            </button>
+                                                        </form>
+
+                                                        <!-- NHÂN VIÊN -->
+                                                        <form
+                                                            th:action="@{'/nhanvien/yeu-cau-rut-tien/' + ${item.rutTienId} + '/duyet'}"
+                                                            method="post"
+                                                            th:if="${#authorization.expression('hasRole(''NHANVIEN'')')}">
+                                                            <button
+                                                                type="submit"
+                                                                class="btn btn-success btn-sm action-btn">
+                                                                <i
+                                                                    class="fas fa-check"></i>
+                                                                Đồng ý
+                                                            </button>
+                                                        </form>
+                                                        <form
+                                                            th:action="@{'/nhanvien/yeu-cau-rut-tien/' + ${item.rutTienId} + '/tuchoi'}"
+                                                            method="post"
+                                                            th:if="${#authorization.expression('hasRole(''NHANVIEN'')')}">
+                                                            <button
+                                                                type="submit"
+                                                                class="btn btn-danger btn-sm action-btn">
+                                                                <i
+                                                                    class="fas fa-times"></i>
+                                                                Từ chối
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <tr
+                                                    th:if="${danhSachDangCho.isEmpty()}">
+                                                    <td colspan="7"
+                                                        class="text-center py-4 text-muted">
+                                                        <i
+                                                            class="fas fa-inbox me-2"></i>Không
+                                                        có yêu cầu nào
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Thành công -->
+                            <div class="tab-pane fade" id="thanhcong"
+                                role="tabpanel" aria-labelledby="thanhcong-tab">
+                                <div class="card shadow-lg border-0 rounded-4">
+                                    <div class="card-body p-0">
+                                        <table
+                                            class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th><i
+                                                            class="fas fa-hashtag me-1 text-primary"></i>
+                                                        Mã
+                                                    </th>
+                                                    <th><i
+                                                            class="fas fa-chalkboard-teacher me-1 text-success"></i>
+                                                        Tên giảng viên</th>
+                                                    <th><i
+                                                            class="fas fa-user me-1 text-info"></i>
+                                                        Chủ tài khoản</th>
+                                                    <th><i
+                                                            class="fas fa-wallet me-1 text-warning"></i>
+                                                        Số tiền rút</th>
+                                                    <th><i
+                                                            class="fas fa-calendar-alt me-1 text-danger"></i>
+                                                        Ngày yêu cầu</th>
+                                                    <th><i
+                                                            class="fas fa-clipboard-check me-1 text-success"></i>
+                                                        Trạng thái</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr
+                                                    th:each="item : ${danhSachThanhCong}">
+                                                    <td
+                                                        th:text="${item.rutTienId}"></td>
+                                                    <td
+                                                        th:text="${item.tenGiangVien}"></td>
+                                                    <td
+                                                        th:text="${item.tenGiangVien}"></td>
+                                                    <td
+                                                        th:text="${#numbers.formatDecimal(item.soTienRut, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                                                    <td
+                                                        th:text="${#temporals.format(item.ngayrut, 'dd-MM-yyyy HH:mm')}"></td>
+                                                    <td><span
+                                                            class="text-success">Thành
+                                                            công</span></td>
+                                                </tr>
+                                                <tr
+                                                    th:if="${danhSachThanhCong.isEmpty()}">
+                                                    <td colspan="7"
+                                                        class="text-center">Không
+                                                        có yêu cầu nào
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Từ chối -->
+                            <div class="tab-pane fade" id="tuchoi"
+                                role="tabpanel" aria-labelledby="tuchoi-tab">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th><i
+                                                    class="fas fa-hashtag me-1 text-primary"></i>
+                                                Mã
+                                            </th>
+                                            <th><i
+                                                    class="fas fa-chalkboard-teacher me-1 text-success"></i>
+                                                Tên giảng viên</th>
+                                            <th><i
+                                                    class="fas fa-user me-1 text-info"></i>
+                                                Chủ tài khoản</th>
+                                            <th><i
+                                                    class="fas fa-wallet me-1 text-warning"></i>
+                                                Số tiền rút</th>
+                                            <th><i
+                                                    class="fas fa-calendar-alt me-1 text-danger"></i>
+                                                Ngày yêu cầu</th>
+                                            <th><i
+                                                    class="fas fa-clipboard-check me-1 text-success"></i>
+                                                Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="item : ${danhSachTuChoi}">
+                                            <td
+                                                th:text="${item.rutTienId}"></td>
+                                            <td
+                                                th:text="${item.tenGiangVien}"></td>
+                                            <td
+                                                th:text="${item.tenGiangVien}"></td>
+                                            <td
+                                                th:text="${#numbers.formatDecimal(item.soTienRut, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                                            <td
+                                                th:text="${#temporals.format(item.ngayrut, 'dd-MM-yyyy HH:mm')}"></td>
+                                            <td><span class="text-danger">Từ
+                                                    chối</span></td>
+                                        </tr>
+                                        <tr th:if="${danhSachTuChoi.isEmpty()}">
+                                            <td colspan="7"
+                                                class="text-center">Không có yêu
+                                                cầu nào
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal xác nhận -->
+            <div class="modal fade" id="confirmModal" tabindex="-1"
+                aria-labelledby="confirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmModalLabel">Xác
+                                nhận hành động</h5>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn thực hiện hành động này?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-primary"
+                                id="confirmBtn">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="position-fixed bottom-0 end-0 p-3"
+                style="z-index: 1100">
+                <div id="liveToast"
+                    class="toast align-items-center text-bg-success border-0"
+                    role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            Hành động đã thực hiện thành công!
+                        </div>
+                        <button type="button"
+                            class="btn-close btn-close-white me-2 m-auto"
+                            data-bs-dismiss="toast" aria-label="Đóng"></button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                let formToSubmit = null;
+                const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+                const confirmBtn = document.getElementById('confirmBtn');
+
+                // Khi bấm nút Đồng ý hoặc Từ chối
+                document.querySelectorAll('.confirm-action').forEach(button => {
+                    button.addEventListener('click', function() {
+                        formToSubmit = this.closest('form'); // lấy form chứa nút
+                        confirmModal.show();
+                    });
+                });
+
+                // Khi xác nhận trong modal
+                confirmBtn.addEventListener('click', function() {
+                    if (formToSubmit) {
+                        formToSubmit.submit();
+                        confirmModal.hide();
+                    }
+                });
+            });
+        </script>
+
+            <div th:if="${msg == 'success'}">
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const toastEl = document.getElementById('liveToast');
+                    toastEl.querySelector('.toast-body').textContent = 'Duyệt yêu cầu thành công!';
+                    const toast = new bootstrap.Toast(toastEl);
+                    toast.show();
+                });
+            </script>
+            </div>
+            <div th:if="${msg == 'rejected'}">
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const toastEl = document.getElementById('liveToast');
+                    toastEl.querySelector('.toast-body').textContent = 'Từ chối yêu cầu thành công!';
+                    const toast = new bootstrap.Toast(toastEl);
+                    toast.show();
+                });
+            </script>
+            </div>
+
+        </main>
+    </body>
+
+</html>

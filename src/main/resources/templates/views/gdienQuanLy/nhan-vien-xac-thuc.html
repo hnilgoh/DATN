@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Thiết lập mật khẩu</title>
+    </head>
+
+    <body>
+        <main class="nhanvienxacthuc">
+            <div class="form-wrapper">
+                <h2><i class="fa-solid fa-lock"></i>Chào mừng bạn!</h2>
+                <p class="text-muted text-center mb-3">Hãy thiết lập mật khẩu để
+                    bắt đầu sử dụng hệ thống</p>
+
+                <form id="formXacThuc" th:if="${token}" method="post"
+                    th:action="@{/xacthuc}">
+                    <input type="hidden" name="token" th:value="${token}" />
+
+                    <div class="mb-0">
+                        <label for="password" class="form-label">Thiết lập mật
+                            khẩu:</label>
+                        <input type="password" name="password" id="password"
+                            required class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Xác nhận
+                            lại mật khẩu:</label>
+                        <input type="password" name="confirmPassword"
+                            id="confirmPassword" required class="form-control">
+                    </div>
+
+                    <div id="passwordError" class="text-danger mb-3"
+                        style="display: none;"></div>
+
+                    <button type="submit" class="btn">Xác nhận</button>
+                </form>
+            </div>
+
+            <!-- ✅ MODAL THÀNH CÔNG -->
+            <div class="modal fade" id="modalThanhCong" tabindex="-1"
+                aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-center">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Thông báo
+                            </h5>
+                        </div>
+                        <div class="modal-body">
+                            <p th:text="${message}">Thiết lập mật khẩu thành
+                                công! Bạn có thể đăng nhập.</p>
+                            <p>Bạn sẽ được chuyển đến trang đăng nhập sau
+                                <strong>5</strong> giây.
+                            </p>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <a class="btn btn-primary"
+                                href="/auth/dangnhap">Đăng nhập ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            document.getElementById("formXacThuc").addEventListener("submit", function(event) {
+                const password = document.getElementById("password").value;
+                const confirmPassword = document.getElementById("confirmPassword").value;
+                const errorDiv = document.getElementById("passwordError");
+
+                const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+                const uppercaseRegex = /[A-Z]/;
+
+                let errorMessage = "";
+
+                if (password.length < 6) {
+                    errorMessage = "Mật khẩu phải có ít nhất 6 ký tự.";
+                } else if (!specialCharRegex.test(password)) {
+                    errorMessage = "Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt.";
+                } else if (!uppercaseRegex.test(password)) {
+                    errorMessage = "Mật khẩu phải chứa ít nhất 1 chữ cái viết hoa.";
+                } else if (password !== confirmPassword) {
+                    errorMessage = "Mật khẩu và xác nhận mật khẩu không trùng khớp.";
+                }
+
+                if (errorMessage !== "") {
+                    event.preventDefault(); // Ngăn không cho gửi form
+                    errorDiv.textContent = errorMessage;
+                    errorDiv.style.display = "block";
+                } else {
+                    errorDiv.style.display = "none";
+                }
+            });
+        </script>
+
+            <script th:inline="javascript">
+            /*<![CDATA[*/
+            document.addEventListener("DOMContentLoaded", function() {
+                let message = /*[[${message}]]*/ null;
+                if (message !== null && message !== '') {
+                    const modalElement = document.getElementById('modalThanhCong');
+                    if (modalElement && typeof bootstrap !== 'undefined') {
+                        const modal = new bootstrap.Modal(modalElement);
+                        modal.show();
+
+                        setTimeout(() => {
+                            window.location.href = "/auth/dangnhap";
+                        }, 5000);
+                    } else {
+                        console.warn("Bootstrap chưa load hoặc không tìm thấy modal.");
+                    }
+                }
+            });
+            /*]]>*/
+        </script>
+
+            <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+        </main>
+    </body>
+
+</html>

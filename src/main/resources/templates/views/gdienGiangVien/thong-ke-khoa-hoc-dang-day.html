@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Khóa học đang dạy</title>
+    </head>
+
+    <body>
+        <main class="khoahocdangday">
+            <h3>Danh sách khóa học đang dạy (Đã xuất bản)</h3>
+
+            <a onclick="history.back()" class="back-button">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+
+            <div class="course-grid">
+                <div class="course-card" th:each="khoa : ${danhSachKhoaHoc}">
+                    <img class="card-img-top" th:src="${khoa.anhBia}"
+                        alt="Ảnh khoá học" />
+                    <div class="course-title" th:text="${khoa.tenKhoaHoc}">Tên
+                        khóa học</div>
+
+                    <div class="mb-3 giakhoahoc">
+                        <p
+                            th:if="${khoa.giaKhuyenMai != null and khoa.giaKhuyenMai.doubleValue() > 0}"
+                            class="card-text mb-0">
+                            <span class="fw-bold text-danger me-2"
+                                th:text="${#numbers.formatDecimal(khoa.giaKhuyenMai, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                            <del class="text-muted"
+                                th:text="${#numbers.formatDecimal(khoa.giagoc, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></del>
+                        </p>
+                        <p
+                            th:if="${khoa.giaKhuyenMai == null or khoa.giaKhuyenMai.doubleValue() == 0}"
+                            class="card-text fw-bold mb-0">
+                            <span
+                                th:text="${#numbers.formatDecimal(khoa.giagoc, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                        </p>
+                    </div>
+                    <div class="course-meta-row">
+                        <div class="course-status">Đã xuất bản</div>
+                        <div class="course-info">
+                            <i class="fa-solid fa-calendar-day"></i>
+                            <span
+                                th:text="${#temporals.format(khoa.ngayTao, 'dd/MM/yyyy')}">01/01/2024</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

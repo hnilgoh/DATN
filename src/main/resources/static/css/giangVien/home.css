@@ -1,0 +1,420 @@
+.home .add-new {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.home .btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.home .btn-add:hover {
+    background-color: #218838;
+}
+
+.home .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+
+/* Thẻ thống kê */
+
+.home .stat-card2 {
+    background-color: #ffffff;
+    padding: 30px 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    /* nhẹ nhàng hơn */
+    animation: fadeInUp 0.8s ease-in-out;
+}
+
+.home .stat-card2 i {
+    font-size: 36px;
+    color: #16203b;
+    margin-bottom: 12px;
+    transition: transform 0.3s ease;
+}
+
+.home .stat-card2:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fc;
+}
+
+.home .stat-card2:hover i {
+    transform: scale(1.1);
+    color: #13c71c;
+}
+
+.home .stat-card2:hover h2 {
+    transform: scale(1.1);
+    color: #13c71c;
+}
+
+.home .stat-card2:hover p {
+    transform: scale(1.1);
+    color: #13c71c;
+}
+
+.home .stat-card2 h2 {
+    font-size: 28px;
+    color: #16203b;
+    margin: 10px 0 5px;
+}
+
+.home .stat-card2 p {
+    font-size: 16px;
+    color: #555;
+    margin: 0;
+}
+
+.home .hover-zoom {
+    transition: transform 0.3s ease;
+}
+
+.home .hover-zoom:hover {
+    transform: translateY(-5px) scale(1.02);
+}
+
+.home section {
+    padding-top: 50px;
+}
+
+
+/* Tùy chọn grid 5 cột nếu đủ độ rộng */
+
+@media (min-width: 1400px) {
+    .col-xl-1-5 {
+        flex: 0 0 auto;
+        width: 20%;
+    }
+}
+
+.home .khoa-hoc-wrapper {
+    position: relative;
+}
+
+.home .khoa-hoc-horizontal-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.home .khoa-hoc-horizontal-scroll::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
+}
+
+.home .khoa-hoc-card {
+    flex: 0 0 auto;
+    width: 250px;
+    scroll-snap-align: start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 7px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    /* Bố cục flex để đẩy footer xuống dưới */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100%;
+}
+
+.home .khoa-hoc-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.home .khoa-hoc-card img {
+    height: 160px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.home .khoa-hoc-card .card-body {
+    padding: 1rem;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.home .khoa-hoc-card .card-text {
+    font-size: 14px;
+    text-align: center;
+    padding-top: 4px;
+}
+
+
+/* Dùng lại class đúng theo tên bạn đang dùng */
+
+.home .khoa-hoc-card .card-title {
+    font-size: 14px;
+    line-height: 1.4;
+    max-height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    min-height: 3em;
+    margin-bottom: 0.3rem;
+    text-align: center;
+}
+
+.home .khoa-hoc-card .card-footer {
+    background-color: #fafafa;
+    padding: 0.5rem 1rem;
+    border-top: 1px solid #eee;
+    margin-top: auto;
+}
+
+.home .khoa-hoc-horizontal-scroll {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1rem;
+    padding: 1rem 2.5rem;
+    scrollbar-width: none;
+}
+
+.home .custom-carousel-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.06);
+    /* Ẩn nền */
+    transition: all 0.3s ease;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: none;
+    /* Xóa bóng nếu có */
+    padding: 5px 0px;
+}
+
+
+/* Hiệu ứng khi hover */
+
+.home .custom-carousel-btn:hover {
+    transform: translateY(-50%) scale(1.1);
+    background-color: rgba(58, 53, 53, 0.09);
+    /* Nền mờ nhẹ khi hover, hoặc bỏ nếu không cần */
+}
+
+
+/* Hiệu ứng khi bấm */
+
+.home .custom-carousel-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.home .khoa-hoc-nhap {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.home .khoa-hoc-nhap:hover {
+    background-color: #f0f9ff;
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1);
+}
+
+
+/* Khóa học chờ duyệt - hiệu ứng hover */
+
+.home .khoa-hoc-cho-duyet {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.home .khoa-hoc-cho-duyet:hover {
+    background-color: #fffbe6;
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(255, 193, 7, 0.2);
+}
+
+
+/* ================= Empty State ================= */
+
+.home .empty-state {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    color: white;
+    margin: 40px 0;
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.home .empty-state::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+}
+
+.home .empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.home .empty-state h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.home .empty-state p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.home .cta-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+
+/* Custom Buttons */
+
+.home .btn-primary-custom {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+}
+
+.home .btn-primary-custom:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
+    background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+}
+
+.home .btn-secondary-custom {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.home .btn-secondary-custom:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+    transform: translateY(-3px);
+}
+
+
+/* ================= Features Grid ================= */
+
+.home .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.home .feature-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #667eea;
+}
+
+.home .feature-card h4 {
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.home .feature-card p {
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .home .empty-state {
+        padding: 40px 20px;
+    }
+    .home .empty-state h2 {
+        font-size: 2rem;
+    }
+    .home .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    .home .btn-primary-custom,
+    .home .btn-secondary-custom {
+        width: 100%;
+        max-width: 300px;
+    }
+}

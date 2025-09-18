@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Header GlobalEdu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        /* Top bar */
+        
+        .top-bar {
+            background-color: #0b1c36;
+            color: white;
+            padding: 6px 20px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .top-bar h6 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        
+        .top-bar .contact {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            align-items: center;
+        }
+        
+        .top-bar .contact i {
+            margin-right: 5px;
+            color: #00bfff;
+        }
+        /* Header chính */
+        
+        .header-main {
+            background-color: #fff;
+            padding: 0 20px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.25);
+        }
+        
+        .logo-container img.logo-img {
+            height: 80px;
+            width: auto;
+            display: block;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 1px solid #414344;
+            display: block;
+            transition: transform 0.3s ease, box-shadow 0.3s;
+        }
+        
+        .avatar-link:hover .user-avatar {
+            transform: scale(1.06);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
+        }
+        
+        .icon-link.avatar-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Thanh tìm kiếm */
+        
+        .search-bar {
+            flex-grow: 1;
+            max-width: 400px;
+            margin: 0 20px;
+        }
+        
+        .search-wrapper {
+            position: relative;
+        }
+        
+        .search-wrapper input {
+            width: 100%;
+            border: 1px solid #c6c8c9 !important;
+            background-color: #ffffff;
+            padding: 6px 32px 6px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .search-wrapper input:focus {
+            outline: none;
+        }
+        
+        .search-wrapper i {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: gray;
+        }
+        /* Icon + text bên phải */
+        
+        .icon-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .icon-group i {
+            font-size: 18px;
+            color: #0b1c36;
+            cursor: pointer;
+        }
+        
+        .icon-group span {
+            font-size: 14px;
+            color: #0b1c36;
+        }
+        /* Nav dưới */
+        
+        nav.bottom-nav {
+            background-color: #0b1c36;
+            padding: 4px 20px;
+            display: flex;
+            align-items: center;
+            height: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .bottom-nav .menu-icon {
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+        
+        .bottom-nav .menu-container {
+            display: flex;
+            gap: 17px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .bottom-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        
+        .bottom-nav a:hover {
+            color: #0ea5e9;
+        }
+        
+        .bottom-nav a.active {
+            color: #0ea5e9;
+            border-bottom: 2px solid #0ea5e9;
+            padding-bottom: 2px;
+        }
+        
+        .icon-link {
+            text-decoration: none;
+            padding: 0px 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .search-bar {
+                display: none;
+            }
+        }
+        
+        .icon-group.guest-only {
+            gap: 12px;
+        }
+        
+        .icon-group.guest-only a {
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #cbd3dc;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: #0b1c36;
+            background-color: white;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        /* .icon-group.guest-only .icon-cart {
+            font-size: 18px;
+            padding: 0 6px;
+        } */
+        
+        .icon-group.guest-only .btn-dark {
+            background-color: #0b1c36;
+            color: white;
+            border: none;
+        }
+        
+        .icon-group.guest-only a:hover {
+            background-color: rgb(218, 216, 216);
+        }
+        
+        .icon-group.guest-only .btn-dark:hover {
+            background-color: #08142b;
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .avatar-link {
+            position: relative;
+        }
+        
+        .avatar-link .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background-color: #ffffff;
+            min-width: 200px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            padding: 10px 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .avatar-link:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .dropdown-menu .dropdown-item {
+            padding: 10px 18px;
+            font-size: 14px;
+            color: #1e293b;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.25s ease;
+        }
+        
+        .dropdown-menu .dropdown-item i {
+            width: 20px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #f0f9ff;
+            color: #0b1c36;
+            border-left: 4px solid #0ea5e9;
+        }
+        
+        .dropdown-menu hr.dropdown-divider {
+            margin: 6px 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .icon-link span {
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        
+        .icon-link:hover span {
+            color: #007bff;
+            text-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        
+        .dropdown-discover {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-discover .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            min-width: 180px;
+        }
+        
+        .dropdown-discover .dropdown-content a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+        
+        .dropdown-discover .dropdown-content a:hover {
+            background-color: #14164b;
+            color: white;
+        }
+        
+        .dropdown-discover:hover .dropdown-content {
+            display: block;
+        }
+        /* Gốc: icon không có viền, màu icon ban đầu giữ nguyên */
+        
+        .icon-link i.fa-shopping-cart:hover {
+            color: #0ea5e9;
+        }
+        
+        .icon-link i.fa-bell:hover {
+            color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top bar -->
+    <div class="top-bar">
+        <h6><i>Chào mừng bạn đến với hệ thống học tập trực tuyến!</i></h6>
+        <div class="contact">
+            <span><i class="fas fa-phone"></i><i>0353 441 036</i></span>
+            <span><i class="fas fa-envelope"></i><i>globaledu237@gmail.com</i></span>
+        </div>
+    </div>
+
+    <!-- Main header -->
+    <div class="header-main">
+        <!-- Logo -->
+        <div class="logo-container">
+            <a th:href="@{/admin}" sec:authorize="hasRole('ROLE_ADMIN')">
+                <img th:src="@{/photos/logochinh.png}" alt="Logo" class="logo-img me-2" />
+            </a>
+
+            <a th:href="@{/nhanvien}" sec:authorize="hasRole('ROLE_NHANVIEN')">
+                <img th:src="@{/photos/logochinh.png}" alt="Logo" class="logo-img me-2" />
+            </a>
+
+            <a th:href="@{/}" sec:authorize="hasAnyRole('ROLE_GIANGVIEN','ROLE_HOCVIEN') or isAnonymous()">
+                <img th:src="@{/photos/logochinh.png}" alt="Logo" class="logo-img me-2" />
+            </a>
+        </div>
+
+        <!-- Search -->
+        <div class="search-bar">
+            <div class="search-wrapper">
+                <form th:action="@{/tim-kiem}" method="get">
+                    <input type="text" name="q" placeholder="Tìm kiếm với Globaledu..." />
+                    <i class="fas fa-search"></i>
+                </form>
+            </div>
+        </div>
+
+        <!-- Nếu đã đăng nhập -->
+        <div class="icon-group" sec:authorize="isAuthenticated()">
+
+            <!-- Nếu là ADMIN -->
+            <a th:href="@{/admin/quanly-nhanvien}" class="icon-link" sec:authorize="hasRole('ROLE_ADMIN')">
+                <i class="fas fa-users"></i> <span>Nhân Viên</span>
+            </a>
+            <a th:href="@{/khoahoccanduyet}" class="icon-link" sec:authorize="hasRole('ROLE_ADMIN')">
+                <i class="fas fa-chart-bar"></i> <span>
+                        Duyệt khóa học</span>
+            </a>
+
+            <a th:href="@{/quan-ly/thong-bao-he-thong}" class="icon-link" sec:authorize="hasRole('ROLE_ADMIN')">
+                <i class="fas fa-bell"></i>
+            </a>
+
+            <!-- Nếu là NHANVIEN -->
+            <a th:href="@{/nhanvien/quanly-giangvien}" class="icon-link" sec:authorize="hasRole('ROLE_NHANVIEN')">
+                <i class="fas fa-box"></i> <span>Giảng Viên</span>
+            </a>
+            <a th:href="@{/nhanvien/quanly-hocvien}" class="icon-link" sec:authorize="hasRole('ROLE_NHANVIEN')">
+                <i class="fas fa-book"></i> <span>Học Viên</span>
+            </a>
+            <a th:href="@{/quan-ly/thong-bao-he-thong}" class="icon-link" sec:authorize="hasRole('ROLE_NHANVIEN')">
+                <i class="fas fa-bell"></i>
+            </a>
+
+            <!-- Nếu là giảng viên thì hiện thêm mục Trang giảng viên -->
+            <a th:href="@{/giangvien/trang-giang-vien}" class="icon-link" sec:authorize="hasRole('ROLE_GIANGVIEN')">
+                <span>TRANG GIẢNG VIÊN</span>
+            </a>
+
+            <!-- Chỉ hiển thị cho học viên và giảng viên -->
+            <div sec:authorize="hasRole('ROLE_HOCVIEN') or hasRole('ROLE_GIANGVIEN')">
+                <a th:href="@{/hoc-vien/hoc-tap(tab='hoc-tap')}" class="icon-link">
+                    <span>HỌC TẬP CỦA TÔI</span>
+                </a>
+
+                <a th:href="@{/hoc-vien/hoc-tap(tab='yeu-thich')}" class="icon-link">
+                    <i class="fas fa-heart text-danger"></i>
+                </a>
+                <a th:href="@{/gio-hang}" class="icon-link">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+
+                <!-- Thông báo cho giảng viên -->
+                <a th:href="@{/giang-vien/thong-bao}" class="icon-link" sec:authorize="hasRole('ROLE_GIANGVIEN')">
+                    <i class="fas fa-bell"></i>
+                </a>
+
+                <!-- Thông báo cho học viên -->
+                <a th:href="@{/hoc-vien/thong-bao}" class="icon-link" sec:authorize="hasRole('ROLE_HOCVIEN')">
+                    <i class="fas fa-bell"></i>
+                </a>
+            </div>
+
+            <!-- Avatar + Dropdown -->
+            <div class="dropdown avatar-link">
+                <img th:src="@{${taiKhoan != null and taiKhoan.avatar != null} ? ${taiKhoan.avatar} : '/photos/avartar.jpg'}" alt="Avatar người dùng" class="user-avatar" />
+
+                <ul class="dropdown-menu text-small">
+                    <li>
+                        <a class="dropdown-item" href="/tai-khoan">
+                            <i class="fa-solid fa-arrow-right me-2 text-primary"></i> Tài khoản
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" th:href="@{/tai-khoan(tab='tab-matkhau')}">
+                            <i class="fa-solid fa-key me-2 text-primary"></i> Đổi mật khẩu
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" th:href="@{/tai-khoan(tab='tab-email')}"><i
+                                    class="fas fa-envelope me-1"></i>
+                                Cập nhật Email</a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" th:href="@{/tai-khoan(tab='tab-thongtin')}"><i
+                                    class="fas fa-id-card me-1"></i> Thông tin
+                                cá nhân</a>
+                    </li>
+
+                    <li sec:authorize="!hasAnyRole('HOCVIEN','GIANGVIEN')">
+                        <a class="dropdown-item" href="/quan-ly/thong-bao-he-thong">
+                            <i class="fa-solid fa-arrow-right me-2 text-primary"></i> Thông báo hệ thống
+                        </a>
+                    </li>
+
+                    <!-- Ẩn nếu là ADMIN hoặc NHANVIEN -->
+                    <li sec:authorize="!hasAnyRole('ADMIN','NHANVIEN')">
+                        <a class="dropdown-item" href="/gio-hang">
+                            <i class="fas fa-shopping-cart"></i> Giỏ hàng của tôi
+                        </a>
+                    </li>
+                    <li sec:authorize="!hasAnyRole('ADMIN','NHANVIEN')">
+                        <a class="dropdown-item" th:href="@{/hoc-vien/hoc-tap(tab='hoc-tap')}">
+                            <i class="fa-brands fa-slack"></i> Học tập của tôi
+                        </a>
+                    </li>
+                    <li sec:authorize="!hasAnyRole('ADMIN','NHANVIEN', 'GIANGVIEN')">
+                        <a class="dropdown-item" href="/dang-ky-giang-vien">
+                            <i class="fa-brands fa-slack"></i> Dạy trên Globaledu
+                        </a>
+                    </li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="/logout">
+                            <i class="fas fa-sign-out-alt me-2 text-danger"></i> Đăng xuất
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Nếu chưa đăng nhập -->
+        <div class="icon-group guest-only" sec:authorize="!isAuthenticated()">
+            <a href="/gio-hang"><i class="fas fa-shopping-cart"></i></a>
+            <div class="dropdown-discover">
+                <a href="#" class="btn-light">Khám phá <i class="fas fa-caret-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="/ve-chung-toi">Về chúng tôi</a>
+                    <a href="/&huong-&dan-&su-&dung">Hướng dẫn sử dụng</a>
+                </div>
+            </div>
+            <a href="/dang-ky-giang-vien" class="btn-light">Dạy trên
+                    GLoBalEdu</a>
+            <a href="/auth/dangnhap" class="btn-light">
+                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+            </a>
+            <a href="/auth/dangky" class="btn-dark">
+                <i class="fa-brands fa-dropbox" style="color: white;"></i> Đăng ký
+            </a>
+            <a href="/lay-lai-mat-khau" class="btn-light">
+                    Quên mật khẩu
+                </a>
+        </div>
+    </div>
+    </div>
+
+    <!-- Bottom menu: chỉ hiện khi đã đăng nhập -->
+    <nav class="bottom-nav" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN') and !hasRole('ROLE_NHANVIEN') and !hasRole('ROLE_GIANGVIEN')">
+
+        <div class="menu-container container d-flex justify-content-center flex-wrap">
+            <a th:href="@{/}" th:classappend="${currentUri == '/'} ? 'active' : ''">
+                Trang chủ
+            </a>
+            <a th:href="@{/ve-chung-toi}" th:classappend="${currentUri == '/ve-chung-toi'} ? 'active' : ''">
+                Về chúng tôi
+            </a>
+
+            <!-- Tạo các mục từ danh mục có slug -->
+            <th:block th:each="dm : ${danhMucList}">
+                <a th:href="@{'/' + ${dm.slug}}" th:text="${dm.tenDanhMuc}" th:classappend="${currentUri == '/' + dm.slug} ? 'active' : ''">
+                </a>
+            </th:block>
+        </div>
+    </nav>
+
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chi tiết thanh toán</title>
+    </head>
+
+    <body>
+        <main class="thanhtoandetail">
+            <div class="container">
+                <h2 class="detail-title">Chi tiết thanh toán</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><b>ID:</b> <span
+                                    th:text="${tt.id}"></span></li>
+                            <li class="list-group-item"><b>Học viên:</b> <span
+                                    th:text="${tt.tenHocVien}"></span></li>
+                            <li class="list-group-item"><b>Email:</b> <span
+                                    th:text="${tt.email}"></span></li>
+                            <li class="list-group-item"><b>Ngày thanh toán:</b>
+                                <span th:text="${tt.ngayThanhToan}"></span></li>
+                            <li class="list-group-item"><b>Hình thức:</b> <span
+                                    th:text="${tt.hinhThuc}"></span></li>
+                            <li class="list-group-item"><b>Tổng tiền:</b> <span
+                                    th:text="${#numbers.formatDecimal(tt.tongTien, 0, 'COMMA', 2, 'POINT')} + ' đ'"></span></li>
+                            <li class="list-group-item"><b>Trạng thái:</b> <span
+                                    th:text="${tt.trangThai}"></span></li>
+                            <li class="list-group-item"><b>Khóa học:</b> <span
+                                    th:text="${tt.tenKhoaHoc}"></span></li>
+                            <li class="list-group-item"><b>Mã giao dịch:</b>
+                                <span th:text="${tt.maGiaoDich}"></span></li>
+                            <li class="list-group-item"><b>Ghi chú:</b> <span
+                                    th:text="${tt.ghiChu}"></span></li>
+                        </ul>
+                        <div class="text-center">
+                            <a href="/admin/quanly-thanh-toan"
+                                class="btn-back">⬅ Quay lại danh sách</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

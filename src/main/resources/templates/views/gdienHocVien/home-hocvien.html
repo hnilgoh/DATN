@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Trang chủ - GlobalEdu</title>
+    </head>
+
+    <body>
+        <main class="homechung">
+
+            <div th:if="${tenNguoiDung}" class="welcome-card">
+                <div class="d-flex align-items-center">
+                    <div class="me-3">
+                        <i class="fas fa-graduation-cap fa-3x text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="mb-2 fw-bold">
+                            👋 Chào mừng trở lại,
+                            <span class="text-warning"
+                                th:text="${tenNguoiDung}"></span>
+                        </h3>
+                        <p class="mb-0 opacity-75">Sẵn sàng khám phá kiến thức
+                            mới hôm nay?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid mt-4" style="padding: 0 10px;">
+                <div class="row gx-0">
+                    <!-- Banner chính full màn hình -->
+                    <div class="col-12">
+                        <div id="mainBanner" class="carousel slide"
+                            style="border-radius: 15px;"
+                            data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img th:src="@{/photos/banner2.jpg}"
+                                        class="d-block w-100" alt="Banner 1">
+                                </div>
+
+                                <div class="carousel-item">
+                                    <img th:src="@{/photos/banner4.jpg}"
+                                        class="d-block w-100" alt="Banner 2">
+                                </div>
+
+                                <div class="carousel-item">
+                                    <img th:src="@{/photos/banner6.jpg}"
+                                        class="d-block w-100" alt="Banner 3">
+                                </div>
+
+                                <div class="carousel-item">
+                                    <img th:src="@{/photos/banner5.jpg}"
+                                        class="d-block w-100" alt="Banner 4">
+                                </div>
+
+                                <div class="carousel-item">
+                                    <img th:src="@{/photos/banner7.jpg}"
+                                        class="d-block w-100" alt="Banner 5">
+                                </div>
+                            </div>
+
+                            <!-- Nút trái -->
+                            <button
+                                class="carousel-control-prev custom-carousel-btn"
+                                type="button" data-bs-target="#mainBanner"
+                                data-bs-slide="prev"
+                                onclick="triggerConfetti('left')">
+                                <span class="carousel-control-prev-icon"
+                                    aria-hidden="true"></span>
+                                <span class="visually-hidden">Trước</span>
+                            </button>
+
+                            <!-- Nút phải -->
+                            <button
+                                class="carousel-control-next custom-carousel-btn"
+                                type="button" data-bs-target="#mainBanner"
+                                data-bs-slide="next"
+                                onclick="triggerConfetti('right')">
+                                <span class="carousel-control-next-icon"
+                                    aria-hidden="true"></span>
+                                <span class="visually-hidden">Tiếp</span>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mt-0">
+                <th:block
+                    th:if="${enrolledCourses != null and !enrolledCourses.isEmpty()}">
+                    <section class="py-5">
+                        <div class="container">
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <div class="section-header-container">
+                                        <div class="section-header-content">
+                                            <div class="section-icon-wrapper">
+                                                <div class="section-icon">
+                                                    <i
+                                                        class="fas fa-graduation-cap"></i>
+                                                </div>
+                                                <div
+                                                    class="section-icon-bg"></div>
+                                            </div>
+                                            <div class="section-text">
+                                                <h2
+                                                    class="section-title-new">Khóa
+                                                    học của bạn</h2>
+                                                <p class="section-subtitle">Tiếp
+                                                    tục hành trình học tập của
+                                                    bạn
+                                                </p>
+                                                <div
+                                                    class="section-divider"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Wrapper chứa nút và danh sách -->
+                            <div
+                                class="enrolled-courses-wrapper position-relative">
+                                <!-- Nút trái -->
+                                <button
+                                    class="carousel-control-prev custom-carousel-btn"
+                                    onclick="scrollCourses(-1)">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+
+                                <!-- Danh sách khóa học -->
+                                <div
+                                    class="enrolled-courses-scroll d-flex flex-nowrap overflow-auto"
+                                    id="enrolledCoursesContainer">
+                                    <th:block
+                                        th:each="khoaHoc : ${enrolledCourses}">
+                                        <div class="course-item me-3"
+                                            style="flex: 0 0 auto; width: 250px;">
+                                            <div
+                                                class="card h-100 shadow-sm course-card"
+                                                th:onclick="|window.location.href='/khoaHoc/${khoaHoc.khoahocId}'|">
+                                                <div
+                                                    class="position-relative text-center">
+                                                    <img class="card-img-top"
+                                                        th:src="${khoaHoc.anhBia}"
+                                                        alt="Ảnh khoá học" />
+                                                </div>
+
+                                                <div
+                                                    class="card-body d-flex flex-column justify-content-between">
+                                                    <div>
+                                                        <h6
+                                                            class="card-title fw-bold"
+                                                            th:text="${khoaHoc.tenKhoaHoc}"></h6>
+                                                        <p
+                                                            class="card-text small text-muted text-center mb-2">
+                                                            <i
+                                                                class="fas fa-chalkboard-teacher me-1"></i>
+                                                            <span
+                                                                th:text="${khoaHoc.giangVien?.taikhoan?.name ?: 'Đang cập nhật'}"></span>
+                                                        </p>
+                                                    </div>
+
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center px-2 gap-1 mb-3 mt-2">
+                                                        <button type="button"
+                                                            onclick="event.stopPropagation()"
+                                                            class="btn btn-outline-primary btn-sm share-btn"
+                                                            data-bs-toggle="modal"
+                                                            th:data-bs-target="'#shareModalDDK-' + ${khoaHoc.khoahocId}">
+                                                            <i
+                                                                class="fas fa-share me-1"></i>
+                                                        </button>
+
+                                                        <a
+                                                            th:href="@{'/khoa-hoc/slug/' + ${khoaHoc.slug}}"
+                                                            class="btn btn-sm btn-outline-info">
+                                                            <i
+                                                                class="fas fa-play-circle me-1"></i>
+                                                            Vào học
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </div>
+
+                                <!-- Nút phải -->
+                                <button
+                                    class="carousel-control-next custom-carousel-btn"
+                                    onclick="scrollCourses(1)">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+
+                            <!-- Modal chia sẻ -->
+                            <th:block th:each="khoaHoc : ${enrolledCourses}">
+                                <div class="modal fade"
+                                    th:id="'shareModalDDK-' + ${khoaHoc.khoahocId}"
+                                    tabindex="-1" aria-hidden="true">
+                                    <div
+                                        class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header"
+                                                style="background-color: #e9f0ff; border-bottom: 2px solid #0d6efd;">
+                                                <h6 class="modal-title">
+                                                    <i
+                                                        class="fas fa-share-alt text-primary me-2"></i>
+                                                    Chia sẻ khóa học:
+                                                    <span
+                                                        th:text="${khoaHoc.tenKhoaHoc}"></span>
+                                                </h6>
+                                                <button type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <form
+                                                th:action="@{/studend/share-course}"
+                                                method="post" class="ajax-form">
+                                                <div class="modal-body">
+                                                    <input type="hidden"
+                                                        name="courseId"
+                                                        th:value="${khoaHoc.khoahocId}" />
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="recipientEmail"
+                                                            class="form-label">
+                                                            <i
+                                                                class="fas fa-envelope text-primary me-2"></i>
+                                                            Email người nhận:
+                                                        </label>
+                                                        <input type="email"
+                                                            name="recipientEmail"
+                                                            class="form-control"
+                                                            style="font-size: 14px;"
+                                                            required
+                                                            placeholder="nhapemail@example.com">
+                                                    </div>
+                                                    <p style="font-size: 14px;">
+                                                        <i
+                                                            class="fas fa-info-circle text-info me-2"></i>
+                                                        Email sẽ được gửi kèm
+                                                        thông tin và liên kết
+                                                        khóa học.
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="ajax-message text-center px-3"></div>
+                                                <div class="modal-footer">
+                                                    <div
+                                                        class="d-flex justify-content-end gap-2 w-100">
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-outline-secondary"
+                                                            data-bs-dismiss="modal">
+                                                            <i
+                                                                class="fas fa-times me-1"></i>
+                                                            Đóng
+                                                        </button>
+                                                        <button type="submit"
+                                                            class="btn btn-sm fw-semibold btn-outline-primary">
+                                                            <i
+                                                                class="fas fa-paper-plane me-1"></i>
+                                                            Gửi Email
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
+                    </section>
+                </th:block>
+
+                <!-- danh mục-->
+                <div class="py-2">
+                    <div class="category-header-v2">
+                        <div class="floating-particles">
+                            <div class="particle"></div>
+                            <div class="particle"></div>
+                            <div class="particle"></div>
+                            <div class="particle"></div>
+                            <div class="particle"></div>
+                        </div>
+
+                        <h3 class="neon-title">
+                            <div class="neon-icon-wrapper">
+                                <div class="neon-icon">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                            </div>
+                            <div class="title-text">
+                                <span class="glitch-text"
+                                    data-text="Danh mục khóa học">Danh mục khóa
+                                    học</span>
+                            </div>
+                        </h3>
+
+                        <div class="cyber-line"></div>
+
+                        <div class="tech-stats">
+                            <div class="stat-item">
+                                <div class="stat-dot"></div>
+                                <span>SYSTEM ONLINE</span>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-dot"></div>
+                                <span>COURSES LOADED</span>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-dot"></div>
+                                <span>READY TO LEARN</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="d-flex overflow-auto flex-nowrap gap-3 px-2 mt-4"
+                        style="scroll-snap-type: x mandatory;">
+                        <th:block th:each="dm : ${danhMucList}">
+                            <a href="javascript:void(0)" class="tab-link"
+                                th:attr="data-dmid=${dm.danhmucId}"
+                                th:text="${dm.tenDanhMuc}">
+                            </a>
+                        </th:block>
+                    </div>
+                </div>
+                <hr>
+                <!-- Danh sách khóa học theo danh mục -->
+                <div class="course-tabs mt-3">
+                    <th:block th:each="dm : ${danhMucList}">
+                        <div class="tab-content"
+                            th:attr="data-dmid=${dm.danhmucId}">
+                            <div class="container mt-1">
+                                <div class="row courses-grid">
+                                    <th:block
+                                        th:each="khoaHoc, iterStat : ${khoaHocTheoDanhMuc[dm.danhmucId]}">
+                                        <th:block th:if="${iterStat.index} < 8">
+                                            <div
+                                                class="col-12 col-sm-6 col-lg-3 mb-4">
+                                                <div
+                                                    class="card h-100 shadow-sm course-card "
+                                                    th:onclick="|window.location.href='/khoaHoc/${khoaHoc.khoahocId}'|">
+                                                    <img class="card-img-top"
+                                                        th:src="${khoaHoc.anhBia}"
+                                                        alt="Ảnh khoá học" />
+                                                    <div
+                                                        class="card-body d-flex flex-column pb-0">
+                                                        <h5 class="card-title"
+                                                            th:text="${khoaHoc.tenKhoaHoc}">Tên
+                                                            khóa học</h5>
+                                                        <p
+                                                            class="card-text small text-muted mt-auto">
+                                                            <i
+                                                                class="fas fa-chalkboard-teacher me-1"></i>
+                                                            Giảng viên:
+                                                            <span
+                                                                th:text="${khoaHoc.giangVien?.taikhoan?.name ?: 'Đang cập nhật'}"></span>
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="card-footer pt-0">
+                                                        <div class="mb-3">
+                                                            <!-- Nếu khuyến mãi đang áp dụng -->
+                                                            <p
+                                                                th:if="${khoaHoc.khuyenMaiDangApDung}"
+                                                                class="card-text mb-0">
+                                                                <!-- Giá khuyến mãi (đỏ, nổi bật) -->
+                                                                <span
+                                                                    class="fw-bold text-danger me-2"
+                                                                    th:text="${#numbers.formatDecimal(khoaHoc.giaKhuyenMai, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                                                                <!-- Giá gốc (bị gạch ngang) -->
+                                                                <del
+                                                                    class="text-muted"
+                                                                    th:text="${#numbers.formatDecimal(khoaHoc.giagoc, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></del>
+                                                            </p>
+
+                                                            <!-- Nếu KHÔNG còn khuyến mãi -->
+                                                            <p
+                                                                th:if="${!khoaHoc.khuyenMaiDangApDung}"
+                                                                class="card-text fw-bold mb-0">
+                                                                <span
+                                                                    th:text="${#numbers.formatDecimal(khoaHoc.giagoc, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center px-2 pb-2 gap-1">
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-sm like-btn"
+                                                                th:id="'like-btn-' + ${khoaHoc.khoahocId}"
+                                                                th:classappend="${likedCourseIds.contains(khoaHoc.khoahocId)} ? 'btn-danger' : 'btn-outline-danger'"
+                                                                th:attr="data-id=${khoaHoc.khoahocId}">
+                                                                <i
+                                                                    class="fas fa-heart me-1"></i>
+                                                                <span
+                                                                    th:id="'like-count-' + ${khoaHoc.khoahocId}"
+                                                                    th:text="${khoaHoc.luotThich != null ? khoaHoc.luotThich : 0}">
+                                                                </span>
+                                                            </button>
+
+                                                            <button
+                                                                type="button"
+                                                                onclick="event.stopPropagation()"
+                                                                class="btn btn-outline-primary btn-sm share-btn"
+                                                                data-bs-toggle="modal"
+                                                                th:data-bs-target="'#shareModalDMKH-' + ${khoaHoc.khoahocId}">
+                                                                <i
+                                                                    class="fas fa-share me-1"></i>
+                                                            </button>
+
+                                                            <button
+                                                                class="btn btn-sm btn-outline-success add-to-cart-btn"
+                                                                th:attr="data-id=${khoaHoc.khoahocId},
+                                                            data-name=${khoaHoc.tenKhoaHoc},
+                                                            data-gia=${khoaHoc.giaHienTai},
+                                                            data-giagoc=${khoaHoc.giagoc},
+                                                            data-anh=${khoaHoc.anhBia},
+                                                            data-giangvien=${khoaHoc.giangVien.taikhoan.name}">
+                                                                <i
+                                                                    class="fas fa-cart-plus me-1"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Modal chia sẻ -->
+                                                <div class="modal fade"
+                                                    th:id="'shareModalDMKH-' + ${khoaHoc.khoahocId}"
+                                                    tabindex="-1"
+                                                    aria-hidden="true">
+                                                    <div
+                                                        class="modal-dialog modal-dialog-centered">
+                                                        <div
+                                                            class="modal-content">
+                                                            <div
+                                                                class="modal-header"
+                                                                style="background-color: #e9f0ff; border-bottom: 2px solid #0d6efd;">
+                                                                <h6
+                                                                    class="modal-title">
+                                                                    <i
+                                                                        class="fas fa-share-alt text-primary me-2"></i>
+                                                                    Chia sẻ khóa
+                                                                    học:
+                                                                    <span
+                                                                        th:text="${khoaHoc.tenKhoaHoc}"></span>
+                                                                </h6>
+                                                                <button
+                                                                    type="button"
+                                                                    class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
+                                                            <form
+                                                                th:action="@{/studend/share-course}"
+                                                                method="post"
+                                                                class="ajax-form">
+                                                                <div
+                                                                    class="modal-body">
+                                                                    <input
+                                                                        type="hidden"
+                                                                        name="courseId"
+                                                                        th:value="${khoaHoc.khoahocId}" />
+                                                                    <div
+                                                                        class="mb-3">
+                                                                        <label
+                                                                            for="recipientEmail"
+                                                                            class="form-label">
+                                                                            <i
+                                                                                class="fas fa-envelope text-primary me-2"></i>
+                                                                            Email
+                                                                            người
+                                                                            nhận:
+                                                                        </label>
+                                                                        <input
+                                                                            type="email"
+                                                                            name="recipientEmail"
+                                                                            class="form-control"
+                                                                            style="font-size: 14px;"
+                                                                            required
+                                                                            placeholder="nhapemail@example.com">
+                                                                    </div>
+                                                                    <p
+                                                                        style="font-size: 14px;">
+                                                                        <i
+                                                                            class="fas fa-info-circle text-info me-2"></i>
+                                                                        Email sẽ
+                                                                        được gửi
+                                                                        kèm
+                                                                        thông
+                                                                        tin và
+                                                                        liên kết
+                                                                        khóa
+                                                                        học.
+                                                                    </p>
+                                                                </div>
+                                                                <div
+                                                                    class="ajax-message text-center px-3"></div>
+                                                                <div
+                                                                    class="modal-footer">
+                                                                    <div
+                                                                        class="d-flex justify-content-end gap-2 w-100">
+                                                                        <button
+                                                                            type="button"
+                                                                            class="btn btn-sm btn-outline-secondary"
+                                                                            data-bs-dismiss="modal">
+                                                                            <i
+                                                                                class="fas fa-times me-1"></i>
+                                                                            Đóng
+                                                                        </button>
+                                                                        <button
+                                                                            type="submit"
+                                                                            class="btn btn-sm fw-semibold btn-outline-primary">
+                                                                            <i
+                                                                                class="fas fa-paper-plane me-1"></i>
+                                                                            Gửi
+                                                                            Email
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                    </th:block>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <a th:href="@{/{slug}(slug=${dm.slug})}"
+                                        class="btn text-white"
+                                        style="background-color: #0B1B34; border: none;"
+                                        onmouseover="this.style.backgroundColor='#142544'"
+                                        onmouseout="this.style.backgroundColor='#0B1B34'">
+                                        Xem thêm
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+
+                <!-- Danh sách khóa học -->
+                <div class="row justify-content-center mb-5">
+                    <div class="col-md-12">
+                        <div class="course-header-container">
+                            <div class="floating-elements">
+                                <div class="floating-circle"></div>
+                                <div class="floating-circle"></div>
+                                <div class="floating-circle"></div>
+                            </div>
+
+                            <h3 class="main-title">
+                                <div class="icon-container">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div class="title-text">
+                                    <div class="title-main">
+                                        Tất cả khóa học tại <span
+                                            class="brand-name">GlobalEdu</span>
+                                    </div>
+                                    <div class="subtitle">Khám phá hành trình
+                                        học tập không giới hạn</div>
+                                </div>
+                            </h3>
+
+                            <div class="stats-container">
+                                <div class="stat-item">
+                                    <div class="stat-icon"></div>
+                                    <span>Chất lượng cao</span>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon"></div>
+                                    <span>Giảng viên chuyên nghiệp</span>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon"></div>
+                                    <span>Chứng chỉ uy tín</span>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon"></div>
+                                    <span>Học mọi lúc mọi nơi</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="course-list-container"
+                    th:insert="views/fragments/khoahoc-list :: fragment"></div>
+
+                <div
+                    th:if="${khoaHocPage == null or #lists.isEmpty(khoaHocPage)}"
+                    style="text-align: center;">
+                    <p>Không có khóa học nổi bật nào.</p>
+                </div>
+
+                <div th:if="${share_success}"
+                    class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 m-3"
+                    role="alert">
+                    <strong th:text="${share_success}"></strong>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${share_error}"
+                    class="alert alert-danger alert-dismissible fade show position-fixed bottom-0 end-0 m-3"
+                    role="alert">
+                    <strong th:text="${share_error}"></strong>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <!-- Modal cảnh báo chưa đăng nhập -->
+            <div class="modal fade" id="loginRequiredModal" tabindex="-1"
+                aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content shadow rounded-4 border-0">
+                        <div class="modal-header"
+                            style="background-color: #16203b; color: white; border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+                            <h5
+                                class="modal-title d-flex align-items-center gap-2"
+                                id="loginRequiredModalLabel">
+                                <i class="fas fa-exclamation-circle"></i> Yêu
+                                cầu đăng nhập
+                            </h5>
+                            <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"
+                                aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body text-center px-4">
+                            <p class="mb-0 fs-5 text-muted">
+                                Bạn cần <strong class="text-dark">đăng
+                                    nhập</strong> để thêm vào khóa học yêu
+                                thích.
+                            </p>
+                        </div>
+                        <!-- Nút nằm cùng hàng -->
+                        <div class="modal-footer border-0 pb-4">
+                            <div
+                                class="d-flex justify-content-center gap-3 w-100">
+                                <a href="/auth/dangnhap"
+                                    class="btn text-white fw-semibold"
+                                    style="background-color: #32426d; min-width: 130px; padding: 10px 20px; border-radius: 8px;">
+                                    <i class="fas fa-sign-in-alt me-1"></i> Đăng
+                                    nhập
+                                </a>
+                                <button type="button"
+                                    class="btn btn-outline-secondary fw-semibold"
+                                    data-bs-dismiss="modal"
+                                    style="min-width: 130px; padding: 10px 20px; border-radius: 8px;">
+                                    Hủy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Tkhi mới đăng nhập-->
+            <div class="modal fade" id="welcomeModal" tabindex="-1"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered"
+                    style="max-width: 750px; margin: 40px auto;">
+                    <div class="modal-content shadow rounded-4">
+                        <div class="modal-header"
+                            style="background-color: #16203b; color: #fff; border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+                            <h5 class="modal-title">
+                                <i class="fas fa-graduation-cap me-2"></i>Chào
+                                mừng bạn đến với GlobalEdu!
+                            </h5>
+                            <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="font-size: 0.95rem;">
+
+                            <p class="mb-3">
+                                <i class="fas fa-user text-primary me-2"></i>
+                                <strong>Xin chào bạn</strong>, Cảm ơn bạn đã tin
+                                tưởng GlobalEdu trên hành trình phát triển bản
+                                thân.
+                            </p>
+                            <p class="mb-3">
+                                <i class="fas fa-rocket text-success me-2"></i>
+                                <strong>Hãy bắt đầu với mục tiêu rõ
+                                    ràng</strong> – bạn học để làm gì? Học để
+                                thăng tiến, để chuyển ngành, hay để thỏa đam mê?
+                            </p>
+                            <p class="mb-3">
+                                <i
+                                    class="fas fa-lightbulb text-warning me-2"></i>
+                                <strong>Mẹo nhỏ:</strong> Duy trì thói quen học
+                                15-30 phút mỗi ngày giúp bạn tiến bộ đều đặn mà
+                                không bị quá tải.
+                            </p>
+                            <p class="mb-3">
+                                <i class="fas fa-comments text-info me-2"></i>
+                                <strong>Tương tác tích cực</strong>: Tham gia
+                                bình luận, đặt câu hỏi dưới mỗi bài học. Đừng
+                                ngại nói ra điều bạn chưa hiểu!
+                            </p>
+                            <p class="mb-3">
+                                <i class="fas fa-star text-danger me-2"></i>
+                                <strong>Đừng quên đánh giá khóa học</strong> để
+                                góp phần nâng cao chất lượng cho cộng đồng người
+                                học.
+                            </p>
+
+                            <p class="mb-3">
+                                <i class="fas fa-trophy text-success me-2"></i>
+                                Hoàn thành các bài học để mở khóa chứng chỉ và
+                                nâng cao kỹ năng thật sự.
+                            </p>
+                            <p class="mb-2">
+                                <i class="fas fa-headset text-info me-2"></i>
+                                <strong>Cần hỗ trợ?</strong> Đội ngũ GlobalEdu
+                                luôn sẵn sàng:
+                                <br>&emsp;📧 <a
+                                    href="mailto:globaledu237@gmail.com">globaledu237@gmail.com</a>
+                                <br>&emsp;📞 <a href="tel:0353441036">0353 411
+                                    036</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toast Container -->
+            <div class="toast-container position-fixed top-0 end-0 p-3"
+                style="z-index: 2000;">
+                <div id="toastMessage"
+                    class="toast align-items-center text-white bg-success border-0"
+                    role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body" id="toastBody">
+                            Đã thêm vào giỏ hàng!
+                        </div>
+                        <button type="button"
+                            class="btn-close btn-close-white me-2 m-auto"
+                            data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+            <script th:if="${showPolicyPopup}">
+            document.addEventListener("DOMContentLoaded", function() {
+                var myModal = new bootstrap.Modal(document.getElementById('welcomeModal'));
+                myModal.show();
+            });
+        </script>
+
+            <script>
+            document.addEventListener("click", function(e) {
+                const target = e.target.closest(".pagination a");
+                if (target) {
+                    e.preventDefault();
+                    const page = target.getAttribute("data-page");
+
+                    if (page !== null) {
+                        fetch(`/khoahoc/phantrang?page=${page}`)
+                            .then(response => response.text())
+                            .then(html => {
+                                document.getElementById("course-list-container").innerHTML = html;
+
+                                // Gọi lại sự kiện nút like, form share sau khi nội dung mới đã được chèn vào DOM
+                                if (typeof window.afterAjaxLoad === "function") {
+                                    window.afterAjaxLoad();
+                                }
+                            })
+                            .catch(err => console.error("Lỗi khi load khóa học:", err));
+                    }
+                }
+            });
+        </script>
+
+            <script
+                src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+            <script>
+            function triggerConfetti(side) {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: {
+                        x: side === 'left' ? 0.1 : 0.9,
+                        y: 0.5
+                    }
+                });
+            }
+        </script>
+
+            <script>
+            function scrollCourses(direction) {
+                const container = document.getElementById("enrolledCoursesContainer");
+                const scrollAmount = 300;
+                container.scrollBy({
+                    left: scrollAmount * direction,
+                    behavior: 'smooth'
+                });
+            }
+        </script>
+        </main>
+    </body>
+
+</html>

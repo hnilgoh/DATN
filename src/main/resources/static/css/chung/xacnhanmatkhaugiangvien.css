@@ -1,0 +1,210 @@
+   .xacnhanmatkhaugiangvien .auth-container {
+       min-height: 100vh;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       padding: 20px;
+   }
+   
+   .xacnhanmatkhaugiangvien .auth-card {
+       background: rgba(255, 255, 255, 0.95);
+       backdrop-filter: blur(10px);
+       border-radius: 20px;
+       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+       border: 1px solid rgba(255, 255, 255, 0.2);
+       overflow: hidden;
+       max-width: 450px;
+       width: 100%;
+       animation: slideUp 0.6s ease-out;
+   }
+   
+   @keyframes slideUp {
+       from {
+           opacity: 0;
+           transform: translateY(30px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(0);
+       }
+   }
+   
+   .xacnhanmatkhaugiangvien .auth-header {
+       background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+       color: white;
+       padding: 40px 30px 30px;
+       text-align: center;
+       position: relative;
+   }
+   
+   .xacnhanmatkhaugiangvien .auth-header::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       bottom: 0;
+       background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+   }
+   
+   .xacnhanmatkhaugiangvien .auth-icon {
+       width: 80px;
+       height: 80px;
+       background: rgba(255, 255, 255, 0.2);
+       border-radius: 50%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       margin: 0 auto 20px;
+       font-size: 2rem;
+       position: relative;
+       z-index: 1;
+   }
+   
+   .xacnhanmatkhaugiangvien .auth-title {
+       font-size: 1.8rem;
+       font-weight: 700;
+       margin-bottom: 10px;
+       position: relative;
+       z-index: 1;
+   }
+   
+   .xacnhanmatkhaugiangvien .auth-subtitle {
+       opacity: 0.9;
+       font-size: 0.95rem;
+       line-height: 1.5;
+       position: relative;
+       z-index: 1;
+   }
+   
+   .xacnhanmatkhaugiangvien .auth-body {
+       padding: 40px 30px;
+   }
+   
+   .xacnhanmatkhaugiangvien .form-floating {
+       margin-bottom: 25px;
+   }
+   
+   .xacnhanmatkhaugiangvien .form-floating .form-control {
+       border: 2px solid #e5e7eb;
+       border-radius: 12px;
+       padding: 20px 15px 8px;
+       font-size: 1rem;
+       transition: all 0.3s ease;
+       background: #f9fafb;
+   }
+   
+   .xacnhanmatkhaugiangvien .form-floating .form-control:focus {
+       border-color: #4f46e5;
+       box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+       background: white;
+   }
+   
+   .xacnhanmatkhaugiangvien .form-floating label {
+       color: #6b7280;
+       font-weight: 500;
+   }
+   
+   .xacnhanmatkhaugiangvien .password-toggle {
+       position: absolute;
+       right: 15px;
+       top: 50%;
+       transform: translateY(-50%);
+       background: none;
+       border: none;
+       color: #6b7280;
+       cursor: pointer;
+       z-index: 10;
+       padding: 5px;
+       border-radius: 4px;
+       transition: color 0.3s ease;
+   }
+   
+   .xacnhanmatkhaugiangvien .password-toggle:hover {
+       color: #4f46e5;
+   }
+   
+   .xacnhanmatkhaugiangvien .btn-primary {
+       background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+       border: none;
+       border-radius: 12px;
+       padding: 15px;
+       font-weight: 600;
+       font-size: 1rem;
+       transition: all 0.3s ease;
+       position: relative;
+       overflow: hidden;
+   }
+   
+   .xacnhanmatkhaugiangvien .btn-primary:hover {
+       transform: translateY(-2px);
+       box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+   }
+   
+   .xacnhanmatkhaugiangvien .btn-primary:active {
+       transform: translateY(0);
+   }
+   
+   .xacnhanmatkhaugiangvien .alert {
+       border-radius: 12px;
+       border: none;
+       padding: 15px 20px;
+       margin-bottom: 25px;
+       font-weight: 500;
+   }
+   
+   .xacnhanmatkhaugiangvien .alert-danger {
+       background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+       color: #dc2626;
+   }
+   
+   .xacnhanmatkhaugiangvien .auth-footer {
+       background: #f8fafc;
+       padding: 25px 30px;
+       text-align: center;
+       border-top: 1px solid #e5e7eb;
+   }
+   
+   .xacnhanmatkhaugiangvien .forgot-password {
+       color: #4f46e5;
+       text-decoration: none;
+       font-weight: 500;
+       transition: all 0.3s ease;
+       display: inline-flex;
+       align-items: center;
+       gap: 5px;
+   }
+   
+   .xacnhanmatkhaugiangvien .forgot-password:hover {
+       color: #7c3aed;
+       text-decoration: underline;
+   }
+   
+   .xacnhanmatkhaugiangvien .security-badge {
+       display: inline-flex;
+       align-items: center;
+       gap: 8px;
+       background: rgba(34, 197, 94, 0.1);
+       color: #059669;
+       padding: 8px 15px;
+       border-radius: 20px;
+       font-size: 0.85rem;
+       font-weight: 500;
+       margin-top: 15px;
+   }
+   
+   @media (max-width: 576px) {
+       .xacnhanmatkhaugiangvien .auth-card {
+           margin: 10px;
+           border-radius: 15px;
+       }
+       .xacnhanmatkhaugiangvien .auth-header {
+           padding: 30px 20px 25px;
+       }
+       .xacnhanmatkhaugiangvien .auth-body {
+           padding: 30px 20px;
+       }
+       .xacnhanmatkhaugiangvien .auth-footer {
+           padding: 20px;
+       }
+   }

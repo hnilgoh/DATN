@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8" />
+        <title th:fragment="title">Học tập của tôi</title>
+    </head>
+
+    <body>
+        <main class="container py-5 hoctapcuatoi">
+            <h2 class="fw-bold mb-4">Học tập của tôi</h2>
+
+            <!-- Tabs điều hướng -->
+            <ul class="nav nav-tabs mb-4" id="learningTab" role="tablist">
+                <li class="nav-item">
+                    <a th:href="@{/hoc-vien/hoc-tap(tab='hoc-tap')}"
+                        class="nav-link"
+                        th:classappend="${activeTab == 'hoc-tap'} ? 'active'">
+                        🎓 Khóa học của tôi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/hoc-vien/hoc-tap(tab='yeu-thich')}"
+                        class="nav-link"
+                        th:classappend="${activeTab == 'yeu-thich'} ? 'active'">
+                        ❤️ Khóa học yêu thích
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/hoc-vien/hoc-tap(tab='chung-chi')}"
+                        class="nav-link"
+                        th:classappend="${activeTab == 'chung-chi'} ? 'active'">
+                        📜 Chứng chỉ đã nhận
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Nội dung theo tab -->
+            <div>
+                <!-- Tab: Khóa học của tôi -->
+                <div th:if="${activeTab == 'hoc-tap'}">
+                    <p class="fw-semibold mb-3">
+                        Số khóa học đã đăng ký:
+                        <span th:text="${#lists.size(tatCaDangKy)}">0</span>
+                    </p>
+
+                    <!-- Tabs phụ: Đang học / Đã hoàn thành -->
+                    <ul class="nav nav-pills mb-3" id="subTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="danghoc-tab"
+                                data-bs-toggle="pill" data-bs-target="#danghoc"
+                                type="button" role="tab">⏳ Đang học</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="hoanthanh-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#hoanthanh" type="button"
+                                role="tab">✔ Đã hoàn thành</button>
+                        </li>
+                    </ul>
+
+                    <!-- Nội dung theo tab phụ -->
+                    <div class="tab-content" id="subTabContent">
+                        <!-- Tab: Đang học -->
+                        <div class="tab-pane fade show active" id="danghoc"
+                            role="tabpanel">
+                            <div class="row courses-grid">
+                                <th:block th:each="dangHoc : ${tatCaDangKy}"
+                                    th:if="${!dangHoc.daCap_ChungChi}">
+                                    <div
+                                        class="col-12 col-sm-6 col-lg-3 mb-4 fade-up fade-up-delay-1">
+                                        <div
+                                            class="card h-100 shadow-sm hoctap-card">
+                                            <img class="card-img-top"
+                                                th:src="@{${dangHoc.khoahoc.anhBia} ?: '/photos/default.png'}"
+                                                alt="Ảnh khoá học" />
+                                            <div
+                                                class="card-body d-flex flex-column pb-0">
+                                                <h5 class="card-title"
+                                                    th:text="${dangHoc.khoahoc.tenKhoaHoc}">Tên
+                                                    khóa học</h5>
+                                                <p
+                                                    class="card-text small text-muted mt-auto">
+                                                    <i
+                                                        class="fas fa-chalkboard-teacher me-1"></i>
+                                                    Giảng viên:
+                                                    <span
+                                                        th:text="${dangHoc.khoahoc.giangVien.taikhoan.name ?: 'Đang cập nhật'}"></span>
+                                                </p>
+                                                <p
+                                                    class="trangthai text-warning">⏳
+                                                    Đang học</p>
+                                            </div>
+                                            <div class="card-footer pt-0">
+                                                <div
+                                                    class="d-flex justify-content-center gap-2 mt-2 mb-3">
+                                                    <button type="button"
+                                                        class="btn btn-outline-primary btn-sm share-btn btn-share"
+                                                        data-bs-toggle="modal"
+                                                        th:data-bs-target="'#shareModal-' + ${dangHoc.khoahoc.khoahocId}">
+                                                        <i
+                                                            class="fas fa-share me-1"></i>
+                                                    </button>
+                                                    <a
+                                                        th:href="@{'/khoa-hoc/slug/' + ${dangHoc.khoahoc.slug}}"
+                                                        class="btn btn-sm btn-outline-primary btn-vao-hoc">
+                                                        <i
+                                                            class="fas fa-play-circle me-1"></i>
+                                                        Vào học
+                                                    </a>
+                                                    <!-- <a
+                                                        th:href="@{'/hocvien/danh-gia/' + ${dangHoc.khoahoc.khoahocId}}"
+                                                        class="btn btn-sm btn-outline-success btn-danh-gia">
+                                                        <i
+                                                            class="fas fa-star me-1"></i>
+                                                        Đánh giá
+                                                    </a> -->
+
+                                                    <a
+                                                        th:href="@{'/khoaHoc/' + ${dangHoc.khoahoc.khoahocId} + '?openModal=true'}"
+                                                        class="btn btn-sm btn-outline-success btn-danh-gia">
+                                                        <i
+                                                            class="fas fa-star me-1"></i>
+                                                        Đánh giá
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal chia sẻ -->
+                                    <div class="modal fade"
+                                        th:id="'shareModal-' + ${dangHoc.khoahoc.khoahocId}"
+                                        tabindex="-1" aria-hidden="true">
+                                        <div
+                                            class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header"
+                                                    style="background-color: #e9f0ff; border-bottom: 2px solid #0d6efd;">
+                                                    <h6 class="modal-title">
+                                                        <i
+                                                            class="fas fa-share-alt text-primary me-2"></i>
+                                                        Chia sẻ khóa học:
+                                                        <span
+                                                            th:text="${dangHoc.khoahoc.tenKhoaHoc}"></span>
+                                                    </h6>
+                                                    <button type="button"
+                                                        class="btn-close"
+                                                        data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form
+                                                    th:action="@{/studend/share-course}"
+                                                    method="post"
+                                                    class="ajax-form">
+                                                    <div class="modal-body">
+                                                        <input type="hidden"
+                                                            name="courseId"
+                                                            th:value="${dangHoc.khoahoc.khoahocId}" />
+                                                        <div class="mb-3">
+                                                            <label
+                                                                for="recipientEmail"
+                                                                class="form-label">
+                                                                <i
+                                                                    class="fas fa-envelope text-primary me-2"></i>
+                                                                Email người
+                                                                nhận:
+                                                            </label>
+                                                            <input type="email"
+                                                                name="recipientEmail"
+                                                                class="form-control"
+                                                                style="font-size: 14px;"
+                                                                required
+                                                                placeholder="nhapemail@example.com">
+                                                        </div>
+                                                        <p
+                                                            style="font-size: 14px;">
+                                                            <i
+                                                                class="fas fa-info-circle text-info me-2"></i>
+                                                            Email sẽ được gửi
+                                                            kèm thông tin và
+                                                            liên kết khóa học.
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="ajax-message text-center px-3"></div>
+                                                    <div class="modal-footer">
+                                                        <div
+                                                            class="d-flex justify-content-end gap-2 w-100">
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-sm btn-outline-secondary"
+                                                                data-bs-dismiss="modal">
+                                                                <i
+                                                                    class="fas fa-times me-1"></i>
+                                                                Đóng
+                                                            </button>
+                                                            <button
+                                                                type="submit"
+                                                                class="btn btn-sm fw-semibold btn-outline-primary">
+                                                                <i
+                                                                    class="fas fa-paper-plane me-1"></i>
+                                                                Gửi Email
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+
+                        <!-- Tab: Đã hoàn thành -->
+                        <div class="tab-pane fade" id="hoanthanh"
+                            role="tabpanel">
+                            <div class="row courses-grid">
+                                <th:block th:each="dangHoc : ${tatCaDangKy}"
+                                    th:if="${dangHoc.daCap_ChungChi}">
+                                    <div
+                                        class="col-12 col-sm-6 col-lg-3 mb-4 fade-up fade-up-delay-2">
+                                        <div
+                                            class="card h-100 shadow-sm hoctap-card border-success">
+                                            <img class="card-img-top"
+                                                th:src="@{${dangHoc.khoahoc.anhBia} ?: '/photos/default.png'}"
+                                                alt="Ảnh khoá học" />
+                                            <div
+                                                class="card-body d-flex flex-column pb-0">
+                                                <h5 class="card-title"
+                                                    th:text="${dangHoc.khoahoc.tenKhoaHoc}">Tên
+                                                    khóa học</h5>
+                                                <p
+                                                    class="card-text small text-muted mt-auto">
+                                                    <i
+                                                        class="fas fa-chalkboard-teacher me-1"></i>
+                                                    Giảng viên:
+                                                    <span
+                                                        th:text="${dangHoc.khoahoc.giangVien.taikhoan.name ?: 'Đang cập nhật'}"></span>
+                                                </p>
+                                                <p
+                                                    class="trangthai text-success">✔
+                                                    Đã hoàn thành</p>
+                                            </div>
+                                            <div class="card-footer pt-0">
+                                                <div
+                                                    class="d-flex justify-content-center gap-2 mt-2 mb-3">
+                                                    <a
+                                                        th:href="@{'/chung-chi/' + ${dangHoc.danghocId}}"
+                                                        class="btn btn-sm btn-success">
+                                                        <i
+                                                            class="fas fa-certificate me-1"></i>
+                                                        Chứng chỉ
+                                                    </a>
+
+                                                    <a
+                                                        th:href="@{'/khoaHoc/' + ${dangHoc.khoahoc.khoahocId} + '?openModal=true'}"
+                                                        class="btn btn-sm btn-outline-success btn-danh-gia d-flex align-items-center justify-content-center">
+                                                        <i
+                                                            class="fas fa-star me-1"></i>
+                                                        <span>Đánh giá</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Khóa học yêu thích -->
+                <div th:if="${activeTab == 'yeu-thich'}">
+                    <div class="row courses-grid">
+                        <th:block th:if="${#lists.isEmpty(favoriteCourses)}">
+                            <p>Bạn chưa thích khóa học nào.</p>
+                        </th:block>
+
+                        <th:block th:each="course : ${favoriteCourses}">
+                            <div
+                                class="col-12 col-sm-6 col-lg-3 mb-4 fade-up fade-up-delay-3">
+                                <div class="card h-100 shadow-sm hoctap-card"
+                                    th:onclick="|window.location.href='/khoaHoc/${course.khoahocId}'|">
+                                    <img class="card-img-top"
+                                        th:src="@{${course.anhBia} ?: '/photos/default.png'}"
+                                        alt="Ảnh khoá học" />
+
+                                    <div
+                                        class="card-body d-flex flex-column pb-0">
+                                        <h5 class="card-title"
+                                            th:text="${course.tenKhoaHoc}">Tên
+                                            khóa học</h5>
+                                        <p
+                                            class="card-text small text-muted mt-auto">
+                                            <i
+                                                class="fas fa-chalkboard-teacher me-1"></i>
+                                            Giảng viên:
+                                            <span
+                                                th:text="${course.giangVien?.taikhoan?.name ?: 'Đang cập nhật'}">Tên
+                                                giảng viên</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="card-footer pt-0">
+                                        <div class="mb-3">
+                                            <!-- Nếu khuyến mãi đang áp dụng -->
+                                            <p
+                                                th:if="${course.khuyenMaiDangApDung}"
+                                                class="card-text mb-0">
+                                                <!-- Giá khuyến mãi (đỏ, nổi bật) -->
+                                                <span
+                                                    class="fw-bold text-danger me-2"
+                                                    th:text="${#numbers.formatDecimal(course.giaKhuyenMai, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                                                <!-- Giá gốc (bị gạch ngang) -->
+                                                <del class="text-muted"
+                                                    th:text="${#numbers.formatDecimal(course.giagoc, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></del>
+                                            </p>
+
+                                            <!-- Nếu KHÔNG còn khuyến mãi -->
+                                            <p
+                                                th:if="${!course.khuyenMaiDangApDung}"
+                                                class="card-text fw-bold mb-0">
+                                                <span
+                                                    th:text="${#numbers.formatDecimal(course.giagoc, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                                            </p>
+                                        </div>
+
+                                        <div
+                                            class="d-flex justify-content-between align-items-center px-2 pb-3 gap-1">
+                                            <!-- Nút like -->
+                                            <button type="button"
+                                                class="btn btn-sm like-btn"
+                                                th:id="'like-btn-' + ${course.khoahocId}"
+                                                th:classappend="${likedCourseIds.contains(course.khoahocId)} ? 'btn-danger' : 'btn-outline-danger'"
+                                                th:attr="data-id=${course.khoahocId}">
+                                                <i
+                                                    class="fas fa-heart me-1"></i>
+                                                <span
+                                                    th:id="'like-count-' + ${course.khoahocId}"
+                                                    th:text="${course.luotThich != null ? course.luotThich : 0}">
+                                                </span>
+                                            </button>
+
+                                            <!-- Nút chia sẻ -->
+                                            <button type="button"
+                                                onclick="event.stopPropagation()"
+                                                class="btn btn-outline-primary btn-sm share-btn"
+                                                data-bs-toggle="modal"
+                                                th:data-bs-target="'#shareModalthich-' + ${course.khoahocId}">
+                                                <i
+                                                    class="fas fa-share me-1"></i>
+                                            </button>
+
+                                            <button
+                                                class="btn btn-sm btn-outline-success add-to-cart-btn"
+                                                onclick="event.stopPropagation()"
+                                                th:attr="data-id=${course.khoahocId},
+                                                            data-name=${course.tenKhoaHoc},
+                                                            data-gia=${course.giaHienTai},
+                                                            data-giagoc=${course.giagoc},
+                                                            data-anh=${course.anhBia},
+                                                            data-giangvien=${course.giangVien.taikhoan.name}">
+                                                <i
+                                                    class="fas fa-cart-plus me-1"></i>
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal chia sẻ -->
+                            <div class="modal fade"
+                                th:id="'shareModalthich-' + ${course.khoahocId}"
+                                tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header"
+                                            style="background-color: #e9f0ff; border-bottom: 2px solid #0d6efd;">
+                                            <h6 class="modal-title">
+                                                <i
+                                                    class="fas fa-share-alt text-primary me-2"></i>
+                                                Chia sẻ khóa học:
+                                                <span
+                                                    th:text="${course.tenKhoaHoc}"></span>
+                                            </h6>
+                                            <button type="button"
+                                                class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form
+                                            th:action="@{/studend/share-course}"
+                                            method="post" class="ajax-form">
+                                            <div class="modal-body">
+                                                <input type="hidden"
+                                                    name="courseId"
+                                                    th:value="${course.khoahocId}" />
+                                                <div class="mb-3">
+                                                    <label for="recipientEmail"
+                                                        class="form-label">
+                                                        <i
+                                                            class="fas fa-envelope text-primary me-2"></i>
+                                                        Email
+                                                        người
+                                                        nhận:
+                                                    </label>
+                                                    <input type="email"
+                                                        name="recipientEmail"
+                                                        class="form-control"
+                                                        style="font-size: 14px;"
+                                                        required
+                                                        placeholder="nhapemail@example.com">
+                                                </div>
+                                                <p style="font-size: 14px;">
+                                                    <i
+                                                        class="fas fa-info-circle text-info me-2"></i>
+                                                    Email sẽ được gửi kèm thông
+                                                    tin và liên kết khóa học.
+                                                </p>
+                                            </div>
+                                            <div
+                                                class="ajax-message text-center px-3"></div>
+                                            <div class="modal-footer">
+                                                <div
+                                                    class="d-flex justify-content-end gap-2 w-100">
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-outline-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        <i
+                                                            class="fas fa-times me-1"></i>
+                                                        Đóng
+                                                    </button>
+                                                    <button type="submit"
+                                                        class="btn btn-sm fw-semibold btn-outline-primary">
+                                                        <i
+                                                            class="fas fa-paper-plane me-1"></i>
+                                                        Gửi
+                                                        Email
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+
+                <!-- Tab: Chứng chỉ -->
+                <div th:if="${activeTab == 'chung-chi'}"
+                    class="certificate-container">
+
+                    <h2 class="section-title">
+                        <i class="fas fa-certificate me-2"></i> Chứng chỉ của
+                        tôi
+                    </h2>
+
+                    <!-- Stats Card -->
+                    <div class="stats-card">
+                        <div class="stats-number"
+                            th:text="${#lists.size(chungChi)}">0</div>
+                        <div class="stats-label">Số chứng chỉ đã nhận</div>
+                    </div>
+
+                    <!-- Certificate Grid -->
+                    <div class="certificate-grid" id="certificateGrid">
+                        <div class="certificate-card"
+                            th:each="cc : ${chungChi}">
+                            <h4 class="certificate-title"
+                                th:text="${cc.khoahoc.tenKhoaHoc ?: 'Không có tên KH'}">Tên
+                                KH
+                            </h4>
+
+                            <p class="certificate-date">
+                                <i class="fas fa-calendar-alt"></i> Nhận lúc:
+                                <span
+                                    th:text="${#temporals.format(cc.ngayHoanThanh, 'dd/MM/yyyy')}">
+                                    dd/MM/yyyy
+                                </span>
+                            </p>
+
+                            <a th:href="@{'/chung-chi/' + ${cc.danghocId}}"
+                                class="view-certificate-btn">
+                                <i class="fas fa-eye"></i> Xem chứng chỉ
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Empty state -->
+                    <div class="empty-state"
+                        th:if="${#lists.isEmpty(chungChi)}">
+                        <i class="fas fa-certificate"></i>
+                        <h4>Chưa có chứng chỉ nào</h4>
+                        <p>Bạn chưa hoàn thành khóa học nào để nhận chứng chỉ.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toast-container position-fixed top-0 end-0 p-3"
+                style="z-index: 2000;">
+                <div id="toastMessage"
+                    class="toast align-items-center text-white bg-success border-0"
+                    role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body" id="toastBody">
+                            Đã thêm vào giỏ hàng!
+                        </div>
+                        <button type="button"
+                            class="btn-close btn-close-white me-2 m-auto"
+                            data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

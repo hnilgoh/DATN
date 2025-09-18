@@ -1,0 +1,323 @@
+.giohang .cart-container {
+    max-width: 1100px;
+    margin: 50px auto;
+}
+
+.giohang .cart-item {
+    display: flex;
+    gap: 15px;
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.giohang .cart-image {
+    width: 140px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.giohang .cart-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.giohang .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.giohang .cart-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.giohang .cart-teacher {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.giohang .cart-price {
+    margin-top: 5px;
+}
+
+.giohang .item-price {
+    color: #b32d0f;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.giohang .item-old-price {
+    text-decoration: line-through;
+    color: #777;
+    margin-left: 10px;
+    font-size: 0.9rem;
+}
+
+.giohang .remove-btn {
+    margin-top: 10px;
+}
+
+.giohang .cart-title-page {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1b284e;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.giohang .cart-title-page:hover {
+    color: #4f46e5;
+    transform: scale(1.01);
+}
+
+.giohang .cart-summary {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 24px;
+    padding: 2.5rem;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.giohang .cart-summary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+    background-size: 300% 100%;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.giohang .cart-summary:hover {
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
+    transform: translateY(-8px) scale(1.02);
+}
+
+.giohang .price-container {
+    background: linear-gradient(135deg, #667eea20, #764ba220);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.giohang .price-container::before {
+    content: '💰';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 3rem;
+    opacity: 0.1;
+    transform: rotate(15deg);
+}
+
+.giohang .btn-purple {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 16px 32px;
+    font-weight: 600;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.giohang .btn-purple:hover:not(.disabled) {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+}
+
+.giohang .btn-purple.disabled {
+    background: linear-gradient(135deg, #b7cfeb 0%, #7eb8f3 100%);
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+}
+
+.giohang .btn-outline-secondary {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    color: #4a5568;
+    border: 2px solid #e2e8f0;
+    padding: 16px 32px;
+    border-radius: 16px;
+    font-weight: 500;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.giohang .btn-outline-secondary:hover {
+    border-color: #fc8181;
+    color: #e53e3e;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(252, 129, 129, 0.2);
+}
+
+.giohang .text-danger {
+    background: linear-gradient(135deg, #e53e3e, #fc8181);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: priceGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes priceGlow {
+    from {
+        filter: drop-shadow(0 0 5px rgba(229, 62, 62, 0.3));
+    }
+    to {
+        filter: drop-shadow(0 0 15px rgba(229, 62, 62, 0.6));
+    }
+}
+
+.giohang .fs-4 {
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.giohang .fw-semibold {
+    font-weight: 600;
+}
+
+.giohang .fw-bold {
+    font-weight: 700;
+}
+
+.giohang .text-muted {
+    color: #a0aec0;
+    font-style: italic;
+}
+
+.giohang .small {
+    font-size: 0.875rem;
+}
+
+.giohang .cart-icon {
+    display: inline-block;
+    margin-right: 0.5rem;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.giohang .empty-cart-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 50px 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.5s ease;
+    height: 380px;
+}
+
+.giohang .empty-cart-box .empty-icon img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.giohang .empty-cart-box .empty-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.giohang .empty-cart-box .empty-subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 28px;
+}
+
+.giohang .empty-cart-box .empty-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+
+/* Nút chính */
+
+.giohang .empty-cart-box .btn-primary {
+    background: linear-gradient(135deg, #7c3aed, #6366f1);
+    color: #fff;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.giohang .empty-cart-box .btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+
+/* Nút phụ */
+
+.giohang .empty-cart-box .btn-outline {
+    background: #fff;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.giohang .empty-cart-box .btn-outline:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+}
+
+
+/* Animation */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

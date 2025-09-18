@@ -1,0 +1,100 @@
+.thanhtoan .title {
+    color: #16203b;
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.thanhtoan .table-wrapper {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+}
+
+.thanhtoan .table-payment {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.thanhtoan .table-payment th,
+.thanhtoan .table-payment td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 12px 10px;
+}
+
+.thanhtoan .table-payment thead {
+    background-color: #16203b;
+    color: #fff;
+}
+
+.thanhtoan .badge-success {
+    background: #43a047 !important;
+}
+
+.thanhtoan .badge-warning {
+    background: #ffb300 !important;
+    color: #0b1c36 !important;
+}
+
+.thanhtoan .badge-danger {
+    background: #e53935 !important;
+}
+
+.thanhtoandetail main {
+    background-color: #f8f9fa;
+    padding: 40px 0;
+}
+
+.thanhtoandetail .detail-title {
+    color: #16203b;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.thanhtoandetail h2 {
+    padding-top: 30px;
+}
+
+.thanhtoandetail .card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    background: #cccccc;
+    padding-bottom: 20px;
+    margin-bottom: 70px;
+}
+
+.thanhtoandetail .list-group-item {
+    border: none;
+    padding: 12px 18px;
+    font-size: 15px;
+    color: #16203b;
+    background-color: transparent;
+    border-bottom: 1px solid #eee;
+}
+
+.thanhtoandetail .list-group-item b {
+    width: 140px;
+    display: inline-block;
+}
+
+.thanhtoandetail .btn-back {
+    background-color: #16203b;
+    color: white;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.thanhtoandetail .btn-back:hover {
+    background-color: #0f172a;
+    text-decoration: none;
+}

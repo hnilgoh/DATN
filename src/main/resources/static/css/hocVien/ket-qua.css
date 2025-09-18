@@ -1,0 +1,73 @@
+.ketqua .list-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+}
+
+.ketqua .list-header h1 {
+    font-size: 28px;
+    color: #1e3a8a;
+    margin: 0 0 24px 0;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 24px;
+}
+
+.ketqua .results-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ketqua .results-table th,
+.ketqua .results-table td {
+    padding: 16px;
+    border-bottom: 1px solid #e9ecef;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.ketqua .results-table thead th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+}
+
+.ketqua .results-table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+.ketqua .results-table .score {
+    font-weight: bold;
+    color: #1e3a8a;
+    font-size: 18px;
+}
+
+.ketqua .results-table .date {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.ketqua .btn-detail {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #1e3a8a;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.ketqua .btn-detail:hover {
+    background-color: #1c3172;
+}
+
+.ketqua .no-results {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+}

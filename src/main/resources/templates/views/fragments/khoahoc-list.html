@@ -1,0 +1,195 @@
+<div th:fragment="fragment">
+    <!-- toàn bộ nội dung khóa học và phân trang -->
+    <div class="row courses-grid">
+        <th:block th:each="khoaHoc : ${khoaHocPage.content}">
+            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                <div class="card h-100 shadow-sm course-card"
+                    th:onclick="|window.location.href='/khoaHoc/${khoaHoc.khoahocId}'|">
+                    <img class="card-img-top" th:src="${khoaHoc.anhBia}"
+                        alt="Ảnh khoá học" />
+
+                    <div class="card-body d-flex flex-column pb-0">
+                        <h5 class="card-title"
+                            th:text="${khoaHoc.tenKhoaHoc}">Tên khóa học
+                        </h5>
+                        <p class="card-text small text-muted mt-auto">
+                            <i class="fas fa-chalkboard-teacher me-1"></i> Giảng
+                            viên:
+                            <span
+                                th:text="${khoaHoc.giangVien?.taikhoan?.name ?: 'Đang cập nhật'}">Tên
+                                giảng viên</span>
+                        </p>
+                    </div>
+
+                    <div class="card-footer pt-0">
+                        <div class="mb-3">
+                            <!-- Nếu khuyến mãi đang áp dụng -->
+                            <p th:if="${khoaHoc.khuyenMaiDangApDung}"
+                                class="card-text mb-0">
+                                <!-- Giá khuyến mãi (đỏ, nổi bật) -->
+                                <span class="fw-bold text-danger me-2"
+                                    th:text="${#numbers.formatDecimal(khoaHoc.giaKhuyenMai, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                                <!-- Giá gốc (bị gạch ngang) -->
+                                <del class="text-muted"
+                                    th:text="${#numbers.formatDecimal(khoaHoc.giagoc, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></del>
+                            </p>
+
+                            <!-- Nếu KHÔNG còn khuyến mãi -->
+                            <p th:if="${!khoaHoc.khuyenMaiDangApDung}"
+                                class="card-text fw-bold mb-0">
+                                <span
+                                    th:text="${#numbers.formatDecimal(khoaHoc.giagoc, 0, 'COMMA', 0, 'POINT') + ' ₫'}"></span>
+                            </p>
+                        </div>
+                        <div
+                            class="d-flex justify-content-between align-items-center px-2 pb-3 gap-1">
+                            <button type="button" class="btn btn-sm like-btn"
+                                onclick="event.stopPropagation()"
+                                th:id="'like-btn-' + ${khoaHoc.khoahocId}"
+                                th:classappend="${likedCourseIds.contains(khoaHoc.khoahocId)} ? 'btn-danger' : 'btn-outline-danger'"
+                                th:attr="data-id=${khoaHoc.khoahocId}">
+                                <i class="fas fa-heart me-1"></i>
+                                <span
+                                    th:id="'like-count-' + ${khoaHoc.khoahocId}"
+                                    th:text="${khoaHoc.luotThich != null ? khoaHoc.luotThich : 0}">
+                                </span>
+                            </button>
+
+                            <button type="button"
+                                onclick="event.stopPropagation()"
+                                class="btn btn-outline-primary btn-sm share-btn"
+                                data-bs-toggle="modal"
+                                th:data-bs-target="'#shareModal-' + ${khoaHoc.khoahocId}">
+                                <i class="fas fa-share me-1"></i>
+                            </button>
+
+                            <button
+                                class="btn btn-sm btn-outline-success add-to-cart-btn"
+                                onclick="event.stopPropagation()"
+                                th:attr="data-id=${khoaHoc.khoahocId},
+                                            data-name=${khoaHoc.tenKhoaHoc},
+                                            data-gia=${khoaHoc.giaHienTai},
+                                            data-giagoc=${khoaHoc.giagoc},
+                                            data-anh=${khoaHoc.anhBia},
+                                            data-giangvien=${khoaHoc.giangVien.taikhoan.name}">
+                                <i class="fas fa-cart-plus me-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal chia sẻ -->
+                <div class="modal fade"
+                    th:id="'shareModal-' + ${khoaHoc.khoahocId}" tabindex="-1"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header"
+                                style="background-color: #e9f0ff; border-bottom: 2px solid #0d6efd;">
+                                <h6 class="modal-title">
+                                    <i
+                                        class="fas fa-share-alt text-primary me-2"></i>
+                                    Chia sẻ khóa học:
+                                    <span
+                                        th:text="${khoaHoc.tenKhoaHoc}"></span>
+                                </h6>
+                                <button type="button" class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form th:action="@{/studend/share-course}"
+                                method="post" class="ajax-form">
+                                <div class="modal-body">
+                                    <input type="hidden" name="courseId"
+                                        th:value="${khoaHoc.khoahocId}" />
+                                    <div class="mb-3">
+                                        <label for="recipientEmail"
+                                            class="form-label">
+                                            <i
+                                                class="fas fa-envelope text-primary me-2"></i>
+                                            Email người
+                                            nhận:
+                                        </label>
+                                        <input type="email"
+                                            name="recipientEmail"
+                                            class="form-control"
+                                            style="font-size: 14px;" required
+                                            placeholder="nhapemail@example.com">
+                                    </div>
+                                    <p style="font-size: 14px;">
+                                        <i
+                                            class="fas fa-info-circle text-info me-2"></i>
+                                        Email sẽ được gửi kèm thông tin và liên
+                                        kết khóa học.
+                                    </p>
+                                </div>
+                                <div
+                                    class="ajax-message text-center px-3"></div>
+                                <div class="modal-footer">
+                                    <div
+                                        class="d-flex justify-content-end gap-2 w-100">
+                                        <button type="button"
+                                            class="btn btn-sm btn-outline-secondary"
+                                            data-bs-dismiss="modal">
+                                            <i
+                                                class="fas fa-times me-1"></i>
+                                            Đóng
+                                        </button>
+                                        <button type="submit"
+                                            class="btn btn-sm fw-semibold btn-outline-primary">
+                                            <i
+                                                class="fas fa-paper-plane me-1"></i>
+                                            Gửi Email
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+
+    <!-- Phân trang -->
+    <div class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+            <!-- Nút Đầu -->
+            <li class="page-item"
+                th:classappend="${khoaHocPage.first} ? 'disabled'">
+                <a class="page-link" href="#"
+                    th:attr="data-page=0">&laquo;&laquo;</a>
+            </li>
+
+            <!-- Nút Trước -->
+            <li class="page-item"
+                th:classappend="${khoaHocPage.first} ? 'disabled'">
+                <a class="page-link" href="#"
+                    th:attr="data-page=${khoaHocPage.number - 1}">&laquo;</a>
+            </li>
+
+            <!-- Chỉ hiện 2 số trang quanh trang hiện tại -->
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence(startPage, endPage)}"
+                th:classappend="${i == khoaHocPage.number} ? 'active'">
+                <a class="page-link" href="#" th:text="${i + 1}"
+                    th:attr="data-page=${i}"></a>
+            </li>
+
+            <!-- Nút Kế tiếp -->
+            <li class="page-item"
+                th:classappend="${khoaHocPage.last} ? 'disabled'">
+                <a class="page-link" href="#"
+                    th:attr="data-page=${khoaHocPage.number + 1}">&raquo;</a>
+            </li>
+
+            <!-- Nút Cuối -->
+            <li class="page-item"
+                th:classappend="${khoaHocPage.last} ? 'disabled'">
+                <a class="page-link" href="#"
+                    th:attr="data-page=${khoaHocPage.totalPages - 1}">&raquo;&raquo;</a>
+            </li>
+        </ul>
+    </div>
+
+</div>

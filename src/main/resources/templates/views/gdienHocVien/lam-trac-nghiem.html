@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Làm bài trắc nghiệm</title>
+    </head>
+
+    <body>
+        <main class="lamtracnghiem">
+            <div class="quiz-container">
+                <!-- Header -->
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h1>Bài kiểm tra kiến thức Java cơ bản</h1>
+                        <div class="quiz-meta">
+                            <span><i class="fas fa-question-circle"></i> 3 câu
+                                hỏi</span>
+                            <span><i class="fas fa-clock"></i> 10 phút</span>
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <div class="timer" id="timer">10:00</div>
+                        <a href="/hoc-tap/khoa-hoc/1" class="btn-back">← Quay
+                            lại khóa học</a>
+                    </div>
+                </div>
+
+                <!-- Nội dung câu hỏi -->
+                <div class="quiz-content">
+                    <!-- Câu 1 -->
+                    <div class="question-block">
+                        <h3>Câu hỏi 1</h3>
+                        <p>Java là ngôn ngữ lập trình gì?</p>
+                        <ul class="answer-options">
+                            <li><input type="radio" name="q1" id="q1a1"><label
+                                    for="q1a1">Ngôn ngữ đánh dấu</label></li>
+                            <li><input type="radio" name="q1" id="q1a2"><label
+                                    for="q1a2">Ngôn ngữ lập trình hướng đối
+                                    tượng</label></li>
+                            <li><input type="radio" name="q1" id="q1a3"><label
+                                    for="q1a3">Ngôn ngữ kịch bản</label></li>
+                            <li><input type="radio" name="q1" id="q1a4"><label
+                                    for="q1a4">Không phải ngôn ngữ lập
+                                    trình</label></li>
+                        </ul>
+                    </div>
+
+                    <!-- Câu 2 -->
+                    <div class="question-block">
+                        <h3>Câu hỏi 2</h3>
+                        <p>Kiểu dữ liệu nào sau đây không phải là kiểu nguyên
+                            thủy trong Java?</p>
+                        <ul class="answer-options">
+                            <li><input type="radio" name="q2" id="q2a1"><label
+                                    for="q2a1">int</label></li>
+                            <li><input type="radio" name="q2" id="q2a2"><label
+                                    for="q2a2">String</label></li>
+                            <li><input type="radio" name="q2" id="q2a3"><label
+                                    for="q2a3">boolean</label></li>
+                            <li><input type="radio" name="q2" id="q2a4"><label
+                                    for="q2a4">double</label></li>
+                        </ul>
+                    </div>
+
+                    <!-- Câu 3 -->
+                    <div class="question-block">
+                        <h3>Câu hỏi 3</h3>
+                        <p>Từ khóa "class" dùng để làm gì trong Java?</p>
+                        <ul class="answer-options">
+                            <li><input type="radio" name="q3" id="q3a1"><label
+                                    for="q3a1">Định nghĩa một phương
+                                    thức</label></li>
+                            <li><input type="radio" name="q3" id="q3a2"><label
+                                    for="q3a2">Khai báo một lớp</label></li>
+                            <li><input type="radio" name="q3" id="q3a3"><label
+                                    for="q3a3">Tạo biến</label></li>
+                            <li><input type="radio" name="q3" id="q3a4"><label
+                                    for="q3a4">Xuất dữ liệu ra màn
+                                    hình</label></li>
+                        </ul>
+                    </div>
+
+                    <!-- Nút nộp bài -->
+                    <div class="submit-section">
+                        <button class="btn-submit">Nộp bài</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

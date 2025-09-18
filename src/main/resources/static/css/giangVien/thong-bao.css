@@ -1,0 +1,212 @@
+        :root {
+           --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+           --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+           --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+           --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+           --card-hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+       }
+       
+       .thongbao {
+           font-family: 'Inter', sans-serif;
+           min-height: 100vh;
+           position: relative;
+           z-index: 1;
+           padding: 2rem;
+       }
+       
+       .thongbao::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(0,0,0,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(0,0,0,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+           pointer-events: none;
+           z-index: -1;
+       }
+       
+       .thongbao .thongbao-title {
+           background: rgba(255, 255, 255, 0.15);
+           backdrop-filter: blur(10px);
+           border: 1px solid rgba(255, 255, 255, 0.2);
+           border-radius: 20px;
+           padding: 20px 30px;
+           text-align: center;
+           font-weight: 600;
+           font-size: 1.5rem;
+           color: rgb(98, 12, 245) !important;
+           box-shadow: var(--card-shadow);
+           margin-bottom: 2rem;
+           position: relative;
+           overflow: hidden;
+       }
+       
+       .thongbao .thongbao-title::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: -100%;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+           animation: shimmer 3s infinite;
+       }
+       
+       @keyframes shimmer {
+           0% {
+               left: -100%;
+           }
+           100% {
+               left: 100%;
+           }
+       }
+       
+       .thongbao .thongbao-title i {
+           background: var(--secondary-gradient);
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+           font-size: 1.3em;
+           margin-right: 10px;
+       }
+       
+       .thongbao .thongbao-empty {
+           background: rgba(255, 255, 255, 0.95);
+           backdrop-filter: blur(15px);
+           border: none;
+           border-radius: 20px;
+           padding: 40px;
+           text-align: center;
+           box-shadow: var(--card-shadow);
+           color: #6c757d;
+           font-size: 1.1rem;
+           border-left: 5px solid #17a2b8;
+           position: relative;
+           overflow: hidden;
+       }
+       
+       .thongbao .thongbao-empty i {
+           font-size: 3rem;
+           color: #17a2b8;
+           margin-bottom: 15px;
+           display: block;
+       }
+       
+       .thongbao .thongbao-empty::after {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: -100%;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+           animation: loading 2s infinite;
+       }
+       
+       @keyframes loading {
+           0% {
+               left: -100%;
+           }
+           100% {
+               left: 100%;
+           }
+       }
+       
+       .thongbao .thongbao-card {
+           background: rgba(255, 255, 255, 0.95);
+           backdrop-filter: blur(15px);
+           border: 1px solid rgba(255, 255, 255, 0.2);
+           border-radius: 20px;
+           box-shadow: var(--card-shadow);
+           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+           overflow: hidden;
+           position: relative;
+           opacity: 0;
+           transform: translateY(30px);
+           animation: slideUp 0.6s ease forwards;
+       }
+       
+       .thongbao .thongbao-card::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 4px;
+           background: var(--primary-gradient);
+       }
+       
+       .thongbao .thongbao-card:hover {
+           transform: translateY(-8px);
+           box-shadow: var(--card-hover-shadow);
+           border-color: rgba(102, 126, 234, 0.3);
+       }
+       
+       @keyframes slideUp {
+           to {
+               opacity: 1;
+               transform: translateY(0);
+           }
+       }
+       
+       .thongbao .thongbao-card .card-body {
+           padding: 30px;
+       }
+       
+       .thongbao .thongbao-card .card-title {
+           font-weight: 600;
+           font-size: 1.3rem;
+           margin-bottom: 15px;
+           background: var(--primary-gradient);
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+           position: relative;
+       }
+       
+       .thongbao .thongbao-card .card-title::after {
+           content: '';
+           position: absolute;
+           bottom: -5px;
+           left: 0;
+           width: 50px;
+           height: 3px;
+           background: var(--secondary-gradient);
+           border-radius: 2px;
+       }
+       
+       .thongbao .thongbao-date {
+           background: rgba(108, 117, 125, 0.1);
+           padding: 8px 15px;
+           border-radius: 25px;
+           font-size: 0.9rem;
+           color: #6c757d !important;
+           margin-bottom: 20px;
+           display: inline-flex;
+           align-items: center;
+           border: 1px solid rgba(108, 117, 125, 0.1);
+       }
+       
+       .thongbao .thongbao-date i {
+           color: #667eea;
+           margin-right: 8px;
+       }
+       
+       .thongbao .card-text {
+           line-height: 1.7;
+           color: #495057 !important;
+           font-size: 1rem;
+       }
+       /* Responsive */
+       
+       @media (max-width: 768px) {
+           .thongbao .thongbao-title {
+               font-size: 1.2rem;
+               padding: 15px 20px;
+           }
+           .thongbao .thongbao-card .card-body {
+               padding: 20px;
+           }
+           .thongbao .thongbao-card .card-title {
+               font-size: 1.1rem;
+           }
+       }

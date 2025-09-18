@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Đặt lại mật khẩu</title>
+        <link rel="stylesheet" th:href="@{/css/xacthuc-datlaimatkhau.css}">
+    </head>
+
+    <body>
+        <main class="xacthuc">
+            <section
+                class="xacthuc__section d-flex align-items-center justify-content-center">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
+                        <!-- Ảnh -->
+                        <div class="col-md-6 d-flex justify-content-center">
+                            <img th:src="@{/photos/quenmatkhau2.png}"
+                                class="img-fluid xacthuc__img"
+                                alt="Khóa bảo mật">
+                        </div>
+
+                        <!-- Form -->
+                        <div class="col-md-5">
+                            <div class="xacthuc__wrapper">
+                                <div class="text-center mb-4">
+                                    <h3 class="fw-bold text-primary">🔒 Đặt lại
+                                        mật khẩu</h3>
+                                    <p>Vui lòng nhập mật khẩu mới cho tài khoản
+                                        của bạn.</p>
+                                </div>
+
+                                <div th:if="${error}" class="alert alert-danger"
+                                    th:text="${error}"></div>
+
+                                <form th:action="@{/lay-lai-mat-khau/reset}"
+                                    method="post">
+                                    <div class="mb-3 text-start">
+                                        <label for="password"
+                                            class="form-label">🔑 Mật khẩu
+                                            mới:</label>
+                                        <input type="password"
+                                            class="form-control" id="password"
+                                            name="password" required>
+                                    </div>
+                                    <div class="mb-3 text-start">
+                                        <label for="confirm"
+                                            class="form-label">🔁 Xác nhận mật
+                                            khẩu:</label>
+                                        <input type="password"
+                                            class="form-control" id="confirm"
+                                            name="confirm" required>
+                                    </div>
+
+                                    <div class="d-grid">
+                                        <button type="submit"
+                                            class="btn xacthuc__btn">✅ Cập nhật
+                                            mật khẩu</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div id="successModal" class="modal-overlay"
+                            th:if="${message == 'Đặt lại mật khẩu thành công. Bạn có thể đăng nhập lại.'}">
+                            <div class="modal-box">
+                                <svg width="70" height="70" viewBox="0 0 70 70"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="35" cy="35" r="35"
+                                        fill="#8fd19e" />
+                                    <path d="M20 36L31 47L50 28" stroke="white"
+                                        stroke-width="5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <div class="modal-message">Đặt lại mật khẩu
+                                    thành công!</div>
+                                <a th:href="@{/auth/dangnhap}"
+                                    class="modal-close-btn">Đăng nhập</a>
+                            </div>
+                        </div>
+
+                        <script>
+                        window.addEventListener("load", function() {
+                            const modal = document.getElementById("successModal");
+                            if (modal && modal.style.display !== "none") {
+                                setTimeout(() => {
+                                    modal.style.display = "none";
+                                }, 4000);
+                            }
+                        });
+                    </script>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </body>
+
+</html>

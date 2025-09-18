@@ -1,0 +1,74 @@
+ .nhanvienxacthuc {
+     margin-top: 70px;
+     padding-bottom: 70px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-family: 'Segoe UI', sans-serif;
+ }
+ 
+ .nhanvienxacthuc .form-wrapper {
+     background-color: #ffffff;
+     padding: 2rem 2.5rem;
+     border-radius: 15px;
+     box-shadow: 0 4px 15px rgba(11, 28, 54, 0.2);
+     width: 100%;
+     max-width: 450px;
+     opacity: 0;
+     transform: translateY(30px);
+     animation: fadeInUp 0.6s ease-out forwards;
+ }
+ 
+ .nhanvienxacthuc h2 {
+     color: #0b1c36;
+     margin-bottom: 1.5rem;
+     text-align: center;
+     font-weight: bold;
+ }
+ 
+ .nhanvienxacthuc label {
+     color: #0b1c36;
+     font-weight: 500;
+ }
+ 
+ .nhanvienxacthuc input[type="password"] {
+     border-radius: 8px;
+     padding: 10px 15px;
+     border: 1px solid #ced4da;
+     width: 100%;
+     margin-top: 5px;
+ }
+ 
+ .nhanvienxacthuc button[type="submit"] {
+     background-color: #0b1c36;
+     color: white;
+     border: none;
+     padding: 10px 20px;
+     border-radius: 8px;
+     width: 100%;
+     font-weight: 600;
+     transition: background-color 0.3s;
+ }
+ 
+ .nhanvienxacthuc button[type="submit"]:hover {
+     background-color: #102846;
+ }
+ 
+ .nhanvienxacthuc .message {
+     color: green;
+     font-weight: 500;
+     text-align: center;
+     margin-bottom: 1rem;
+ }
+ 
+ .nhanvienxacthuc .fa-lock {
+     color: #0b1c36;
+     margin-right: 8px;
+ }
+ 
+ @keyframes fadeInUp {
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }

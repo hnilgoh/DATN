@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Đánh giá khóa học</title>
+    </head>
+
+    <body>
+        <main class="quanlydanhgia">
+            <div class="container py-4">
+
+                <!-- Header Section -->
+                <div class="header-section">
+                    <div class="header-content">
+                        <h1 class="page-title">
+                            <i class="fas fa-star"></i> Đánh giá khóa học
+                        </h1>
+                        <p class="page-subtitle">Quản lý và theo dõi đánh giá từ
+                            học viên</p>
+                    </div>
+                </div>
+
+                <form method="get"
+                    th:action="@{/giangvien/danh-gia-tu-khoa-hoc}"
+                    class="filter-form p-4 rounded shadow">
+                    <div class="row g-3 align-items-end">
+
+                        <!-- Khóa học -->
+                        <div class="col-md-5">
+                            <label class="form-label fw-semibold">📚 Khóa
+                                học</label>
+                            <select name="khoahocId"
+                                class="form-select custom-select">
+                                <option value>-- Tất cả --</option>
+                                <option th:each="kh : ${dsKhoaHoc}"
+                                    th:value="${kh.khoahocId}"
+                                    th:text="${kh.tenKhoaHoc}"
+                                    th:selected="${kh.khoahocId == khoaHocDaChon}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Số sao -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">⭐ Đánh
+                                giá</label>
+                            <select name="sao"
+                                class="form-select custom-select">
+                                <option value>-- Tất cả --</option>
+                                <option th:each="i : ${#numbers.sequence(1,5)}"
+                                    th:value="${i}"
+                                    th:text="${i + ' sao'}"
+                                    th:selected="${i == saoDaChon}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Nút -->
+                        <div class="col-md-3 d-flex gap-2">
+                            <button type="submit"
+                                class="btn btn-primary flex-fill">
+                                🔍 Lọc
+                            </button>
+                            <a th:href="@{/giangvien/danh-gia-tu-khoa-hoc}"
+                                class="btn btn-outline-secondary flex-fill">
+                                🗑️ Xóa
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Tổng quan -->
+                <div th:if="${khoaHocChiTiet == null}">
+                    <div class="table-responsive">
+                        <table
+                            class="table table-hover table-bordered align-middle custom-table">
+                            <thead class="table-primary text-center">
+                                <tr>
+                                    <th>
+                                        <i class="bi bi-journal-text me-1"></i>
+                                        Tên khóa học
+                                    </th>
+                                    <th>
+                                        <i class="bi bi-people me-1"></i> Số
+                                        lượt đánh giá
+                                    </th>
+                                    <th>
+                                        <i class="bi bi-star-half me-1"></i>
+                                        Điểm trung bình
+                                    </th>
+                                    <th>
+                                        <i class="bi bi-gear me-1"></i> Hành
+                                        động
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="row : ${tongQuanDanhGia}">
+                                    <td
+                                        th:text="${row.khoahoc.tenKhoaHoc}"></td>
+                                    <td class="text-center fw-semibold"
+                                        th:text="${row.tong}"></td>
+                                    <td class="text-center text-warning fw-bold"
+                                        th:text="${#numbers.formatDecimal(row.diemTB, 1, 1)} + ' ⭐️'">
+                                    </td>
+                                    <td class="text-center">
+                                        <a
+                                            th:href="@{/giangvien/danh-gia-tu-khoa-hoc(khoahocId=${row.khoahoc.khoahocId})}"
+                                            class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> Xem chi
+                                            tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Chi tiết -->
+                <div th:if="${khoaHocChiTiet != null}">
+                    <div class="card mb-4 course-info-card">
+                        <div class="card-body">
+                            <h5 class="card-title course-title">
+                                <i class="fas fa-graduation-cap"></i> Thông tin
+                                khóa học
+                            </h5>
+                            <div class="course-details">
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-hashtag"></i> Mã khóa
+                                        học:
+                                    </div>
+                                    <div class="info-value course-id"
+                                        th:text="${khoaHocChiTiet.khoahocId}">KH001</div>
+                                </div>
+
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-book"></i> Tên khóa
+                                        học:
+                                    </div>
+                                    <div class="info-value course-name"
+                                        th:text="${khoaHocChiTiet.tenKhoaHoc}">Lập
+                                        trình Web Frontend với React.js</div>
+                                </div>
+
+                                <div class="info-item"
+                                    th:if="${khoaHocChiTiet.moTa != null}">
+                                    <div class="info-label">
+                                        <i class="fas fa-align-left"></i> Mô tả:
+                                    </div>
+                                    <div class="info-value course-description"
+                                        th:text="${khoaHocChiTiet.moTa}">Khóa
+                                        học toàn diện về phát triển giao diện
+                                        web hiện đại sử dụng React.js, bao gồm
+                                        các khái niệm cơ bản đến nâng cao.</div>
+                                </div>
+
+                                <div class="stats-row">
+                                    <div class="stat-item">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                        <div class="stat-content">
+                                            <div class="stat-label">Tổng lượt
+                                                đánh giá</div>
+                                            <div class="stat-value"
+                                                th:text="${tongLuot}">156</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="stat-item">
+                                        <div class="stat-icon rating-icon">
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="stat-content">
+                                            <div class="stat-label">Điểm trung
+                                                bình
+                                            </div>
+                                            <div
+                                                class="stat-value rating-value">
+                                                <span
+                                                    th:text="${#numbers.formatDecimal(diemTrungBinh, 1, 1)}">4.8</span>
+                                                <span
+                                                    class="star-emoji">⭐️</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${#lists.isEmpty(dsDanhGia)}"
+                        class="empty-state-container">
+                        <div class="empty-state-card">
+                            <div class="empty-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h4 class="empty-title">Chưa có đánh giá nào</h4>
+                            <p class="empty-message">Hiện tại chưa có đánh giá
+                                nào phù hợp với tiêu chí tìm kiếm của bạn.</p>
+                            <div class="empty-suggestions">
+                                <div class="suggestion-item">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <span>Thử điều chỉnh bộ lọc tìm kiếm</span>
+                                </div>
+                                <div class="suggestion-item">
+                                    <i class="fas fa-refresh"></i>
+                                    <span>Kiểm tra lại sau</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review Item -->
+                    <div th:each="dg : ${dsDanhGia}"
+                        class="card mb-3 shadow-sm border-0 review-item">
+                        <div class="card-body d-flex">
+                            <!-- Avatar -->
+                            <div class="flex-shrink-0">
+                                <img th:src="${dg.taikhoan.avatar}" alt="Avatar"
+                                    class="rounded-circle border"
+                                    style="width: 50px; height: 50px; object-fit: cover;" />
+                            </div>
+
+                            <!-- Nội dung -->
+                            <div class="ms-3 w-100">
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0 fw-bold text-dark"
+                                        th:text="${dg.taikhoan.name}">
+                                        Tên người dùng
+                                    </h6>
+                                    <small class="text-muted review-date"
+                                        th:text="${#temporals.format(dg.ngayDanhGia, 'dd/MM/yyyy')}">
+                                        22/07/2025
+                                    </small>
+                                </div>
+
+                                <!-- Stars -->
+                                <div class="review-stars my-1">
+                                    <span
+                                        th:each="i : ${#numbers.sequence(1, dg.diemDanhGia)}"
+                                        class="text-warning">★</span>
+                                    <span th:if="${dg.diemDanhGia < 5}"
+                                        th:each="j : ${#numbers.sequence(dg.diemDanhGia + 1, 5)}"
+                                        class="text-secondary">★</span>
+                                </div>
+
+                                <!-- Nội dung đánh giá -->
+                                <p class="mb-0 text-muted"
+                                    th:text="${dg.noiDung}">
+                                    Nội dung đánh giá
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <a th:href="@{/giangvien/danh-gia-tu-khoa-hoc}"
+                            class="btn btn-outline-primary">← Quay lại tổng
+                            quan</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+
+</html>

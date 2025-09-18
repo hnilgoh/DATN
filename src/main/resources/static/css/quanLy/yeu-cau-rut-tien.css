@@ -1,0 +1,390 @@
+/* =============================
+   QUẢN LÝ YÊU CẦU RÚT TIỀN
+   Chủ đạo: #16203b
+   ============================= */
+
+.yeucauruttien {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f6fa;
+    padding-bottom: 50px;
+}
+
+
+/* Card container */
+
+.yeucauruttien .card {
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    background-color: #ffffff;
+}
+
+
+/* Card header */
+
+.yeucauruttien .card-header {
+    background: linear-gradient(90deg, #16203b, #24345b);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+
+/* Tabs */
+
+.yeucauruttien .nav-tabs {
+    border-bottom: none;
+}
+
+.yeucauruttien .nav-tabs .nav-link {
+    border: none;
+    border-radius: 8px 8px 0 0;
+    background-color: #e9edf5;
+    margin-right: 5px;
+    color: #16203b;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.yeucauruttien .nav-tabs .nav-link.active {
+    background: linear-gradient(90deg, #16203b, #24345b);
+    color: #fff;
+}
+
+.yeucauruttien .nav-tabs .nav-link:hover {
+    background-color: #d5dcec;
+}
+
+
+/* Table */
+
+.yeucauruttien table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.yeucauruttien table thead {
+    background-color: #16203b;
+    color: white;
+}
+
+.yeucauruttien table th,
+.yeucauruttien table td {
+    vertical-align: middle;
+    padding: 12px;
+}
+
+.yeucauruttien table tbody tr:hover {
+    background-color: #f2f6fc;
+    transition: 0.2s;
+}
+
+
+/* Nút hành động */
+
+.yeucauruttien .btn {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 6px 14px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.yeucauruttien .btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.yeucauruttien .btn-success:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.yeucauruttien .btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.yeucauruttien .btn-danger:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+
+/* Modal */
+
+.yeucauruttien .modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+}
+
+.yeucauruttien .modal-header {
+    background-color: #16203b;
+    color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.yeucauruttien .modal-footer .btn-primary {
+    background-color: #16203b;
+    border: none;
+}
+
+.yeucauruttien .modal-footer .btn-primary:hover {
+    background-color: #24345b;
+}
+
+
+/* Toast */
+
+.yeucauruttien .toast {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Trạng thái */
+
+.yeucauruttien .text-warning {
+    color: #ffb400 !important;
+    font-weight: 600;
+}
+
+.yeucauruttien .text-success {
+    color: #28a745 !important;
+    font-weight: 600;
+}
+
+.yeucauruttien .text-danger {
+    color: #dc3545 !important;
+    font-weight: 600;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .yeucauruttien table {
+        font-size: 0.9rem;
+    }
+    .yeucauruttien h2 {
+        font-size: 1.2rem;
+    }
+}
+
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+}
+
+
+/* Custom Nav Tabs Styling */
+
+.yeucauruttien .nav-tabs-custom {
+    border: none;
+    background: var(--light-bg);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.yeucauruttien .nav-tabs-custom::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border-radius: var(--border-radius);
+}
+
+.yeucauruttien .nav-tabs-custom .nav-item {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+}
+
+.yeucauruttien .nav-tabs-custom .nav-link {
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    color: #6c757d;
+    background: transparent;
+    margin: 0 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.yeucauruttien .nav-tabs-custom .nav-link:hover {
+    color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+}
+
+.yeucauruttien .nav-tabs-custom .nav-link.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+}
+
+.yeucauruttien .nav-tabs-custom .nav-link.active::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 10px;
+    z-index: -1;
+    opacity: 0.3;
+    filter: blur(8px);
+}
+
+
+/* Status Icons */
+
+.yeucauruttien .status-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.yeucauruttien .status-pending {
+    background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+    color: #e17055;
+}
+
+.yeucauruttien .status-success {
+    background: linear-gradient(135deg, #00b894, #00cec9);
+    color: white;
+}
+
+.yeucauruttien .status-rejected {
+    background: linear-gradient(135deg, #e17055, #d63031);
+    color: white;
+}
+
+
+/* Tabs Header */
+
+.yeucauruttien .tabs-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.yeucauruttien .tabs-title {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.yeucauruttien .tabs-subtitle {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+
+/* Card container */
+
+.yeucauruttien .card {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+
+/* Header với gradient */
+
+.yeucauruttien .bg-gradient-primary {
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    font-weight: 600;
+}
+
+
+/* Bảng custom */
+
+.yeucauruttien .custom-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.yeucauruttien .custom-table thead {
+    background: #f9fafb;
+}
+
+.yeucauruttien .custom-table thead th {
+    font-weight: 600;
+    color: #374151;
+    text-transform: uppercase;
+    font-size: 13px;
+    padding: 14px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.yeucauruttien .custom-table tbody td {
+    padding: 14px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+    color: #374151;
+}
+
+
+/* Hover hàng */
+
+.yeucauruttien .custom-table tbody tr:hover {
+    background-color: #f9f9ff;
+    transform: translateY(-2px);
+    transition: all 0.2s ease-in-out;
+}
+
+
+/* Badge trạng thái */
+
+.yeucauruttien .badge {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* Nút hành động */
+
+.yeucauruttien .action-btn {
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.yeucauruttien .action-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <title>Thống kê doanh thu</title>
+    </head>
+
+    <body>
+        <main class="doanhthu">
+            <div class="container-fluid px-4">
+                <div class="doanhthu-heading fade-in">
+                    <h3>
+                        <i class="fas fa-chart-line me-2"></i> Thống kê doanh
+                        thu
+                    </h3>
+                </div>
+
+                <!-- Các khối thống kê -->
+                <div class="row my-4">
+                    <!-- Tổng doanh thu -->
+                    <div class="col-md-6 fade-in">
+                        <div
+                            class="card shadow-sm text-center border-0 p-4 rounded-4">
+                            <div class="card-title fw-bold tongdoanhthu-title">
+                                <i class="fas fa-sack-dollar me-2"></i> Tổng
+                                doanh thu
+                            </div>
+                            <div class="fs-5 fw-semibold text-dark mt-2">
+                                <span style="color: #eaa70b;"
+                                    th:if="${doanhThu != null}"
+                                    th:text="${#numbers.formatDecimal(doanhThu, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">0
+                                    VNĐ</span>
+                                <span th:if="${doanhThu == null}">0 VNĐ</span>
+                            </div>
+                            <div>
+                                <img src="/photos/doanhthu.png" alt="Doanh thu"
+                                    class="img-fluid doanhthu-img">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Doanh thu tháng -->
+                    <div class="col-md-6 fade-in">
+                        <div
+                            class="card shadow-sm text-center border-0 p-4 rounded-4">
+                            <div class="card-title fw-bold tongdoanhthu-title">
+                                <i class="fas fa-calendar-alt me-2"></i> Doanh
+                                thu tháng này
+                            </div>
+                            <div class="fs-5 fw-semibold text-dark mt-2">
+                                <span style="color: #0167ff;"
+                                    th:if="${doanhThuThang != null}"
+                                    th:text="${#numbers.formatDecimal(doanhThuThang, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">0
+                                    VNĐ</span>
+                                <span th:if="${doanhThuThang == null}">0
+                                    VNĐ</span>
+                            </div>
+                            <div>
+                                <img src="/photos/doanhthu1.png"
+                                    alt="Doanh thu tháng"
+                                    class="img-fluid doanhthu-img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-4 mt-5">
+                    <!-- Doanh thu quý + Bộ lọc -->
+                    <div class="col-md-6 doanhthu-bg fade-in">
+                        <div class="card shadow-sm border-0 p-4 rounded-4">
+                            <!-- Header -->
+                            <div
+                                class="d-flex align-items-center justify-content-between mb-3">
+                                <h5 class="fw-bold mb-0 text-primary">
+                                    <i class="fas fa-chart-line me-2"></i>Doanh
+                                    thu quý
+                                    <span th:text="${quy}">-</span> năm <span
+                                        th:text="${nam}">-</span>
+                                </h5>
+                                <span class="badge bg-light text-dark">
+                                    <i class="fas fa-calendar-alt me-1"></i>Báo
+                                    cáo
+                                </span>
+                            </div>
+
+                            <!-- Money -->
+                            <div
+                                class="doanhthu-money display-6 text-success mb-4">
+                                <span th:if="${doanhThuQuy != null}"
+                                    th:text="${#numbers.formatDecimal(doanhThuQuy, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                    0 VNĐ
+                                </span>
+                                <span th:if="${doanhThuQuy == null}">Chưa
+                                    lọc</span>
+                            </div>
+
+                            <!-- Form filter -->
+                            <form id="form-loc" class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">
+                                        <i
+                                            class="fas fa-calendar-alt me-1"></i>Theo
+                                        quý
+                                    </label>
+                                    <select class="form-select" name="quy">
+                                        <option value>-- Chọn quý --</option>
+                                        <option value="1"
+                                            th:selected="${quy == 1}">Quý
+                                            1</option>
+                                        <option value="2"
+                                            th:selected="${quy == 2}">Quý
+                                            2</option>
+                                        <option value="3"
+                                            th:selected="${quy == 3}">Quý
+                                            3</option>
+                                        <option value="4"
+                                            th:selected="${quy == 4}">Quý
+                                            4</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">
+                                        <i class="fas fa-calendar me-1"></i>Theo
+                                        năm
+                                    </label>
+                                    <select class="form-select" name="nam">
+                                        <option value>-- Chọn năm --</option>
+                                        <option
+                                            th:each="n : ${#numbers.sequence(2050, 2025)}"
+                                            th:value="${n}" th:text="${n}"
+                                            th:selected="${n == nam}"></option>
+                                    </select>
+                                </div>
+
+                                <div
+                                    class="col-12 d-flex justify-content-center gap-2 mt-3">
+                                    <button type="submit"
+                                        class="btn btn-primary px-3">
+                                        <i class="bi bi-funnel"></i> Lọc
+                                    </button>
+                                    <a href="/admin/doanhthu"
+                                        class="btn btn-outline-secondary px-3">
+                                        <i class="bi bi-arrow-clockwise"></i>
+                                        Làm mới
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Biểu đồ doanh thu -->
+                    <div class="col-md-6">
+                        <h4><i class="fas fa-layer-group me-2"></i>Biểu đồ doanh
+                            thu theo quý năm <span th:text="${nam}"></span></h4>
+                        <div style="width: 100%; height: 300px;">
+                            <canvas id="doanhThuQuyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chi tiết doanh thu -->
+                <div
+                    th:if="${chiTietDoanhThu != null and #lists.size(chiTietDoanhThu) > 0}">
+                    <h4><i class="fas fa-clipboard-list me-2"></i>Chi tiết doanh
+                        thu
+                    </h4>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th><i class="fas fa-hashtag me-1"></i></th>
+                                <th><i class="fas fa-book me-1"></i> Tên khóa
+                                    học
+                                </th>
+                                <th><i
+                                        class="fas fa-chalkboard-teacher me-1"></i>
+                                    Giảng viên</th>
+                                <th><i class="fas fa-coins me-1"></i> Số tiền
+                                    nhận
+                                </th>
+                                <th><i class="fas fa-calendar-alt me-1"></i>
+                                    Ngày nhận</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doanhthu-body">
+                            <tr th:each="item, iterStat : ${chiTietDoanhThu}">
+                                <td th:text="${iterStat.index + 1}">1</td>
+                                <td th:text="${item.tenKhoaHoc}">Tên khóa học
+                                </td>
+                                <td th:text="${item.thuocGiangVien}">Giảng viên
+                                </td>
+                                <td
+                                    th:text="${#numbers.formatDecimal(item.sotiennhan, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                                    0 VNĐ
+                                </td>
+                                <td
+                                    th:text="${#temporals.format(item.ngaynhan, 'dd/MM/yyyy HH:mm')}">
+                                    01/01/2025 10:00
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="pagination"
+                        class="mt-3 d-flex justify-content-center gap-2"></div>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script th:inline="javascript">
+            const doanhThuData = /*[[${doanhThuTheoQuy}]]*/ [0, 0, 0, 0];
+
+            const ctx = document.getElementById('doanhThuQuyChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Quý 1', 'Quý 2', 'Quý 3', 'Quý 4'],
+                    datasets: [{
+                        label: 'Doanh thu (VNĐ)',
+                        data: doanhThuData,
+                        borderWidth: 1,
+                        backgroundColor: ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99'],
+                        barThickness: 35
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'black' // màu chữ cho legend (chú thích)
+                            }
+                        },
+                        tooltip: {
+                            bodyColor: 'black',
+                            titleColor: 'black'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: 'black' // màu chữ trục X
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: 'black', // màu chữ trục Y
+                                callback: function(value) {
+                                    return value.toLocaleString('vi-VN') + ' đ';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+            <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const rowsPerPage = 5;
+
+                function initPagination() {
+                    const tableBody = document.querySelector("#doanhthu-body");
+                    const rows = tableBody.querySelectorAll("tr");
+                    const pagination = document.getElementById("pagination");
+                    const totalPages = Math.ceil(rows.length / rowsPerPage);
+                    let currentPage = 1;
+
+                    function showPage(page) {
+                        currentPage = page;
+                        rows.forEach((row, index) => {
+                            row.style.display = (index >= (page - 1) * rowsPerPage && index < page * rowsPerPage) ? "" : "none";
+                        });
+                        renderPagination();
+                    }
+
+                    function renderPagination() {
+                        pagination.innerHTML = "";
+
+                        const maxVisible = 2;
+                        let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+                        let endPage = startPage + maxVisible - 1;
+
+                        if (endPage > totalPages) {
+                            endPage = totalPages;
+                            startPage = Math.max(1, endPage - maxVisible + 1);
+                        }
+
+                        if (currentPage > 1) {
+                            pagination.appendChild(createPageButton("<<", 1));
+                            pagination.appendChild(createPageButton("<", currentPage - 1));
+                        }
+
+                        for (let i = startPage; i <= endPage; i++) {
+                            const btn = createPageButton(i, i);
+                            if (i === currentPage) btn.classList.add("active");
+                            pagination.appendChild(btn);
+                        }
+
+                        if (currentPage < totalPages) {
+                            pagination.appendChild(createPageButton(">", currentPage + 1));
+                            pagination.appendChild(createPageButton(">>", totalPages));
+                        }
+                    }
+
+                    function createPageButton(text, page) {
+                        const btn = document.createElement("button");
+                        btn.className = "btn btn-outline-primary mx-1";
+                        btn.textContent = text;
+                        btn.addEventListener("click", () => showPage(page));
+                        return btn;
+                    }
+
+                    if (rows.length > 0) {
+                        showPage(1);
+                    } else {
+                        pagination.innerHTML = "";
+                    }
+                }
+
+                // Gọi phân trang khi trang vừa load
+                initPagination();
+
+                // Xử lý lọc bằng fetch
+                const form = document.getElementById("form-loc");
+                form.addEventListener("submit", function(e) {
+                    e.preventDefault();
+
+                    const quy = form.querySelector("[name='quy']").value;
+                    const nam = form.querySelector("[name='nam']").value;
+
+                    fetch(`/admin/doanhthu/api?quy=${quy}&nam=${nam}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            let doanhThuQuy = data.doanhThuQuy;
+
+                            if (typeof doanhThuQuy === 'string') {
+                                doanhThuQuy = doanhThuQuy.replace(/[^\d.-]/g, '');
+                            }
+                            doanhThuQuy = Number(doanhThuQuy);
+
+                            document.querySelector(".doanhthu-money span").textContent = !isNaN(doanhThuQuy) && doanhThuQuy > 0 ?
+                                doanhThuQuy.toLocaleString('vi-VN') + ' VNĐ' :
+                                "Quý này chưa có doanh thu";
+
+                            const tableBody = document.querySelector("#doanhthu-body");
+                            tableBody.innerHTML = data.html;
+
+                            // Nếu không có dữ liệu thì hiển thị thông báo
+                            if (!data.html || data.html.trim() === "") {
+                                tableBody.innerHTML =
+                                    `<tr><td colspan="5" class="text-center text-muted">
+                                    Quý này chưa có doanh thu
+                                    </td></tr>`;
+                            }
+
+                            setTimeout(initPagination, 0);
+                        })
+                        .catch(err => {
+                            console.error("Lỗi khi lọc:", err);
+                        });
+                });
+            });
+        </script>
+            <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const fadeElements = document.querySelectorAll('.fade-in');
+                fadeElements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.classList.add('show');
+                    }, index * 200); // delay từng khối một
+                });
+            });
+        </script>
+
+        </main>
+    </body>
+
+</html>

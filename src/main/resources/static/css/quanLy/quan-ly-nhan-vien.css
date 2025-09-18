@@ -1,0 +1,137 @@
+.quanlynhanvien {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.quanlynhanvien h2,
+.quanlynhanvien h4 {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.quanlynhanvien .card-custom {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    padding: 70px 100px;
+}
+
+.quanlynhanvien .left-panel {
+    flex: 1;
+    background: linear-gradient(135deg, #0b1c36, #17345e);
+    color: #fff;
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.quanlynhanvien .left-panel i {
+    font-size: 60px;
+    margin-bottom: 15px;
+    color: #00d1ff;
+}
+
+.quanlynhanvien .right-panel {
+    flex: 1;
+    background-color: #ffffff;
+    color: #333;
+    padding: 40px 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10);
+}
+
+.quanlynhanvien .right-panel h4 {
+    color: #0b1c36;
+}
+
+.quanlynhanvien .danhsach {
+    color: #0b1c36;
+}
+
+.quanlynhanvien .form-label {
+    font-weight: 600;
+    color: #0b1c36;
+}
+
+.quanlynhanvien .form-control {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.quanlynhanvien .btn {
+    background-color: #fff;
+    color: #0b1c36;
+    border-radius: 10px;
+    font-weight: 600;
+    border: 1px solid #0b1c36;
+}
+
+.quanlynhanvien .btn:hover {
+    background-color: #0b1c36;
+    border: 1px solid #0b1c36;
+    color: #fff;
+}
+
+.quanlynhanvien .maxacthuc {
+    background-color: #0b1c36;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.quanlynhanvien .maxacthuc:hover {
+    background-color: #183a6c;
+    color: #fff;
+}
+
+.quanlynhanvien .dsach {
+    padding: 0px 50px;
+    padding-bottom: 50px;
+}
+
+.quanlynhanvien table {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.quanlynhanvien .table th {
+    background-color: #0b1c36 !important;
+    color: #fff;
+}
+
+.quanlynhanvien .badge {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 12px;
+}
+
+.quanlynhanvien .btn-toggle {
+    min-width: 100px;
+    text-align: center;
+}
+
+
+/* Hiệu ứng fade-in + slide-up */
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quanlynhanvien .card-custom,
+.dsach {
+    opacity: 0;
+    /* Ẩn ban đầu */
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+
+/* Nếu muốn cái sau xuất hiện trễ hơn */
+
+.quanlynhanvien .dsach {
+    animation-delay: 0.4s;
+}

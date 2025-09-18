@@ -1,0 +1,89 @@
+  .danhsachgiangvien {
+      background-color: #f8f9fa;
+      padding: 50px 70px;
+      font-family: 'Segoe UI', sans-serif;
+      animation: fadeIn 0.6s ease-in-out;
+  }
+  
+  @keyframes fadeInDown {
+      from {
+          opacity: 0;
+          transform: translateY(-20px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+  /* ======= TIÊU ĐỀ TRANG ======= */
+  
+  .danhsachgiangvien .table-wrapper h2 {
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+  }
+  /* ======= BẢNG DANH SÁCH ======= */
+  
+  .danhsachgiangvien .table thead {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      font-weight: 600;
+  }
+  
+  .danhsachgiangvien .table tbody tr {
+      transition: all 0.2s ease;
+  }
+  
+  .danhsachgiangvien .table tbody tr:hover {
+      background-color: #f8f9fa;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  /* ======= TRẠNG THÁI ======= */
+  
+  .danhsachgiangvien .text-success.fw-bold {
+      background: #e8f5e9;
+      color: #2e7d32 !important;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+  }
+  
+  .danhsachgiangvien .text-danger.fw-bold {
+      background: #ffebee;
+      color: #c62828 !important;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+  }
+  /* ======= NÚT HÀNH ĐỘNG ======= */
+  
+  .danhsachgiangvien .btn-sm {
+      border-radius: 50px !important;
+      padding: 6px 12px;
+      transition: all 0.2s ease;
+  }
+  
+  .danhsachgiangvien .btn-sm:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+  /* ======= MODAL ======= */
+  
+  .danhsachgiangvien .modal-header {
+      background: linear-gradient(135deg, #ff9800, #f44336);
+      color: white;
+      border-bottom: none;
+  }
+  
+  .danhsachgiangvien .modal-content {
+      border-radius: 12px;
+      overflow: hidden;
+  }
+  
+  .danhsachgiangvien .modal-footer .btn {
+      border-radius: 6px;
+      padding: 8px 18px;
+  }

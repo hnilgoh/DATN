@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Xem chi tiết Thông Báo</title>
+</head>
+<body>
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">👁️ Chi Tiết Thông Báo</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Bảng điều khiển</a></li>
+            <li class="breadcrumb-item"><a href="#">Quản lý thông báo</a></li>
+            <li class="breadcrumb-item active">Xem chi tiết</li>
+        </ol>
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="mb-0">Cập nhật chính sách bảo mật</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3 border-bottom pb-2">
+                    <small class="text-muted">
+                        <b>Người gửi:</b> Admin | <b>Ngày gửi:</b> 25/06/2025 10:30 | <b>Gửi đến:</b> Tất cả
+                    </small>
+                </div>
+                <div class="notification-content">
+                    <p>Xin chào quý người dùng,</p>
+                    <p>Chúng tôi xin thông báo về việc cập nhật chính sách bảo mật mới nhất, có hiệu lực từ ngày 01/07/2025. Các thay đổi chính bao gồm:</p>
+                    <ul>
+                        <li>Quy định rõ hơn về việc thu thập và sử dụng dữ liệu.</li>
+                        <li>Tăng cường các biện pháp bảo vệ thông tin cá nhân.</li>
+                        <li>Cập nhật quyền của người dùng đối với dữ liệu của mình.</li>
+                    </ul>
+                    <p>Vui lòng dành thời gian đọc kỹ chính sách mới tại <a href="#">đây</a>.</p>
+                    <p>Trân trọng,<br>Ban quản trị.</p>
+                </div>
+            </div>
+            <div class="card-footer text-end">
+                <a th:href="@{/admin/quanly-thong-bao}" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html> 

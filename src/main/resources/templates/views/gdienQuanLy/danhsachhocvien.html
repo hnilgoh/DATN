@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Danh sách học viên</title>
+    </head>
+
+    <body>
+        <main class="danhsachhocvien rounded shadow">
+            <div>
+                <h2><i class="fas fa-users-cog me-2"></i>Quản lý học viên của hệ
+                    thống
+                </h2>
+
+                <div th:if="${success}" class="alert alert-success"
+                    th:text="${success}"></div>
+                <div th:if="${error}" class="alert alert-danger"
+                    th:text="${error}"></div>
+
+                <div class="table-responsive">
+                    <table
+                        class="table table-bordered table-hover align-middle shadow-sm">
+                        <thead class="text-center">
+                            <tr>
+                                <th><i class="fas fa-user"></i> Họ tên</th>
+                                <th><i class="fas fa-envelope"></i> Email</th>
+                                <th><i class="fas fa-phone"></i> SĐT</th>
+                                <th><i class="fas fa-calendar-alt"></i> Ngày
+                                    đăng ký</th>
+                                <th><i class="fas fa-toggle-on"></i> Trạng thái
+                                </th>
+                                <th><i class="fas fa-cogs"></i> Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr th:each="tk : ${hocVienList}">
+                                <td th:text="${tk.name}">Tên</td>
+                                <td
+                                    th:text="${@textUtils.maskEmail(tk.email)}">Email</td>
+                                <td
+                                    th:text="${@textUtils.maskPhone(tk.phone)}">SĐT</td>
+                                <td
+                                    th:text="${#temporals.format(tk.ngayTao, 'dd/MM/yyyy HH:mm')}">Ngày</td>
+                                <td class="text-center">
+                                    <span
+                                        th:text="${tk.status ? 'Hoạt động' : 'Bị khóa'}"
+                                        th:classappend="${tk.status} ? 'status-active' : 'status-locked'">
+                                    </span>
+                                </td>
+                                <td>
+                                    <button type="button"
+                                        class="btn btn-sm btn-outline-secondary"
+                                        th:data-id="${tk.taikhoanId}"
+                                        th:data-status="${tk.status}"
+                                        th:data-name="${tk.name}"
+                                        onclick="openConfirmModal(this)"
+                                        th:utext="${tk.status} ? '&#128274; Khóa' : '&#128275; Mở'">
+                                    </button>
+
+                                    <!-- Nút chi tiết -->
+                                    <button type="button"
+                                        class="btn btn-sm btn-outline-primary"
+                                        th:data-id="${tk.taikhoanId}"
+                                        th:data-name="${tk.name}"
+                                        th:data-email="${@textUtils.maskEmail(tk.email)}"
+                                        th:data-phone="${@textUtils.maskPhone(tk.phone)}"
+                                        th:data-ngaytao="${#temporals.format(tk.ngayTao, 'dd/MM/yyyy HH:mm')}"
+                                        th:data-status="${tk.status}"
+                                        onclick="openDetailModal(this)">
+                                        <i class="fas fa-info-circle"></i> Chi
+                                        tiết
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr th:if="${hocVienList.size() == 0}">
+                                <td colspan="6" class="text-center text-muted">
+                                    <i class="fas fa-user-slash me-2"></i>Không
+                                    có học viên nào.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal xác nhận -->
+            <div class="modal fade" id="detailModal" tabindex="-1"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content modern-modal shadow-lg border-0">
+                        <!-- Header -->
+                        <div class="modal-header text-white">
+                            <h5 class="modal-title">
+                                <i class="fas fa-user-circle me-2"></i> Thông
+                                tin học viên
+                            </h5>
+                            <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="modal-body">
+                            <!-- Tabs -->
+                            <ul class="nav nav-tabs custom-tabs"
+                                id="detailTabs">
+                                <li class="nav-item">
+                                    <button class="nav-link active"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#tabInfo">
+                                        <i class="fas fa-id-card me-1"></i>
+                                        Thông tin cá nhân
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#tabAccount">
+                                        <i class="fas fa-user-shield me-1"></i>
+                                        Tài khoản
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#tabActivity">
+                                        <i class="fas fa-tasks me-1"></i> Hoạt
+                                        động
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <!-- Tab content -->
+                            <div class="tab-content mt-3">
+                                <!-- Info Tab -->
+                                <div class="tab-pane fade show active"
+                                    id="tabInfo">
+                                    <div class="card p-4">
+                                        <div class="row align-items-center g-4">
+
+                                            <!-- Ảnh đại diện -->
+                                            <div class="col-md-7 text-center">
+                                                <div
+                                                    class="avatar-wrapper p-2 mt-2"
+                                                    style="display: inline-block;">
+                                                    <img id="detailAvatar"
+                                                        src="/photos/thongtin.png"
+                                                        alt="Ảnh học viên"
+                                                        style="width: 100%; height: 220px; object-fit: cover;">
+                                                </div>
+                                            </div>
+
+                                            <!-- Thông tin cá nhân -->
+                                            <div class="col-md-5">
+                                                <h5 class="fw-bold mb-4">
+                                                    <i
+                                                        class="fas fa-id-card text-primary me-2"></i>
+                                                    Thông tin cá nhân
+                                                </h5>
+
+                                                <div
+                                                    class="info-item d-flex align-items-center mb-3">
+                                                    <i
+                                                        class="fas fa-user text-info fs-5 me-3"></i>
+                                                    <div>
+                                                        <div
+                                                            class="fw-semibold text-muted small">Họ
+                                                            tên
+                                                        </div>
+                                                        <div class="fw-bold"
+                                                            id="detailName"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="info-item d-flex align-items-center mb-3">
+                                                    <i
+                                                        class="fas fa-envelope text-info fs-5 me-3"></i>
+                                                    <div>
+                                                        <div
+                                                            class="fw-semibold text-muted small">Email</div>
+                                                        <div class="fw-bold"
+                                                            id="detailEmail"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="info-item d-flex align-items-center">
+                                                    <i
+                                                        class="fas fa-phone-alt text-info fs-5 me-3"></i>
+                                                    <div>
+                                                        <div
+                                                            class="fw-semibold text-muted small">SĐT</div>
+                                                        <div class="fw-bold"
+                                                            id="detailPhone"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Account Tab -->
+                                <div class="tab-pane fade" id="tabAccount">
+                                    <div class="card p-4">
+                                        <div class="row align-items-center g-4">
+
+                                            <!-- Cột ảnh -->
+                                            <div class="col-md-7 text-center">
+                                                <div
+                                                    class="avatar-wrapper p-2 mt-3"
+                                                    style="display: inline-block;">
+                                                    <img
+                                                        id="detailAvatarAccount"
+                                                        src="/photos/taikhoan.png"
+                                                        alt="Ảnh học viên"
+                                                        style="width: 100%; height: 220px; object-fit: cover; border-radius: 12px; border: 3px solid #fff;">
+                                                </div>
+                                            </div>
+
+                                            <!-- Cột thông tin -->
+                                            <div class="col-md-5">
+                                                <h5 class="fw-bold mb-4">
+                                                    <i
+                                                        class="fas fa-user-shield me-2 text-primary"></i>
+                                                    Thông tin tài khoản
+                                                </h5>
+
+                                                <div
+                                                    class="info-item d-flex align-items-center mb-3">
+                                                    <i
+                                                        class="fas fa-calendar-alt text-success fs-5 me-3"></i>
+                                                    <div>
+                                                        <div
+                                                            class="fw-semibold text-muted small">Ngày
+                                                            tạo
+                                                        </div>
+                                                        <div class="fw-bold"
+                                                            id="detailNgayTao"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="info-item d-flex align-items-center">
+                                                    <i
+                                                        class="fas fa-toggle-on text-warning fs-5 me-3"></i>
+                                                    <div>
+                                                        <div
+                                                            class="fw-semibold text-muted small">Trạng
+                                                            thái
+                                                        </div>
+                                                        <div class="fw-bold"
+                                                            id="detailStatus"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Activity Tab -->
+                                <div class="tab-pane fade" id="tabActivity">
+                                    <h5 class="fw-bold mb-2">📚 Khóa học học
+                                        viên đã đăng ký</h5>
+                                    <div
+                                        class="table-responsive activity-table">
+                                        <table id="activityTable"
+                                            class="table table-bordered table-hover align-middle">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Tên khóa học</th>
+                                                    <th>Ngày đăng ký</th>
+                                                    <th>Đơn giá</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Chứng chỉ</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="courseList">
+                                                <tr>
+                                                    <td colspan="6"
+                                                        class="text-center text-muted">Đang
+                                                        tải...
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="activityPagination"
+                                        class="mt-2 d-flex justify-content-center"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="modal-footer bg-light">
+                            <button class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+                                <i class="fas fa-times"></i> Đóng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Xác nhận Hiện đại -->
+            <div class="modal fade" id="confirmModal" tabindex="-1"
+                aria-hidden="true" aria-labelledby="confirmModalLabel">
+                <div class="modal-dialog modal-dialog-centered modal-md">
+                    <div class="modal-content shadow-lg rounded-4 border-0">
+                        <div
+                            class="modal-header bg-primary text-white rounded-top-4">
+                            <h5 class="modal-title d-flex align-items-center"
+                                id="confirmModalLabel">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Xác nhận
+                            </h5>
+                            <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"
+                                aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body text-center fs-5 px-4 py-3">
+                            <p id="confirmMessage" class="mb-0"></p>
+                        </div>
+                        <div
+                            class="modal-footer justify-content-center border-0 pb-4">
+                            <form id="confirmForm" method="post"
+                                class="w-100 d-flex justify-content-center gap-3">
+                                <button type="button"
+                                    class="btn btn-outline-secondary flex-fill"
+                                    data-bs-dismiss="modal"
+                                    style="min-width: 100px;">
+                                    <i class="fas fa-times me-1"></i> Hủy
+                                </button>
+                                <button type="submit"
+                                    class="btn btn-primary flex-fill"
+                                    style="min-width: 100px;">
+                                    <i class="fas fa-check me-1"></i> Xác nhận
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            function openConfirmModal(button) {
+                const id = button.getAttribute('data-id');
+                const name = button.getAttribute('data-name');
+                const isActive = button.getAttribute('data-status') === 'true';
+
+                const prefix = window.location.pathname.split('/')[1]; // Lấy prefix tương tự
+
+                const form = document.getElementById('confirmForm');
+                form.action = `/${prefix}/quanly-hocvien/toggle-status/${id}`;
+
+                const msg = isActive ? `Bạn có chắc chắn muốn KHÓA tài khoản "${name}"?` :
+                    `Bạn có chắc chắn muốn MỞ tài khoản "${name}"?`;
+
+                document.getElementById('confirmMessage').innerText = msg;
+
+                const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+                modal.show();
+            }
+
+
+            window.addEventListener("DOMContentLoaded", () => {
+                const successAlert = document.querySelector('.alert-success');
+                if (successAlert) {
+                    const modal = new bootstrap.Modal(document.getElementById('successModal'));
+                    modal.show();
+                }
+            });
+        </script>
+
+            <script>
+            function openDetailModal(button) {
+                const userId = button.getAttribute('data-id');
+                const prefix = window.location.pathname.split('/')[1]; // lấy admin hoặc nhanvien
+
+                document.getElementById('detailName').innerText = button.getAttribute('data-name');
+                document.getElementById('detailEmail').innerText = button.getAttribute('data-email');
+                document.getElementById('detailPhone').innerText = button.getAttribute('data-phone');
+                document.getElementById('detailNgayTao').innerText = button.getAttribute('data-ngaytao');
+
+
+
+                const status = button.getAttribute('data-status') === 'true' ? 'Hoạt động' : 'Bị khóa';
+                document.getElementById('detailStatus').innerText = status;
+
+                // Gọi API lấy khóa học
+                const courseListEl = document.getElementById('courseList');
+                courseListEl.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Đang tải...</td></tr>`;
+
+                fetch(`/${prefix}/quanly-hocvien/${userId}/khoahoc`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            courseListEl.innerHTML = data.map((kh, idx) => `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td>${kh.tenKhoaHoc}</td>
+                        <td>${kh.ngayDangKy}</td>
+                        <td>${kh.dongia} VNĐ</td>
+                        <td>${kh.trangThai}</td>
+                        <td>${kh.daCapChungChi}</td>
+                    </tr>
+                `).join('');
+                            paginateTable("activityTable", "activityPagination", 5);
+                        } else {
+                            courseListEl.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Chưa đăng ký khóa học nào</td></tr>`;
+                        }
+                    });
+
+                new bootstrap.Modal(document.getElementById('detailModal')).show();
+            }
+        </script>
+
+            <script>
+            function paginateTable(tableId, paginationId, rowsPerPage = 5) {
+                const table = document.getElementById(tableId);
+                const tbody = table.querySelector("tbody");
+                const rows = tbody.querySelectorAll("tr");
+                const pagination = document.getElementById(paginationId);
+
+                if (rows.length <= rowsPerPage) {
+                    pagination.innerHTML = "";
+                    rows.forEach(row => row.style.display = "");
+                    return;
+                }
+
+                let currentPage = 1;
+                const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+                function showPage(page) {
+                    currentPage = page;
+                    const start = (page - 1) * rowsPerPage;
+                    const end = start + rowsPerPage;
+                    rows.forEach((row, index) => {
+                        row.style.display = (index >= start && index < end) ? "" : "none";
+                    });
+
+                    pagination.innerHTML = `
+            <button class="btn btn-sm btn-outline-secondary" ${page === 1 ? "disabled" : ""}>&laquo;</button>
+            <button class="btn btn-sm btn-outline-secondary" ${page === 1 ? "disabled" : ""}>&lsaquo;</button>
+            <span class="mx-2">Trang ${page}/${totalPages}</span>
+            <button class="btn btn-sm btn-outline-secondary" ${page === totalPages ? "disabled" : ""}>&rsaquo;</button>
+            <button class="btn btn-sm btn-outline-secondary" ${page === totalPages ? "disabled" : ""}> &raquo;</button>
+        `;
+
+                    const buttons = pagination.querySelectorAll("button");
+                    buttons[0].onclick = () => showPage(1); // Đầu
+                    buttons[1].onclick = () => {
+                        if (page > 1) showPage(page - 1);
+                    }; // Trước
+                    buttons[2].onclick = () => {
+                        if (page < totalPages) showPage(page + 1);
+                    }; // Sau
+                    buttons[3].onclick = () => showPage(totalPages); // Cuối
+
+                }
+
+                showPage(currentPage);
+            }
+        </script>
+
+        </main>
+    </body>
+
+</html>

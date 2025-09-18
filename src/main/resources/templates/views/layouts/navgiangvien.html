@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sidebar Giảng Viên</title>
+        <style>
+        .fixed-top-nv {
+            background-color: #0b1c36;
+            height: 40px;
+            width: 100%;
+        }
+        
+        #toggle-btn {
+            display: inline-block;
+            margin-left: 15px;
+            cursor: pointer;
+            filter: invert(1);
+            width: 30px;
+            height: 20px;
+        }
+        
+        #sidebar {
+            position: absolute;
+            top: 152px;
+            left: 0;
+            width: 250px;
+            height: calc(100vh - 152px);
+            background-color: #0b1c36;
+            transition: transform 0.3s ease;
+            transform: translateX(-100%);
+            z-index: 10;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        #sidebar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        #sidebar.active {
+            transform: translateX(0);
+        }
+        
+        #content {
+            padding: 20px;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 8px 16px;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-link:hover {
+            display: block;
+            padding: 8px 16px;
+            color: rgb(11, 143, 225);
+            font-weight: bold;
+            text-decoration: none;
+            background-color: aliceblue;
+        }
+    </style>
+    </head>
+
+    <body>
+        <div class="nv-layout">
+            <nav class="navbar fixed-top-nv position-relative">
+                <div class="container-fluid position-relative">
+                    <!-- Nút 3 gạch bên trái -->
+                    <span id="toggle-btn" class="navbar-toggler-icon"
+                        style="position: absolute; left: 10px; top: 40%; transform: translateY(-50%); filter: invert(1);">
+                    </span>
+
+                </div>
+
+            </nav>
+
+            <!-- Sidebar -->
+            <div id="sidebar">
+                <div class="p-3 border-bottom">
+                    <h4 style="color: white; text-align: center;">QUẢN LÝ
+                    </h4>
+                </div>
+                <nav class="nav flex-column p-3">
+                    <a class="nav-link"
+                        th:href="@{/giangvien/trang-giang-vien}">👨‍🏫
+                        Trang giảng viên</a>
+                    <a class="nav-link"
+                        th:href="@{/giangvien/khoa-hoc-da-tao}">📘
+                        Khóa
+                        học đã
+                        tạo</a>
+                    <a class="nav-link"
+                        th:href="@{/giangvien/quan-ly-hoc-vien}">👥
+                        Quản
+                        lý
+                        học viên</a>
+                    <a class="nav-link"
+                        th:href="@{/giangvien/them-moi-khoa-hoc}">➕
+                        Tạo
+                        khóa học</a>
+                    <a class="nav-link" th:href="@{/giangvien/vi-giang-vien}">👤
+                        Ví
+                        giảng
+                        viên</a>
+                    <a class="nav-link"
+                        th:href="@{/giangvien/danh-gia-tu-khoa-hoc}">⭐ Quản lý
+                        đánh giá</a>
+                    <a class="nav-link"
+                        th:href="@{/giang-vien/thong-bao}">🔔Quản
+                        lý thông báo</a>
+                </nav>
+
+            </div>
+        </div>
+
+        <script>
+        const toggleBtn = document.getElementById("toggle-btn");
+        const sidebar = document.getElementById("sidebar");
+
+        toggleBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("active");
+        });
+
+        document.addEventListener("click", (e) => {
+            const isClickInside = sidebar.contains(e.target) || toggleBtn.contains(e.target);
+            if (!isClickInside) {
+                sidebar.classList.remove("active");
+            }
+        });
+    </script>
+
+    </body>
+
+</html>

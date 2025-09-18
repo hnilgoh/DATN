@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}"
+    xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="_csrf" th:content="${_csrf.token}">
+        <meta name="_csrf_header" th:content="${_csrf.headerName}">
+        <title>Xem khóa học</title>
+    </head>
+
+    <body>
+        <div th:fragment="commentBlock(comment)">
+            <div class="border rounded p-3 mb-2 bg-white"
+                th:attr="data-comment-id=${comment.binhluanId}">
+                <div class="d-flex">
+                    <!-- Avatar -->
+                    <div class="flex-shrink-0 me-3">
+                        <img
+                            th:src="${comment.taikhoan.avatar != null ? comment.taikhoan.avatar : '/images/default-avatar.png'}"
+                            alt="avatar" class="rounded-circle" width="48"
+                            height="48">
+                    </div>
+
+                    <!-- Nội dung -->
+                    <div class="flex-grow-1">
+                        <div class="d-flex align-items-center mb-1">
+                            <strong th:text="${comment.taikhoan.name}">Người
+                                dùng</strong>
+                            <span
+                                th:if="${comment.taikhoan.taikhoanId == baiGiang.chuong.khoahoc.giangVien.taikhoan.taikhoanId}"
+                                class="badge bg-primary ms-2">Tác giả</span>
+
+                            <small class="text-muted ms-2"
+                                th:text="${#temporals.format(comment.ngayBinhLuan, 'dd-MM-yyyy HH:mm')}"></small>
+                        </div>
+
+                        <!-- Nội dung bình luận -->
+                        <p class="mb-1 fs-6 text-break"
+                            style="white-space: pre-line; word-wrap: break-word; overflow-wrap: break-word;"
+                            th:text="${comment.noiDung}">
+                        </p>
+
+                        <!-- Nút hành động dạng link -->
+                        <div class="small text-muted">
+                            <a href="javascript:void(0)"
+                                class="me-3 reply-btn text-decoration-none"
+                                th:if="${baiGiang != null}"
+                                th:attr="data-comment-id=${comment.binhluanId}, data-baigiang-id=${baiGiang.baiGiangId}">
+                                Trả lời
+                            </a>
+                            <a href="javascript:void(0)"
+                                class="deleteCommentBtn text-danger text-decoration-none"
+                                th:if="${loggedInEmail != null and loggedInEmail == comment.taikhoan.email and baiGiang != null}"
+                                th:attr="data-comment-id=${comment.binhluanId}, data-baigiang-id=${baiGiang.baiGiangId}">
+                                Xóa
+                            </a>
+                        </div>
+
+                        <!-- Container trả lời -->
+                        <div
+                            th:attr="id='reply-container-' + ${comment.binhluanId}"
+                            class="ms-4 mt-2"></div>
+
+                        <!-- Comment con -->
+                        <div
+                            th:if="${childrenMap != null and childrenMap[comment.binhluanId] != null}"
+                            class="ms-4 mt-2">
+                            <div
+                                th:each="child : ${childrenMap[comment.binhluanId]}">
+                                <div
+                                    th:replace="~{::commentBlock(comment=${child})}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main class="xemkhoahoc"
+            th:attrappend="data-bai-giang-id=${baiGiang != null ? baiGiang.baiGiangId : 0}">
+            <!-- Hidden ids (an toàn null) -->
+            <input type="hidden" id="baiGiangId"
+                th:value="${baiGiang != null ? baiGiang.baiGiangId : 0}" />
+            <input type="hidden" id="khoaHocId"
+                th:value="${khoaHoc != null ? khoaHoc.khoahocId : 0}" />
+
+            <div th:if="${khoaHoc != null}">
+                <div class="container">
+                    <div class="row gx-1">
+                        <!-- ==================== CỘT NỘI DUNG CHÍNH ==================== -->
+                        <div class="col-lg-8">
+                            <div class="border d-flex flex-column shadow-box"
+                                id="noiDungKhoaHoc"
+                                style="height: 350px; overflow-y: auto;">
+
+                                <div th:if="${baiGiang != null}">
+                                    <!-- VIDEO -->
+                                    <div
+                                        th:if="${baiGiang.loaiBaiGiang != null and baiGiang.loaiBaiGiang.name() == 'VIDEO'}">
+                                        <div id="videoBaiGiang"
+                                            th:attr="data-video-url=${videoBaiGiang != null ? videoBaiGiang.url_video : ''},
+                                              data-bai-giang-id=${baiGiang.baiGiangId},
+                                              data-khoa-hoc-id=${khoaHoc != null ? khoaHoc.khoahocId : 0}">
+                                        </div>
+                                    </div>
+
+                                    <!-- TÀI LIỆU -->
+                                    <div
+                                        th:if="${baiGiang.loaiBaiGiang != null and baiGiang.loaiBaiGiang.name() == 'TAILIEU'}"
+                                        class="flex-grow-1 overflow-auto mt-3">
+                                        <div th:if="${baiViet != null}"
+                                            th:utext="${baiViet.noidung}"></div>
+                                        <div th:if="${baiViet == null}"
+                                            class="text-muted fst-italic">
+                                            Chưa có nội dung tài liệu.
+                                        </div>
+                                    </div>
+
+                                    <!-- TRẮC NGHIỆM -->
+                                    <div
+                                        th:if="${baiGiang.loaiBaiGiang.name() == 'TRACNGHIEM'}"
+                                        class="flex-grow-1 overflow-auto mt-30 text-center">
+
+                                        <input type="hidden" id="taiKhoanId"
+                                            th:value="${taiKhoanId}" />
+                                        <input type="hidden"
+                                            id="baiTracNghiemId"
+                                            th:value="${baiTracNghiem.tracnghiemId}" />
+
+                                        <p class="fw-bold">
+                                            <i
+                                                class="fas fa-clipboard-check me-2 text-primary"></i>
+                                            Bài kiểm tra số <span
+                                                th:text="${thuTuBaiTracNghiem}"></span>
+                                            - Số câu hỏi: <span
+                                                th:text="${tongSoCauHoi}"></span>
+                                        </p>
+                                        <button id="batDauBtn" class="btn">
+                                            <i
+                                                class="fas fa-hourglass-start me-1"></i>
+                                            Bắt đầu làm bài kiểm tra
+                                        </button>
+
+                                        <div id="noiDungBaiTracNghiem"
+                                            style="display: none;" class="mt-3">
+                                            <div id="cauHoiContainer">
+                                                <div
+                                                    th:if="${baiTracNghiem != null && baiTracNghiem.cauHoiList != null}">
+                                                    <div
+                                                        th:each="cauHoi, iterStat : ${baiTracNghiem.cauHoiList}"
+                                                        class="cau-hoi"
+                                                        th:attr="data-cauhoi-id=${cauHoi.cauHoiId}"
+                                                        th:classappend="${iterStat.index != 0} ? 'd-none' : ''">
+
+                                                        <p>
+                                                            <i
+                                                                class="fas fa-question-circle me-2 text-info"></i>
+                                                            <strong
+                                                                th:text="'Câu ' + (${iterStat.index + 1}) + ': ' + ${cauHoi.tenCauHoi}"></strong>
+                                                        </p>
+
+                                                        <ul
+                                                            class="list-unstyled text-start ps-4">
+                                                            <li
+                                                                th:each="dapAn, stat : ${cauHoi.dapAnList}">
+                                                                <label>
+                                                                    <input
+                                                                        type="radio"
+                                                                        th:name="'cauHoi_' + ${cauHoi.cauHoiId}"
+                                                                        th:value="${dapAn.dapanId}"
+                                                                        th:attrappend="data-dung=${dapAn.dapAnDung} ? 'true' : 'false'">
+                                                                    <strong
+                                                                        th:text="${'ABCD'[stat.index]} + '.'"></strong>
+                                                                    <span
+                                                                        th:text="${dapAn.noiDungDapAn}">Nội
+                                                                        dung</span>
+                                                                </label>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <button id="btnCauTruoc"
+                                                class="btn me-2 d-none">
+                                                <i
+                                                    class="fas fa-arrow-left me-1"></i>
+                                                Câu trước
+                                            </button>
+
+                                            <button id="btnTiepTuc" class="btn"
+                                                disabled>Câu tiếp theo</button>
+
+                                            <div id="ketQuaContainer"
+                                                class="mt-3 d-none">
+                                                <h5 class="text-success">
+                                                    🎉 Bạn đã hoàn thành bài
+                                                    trắc nghiệm!
+                                                </h5>
+                                                <p><strong>Bài trắc
+                                                        nghiệm:</strong> <span
+                                                        th:text="${baiGiang.tenBaiGiang}">Tên
+                                                        bài
+                                                        giảng</span>
+                                                </p>
+                                                <div
+                                                    class="d-flex justify-content-center gap-3">
+                                                    <p class="mb-0">
+                                                        <strong>Kết
+                                                            quả:</strong>
+                                                        <span
+                                                            id="diemSo">0</span>
+                                                        điểm
+                                                    </p> <strong>-</strong>
+                                                    <p class="mb-0">
+                                                        <strong>Đúng:</strong>
+                                                        <span
+                                                            id="soDung">0</span>/<span
+                                                            id="tongCau">0</span>
+                                                        câu
+                                                    </p>
+                                                </div>
+
+                                                <div
+                                                    class="d-flex justify-content-center gap-4 mt-2">
+                                                    <p class="mb-0"><strong>Bắt
+                                                            đầu:</strong> <span
+                                                            id="thoiGianBatDau">--:--</span></p>
+                                                    <p class="mb-0"><strong>Hoàn
+                                                            thành:</strong>
+                                                        <span
+                                                            id="thoiGianHoanThanh">--:--</span></p>
+                                                </div>
+
+                                                <div
+                                                    class="d-flex justify-content-center gap-3 mt-3">
+                                                    <button id="btnLamLai"
+                                                        class="btn btn-outline-secondary">
+                                                        <i
+                                                            class="fas fa-redo-alt me-1"></i>
+                                                        Làm lại
+                                                    </button>
+                                                    <button id="btnChiTiet"
+                                                        class="btn btn-outline-info">
+                                                        <i
+                                                            class="fas fa-list-ul me-1"></i>
+                                                        Xem kết quả chi tiết
+                                                    </button>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div th:if="${baiGiang == null}"
+                                    class="p-3 text-muted fst-italic">
+                                    Chưa có bài giảng để hiển thị.
+                                </div>
+                            </div>
+
+                            <!-- ==================== BÌNH LUẬN ==================== -->
+                            <div class="binh-luan-wrapper mt-3"
+                                th:if="${baiGiang != null}">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h2 class="h5 text-primary"
+                                            th:text="${'Bình luận về: ' + (baiGiang.tenBaiGiang != null ? baiGiang.tenBaiGiang : '')}">
+                                            Bình luận về
+                                        </h2>
+
+                                        <div th:if="${successMessage != null}"
+                                            class="alert alert-success mt-3"
+                                            th:text="${successMessage}"></div>
+                                        <div th:if="${errorMessage != null}"
+                                            class="alert alert-danger mt-3"
+                                            th:text="${errorMessage}"></div>
+
+                                        <!-- Form thêm bình luận -->
+                                        <form class="mt-3"
+                                            th:action="@{/bai-giang/{baiGiangId}/binh-luan/add(baiGiangId=${baiGiang.baiGiangId})}"
+                                            method="post" id="form-binhluan"
+                                            th:attr="data-baigiang-id=${baiGiang != null ? baiGiang.baiGiangId : 0}">
+                                            <div class="mb-3">
+                                                <textarea name="noiDung"
+                                                    class="form-control"
+                                                    rows="4" required
+                                                    placeholder="Nhập bình luận..."></textarea>
+                                            </div>
+                                            <button type="submit"
+                                                class="btn btn-success">Gửi bình
+                                                luận</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                                <!-- Danh sách bình luận -->
+                                <div class="mt-3">
+                                    <h5 class="text-primary mb-3">Bình luận</h5>
+
+                                    <div id="comments-container">
+                                        <div
+                                            th:if="${rootComments == null or #lists.isEmpty(rootComments)}">
+                                            <p
+                                                class="text-muted fst-italic">Chưa
+                                                có bình luận nào.</p>
+                                        </div>
+                                        <div
+                                            th:if="${rootComments != null and !#lists.isEmpty(rootComments)}"
+                                            th:each="comment : ${rootComments}">
+                                            <div
+                                                th:replace="~{::commentBlock(comment=${comment})}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ==================== CỘT DANH SÁCH CHƯƠNG ==================== -->
+                        <div class="col-lg-4">
+                            <div class="card shadow-sm rounded-4 mb-4 border-0">
+                                <!-- Tiến độ -->
+                                <div class="progress-wrapper my-4 px-3">
+                                    <div
+                                        class="d-flex justify-content-between align-items-center mb-2">
+                                        <div class="d-flex align-items-center">
+                                            <i
+                                                class="bi bi-graph-up-arrow text-primary me-2 fs-5"></i>
+                                            <span
+                                                class="fw-semibold text-dark">Tiến
+                                                độ hoàn thành</span>
+                                        </div>
+                                        <span class="fw-bold text-success"
+                                            th:text="${(phanTramHoanThanh != null ? phanTramHoanThanh : 0)} + '%'">0%</span>
+                                    </div>
+                                    <div class="progress rounded-pill shadow-sm"
+                                        style="height: 20px;">
+                                        <div
+                                            class="progress-bar bg-gradient-purple-blue"
+                                            role="progressbar"
+                                            th:style="${'width:' + (phanTramHoanThanh != null ? phanTramHoanThanh : 0) + '%'}"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Accordion chương -->
+                                <div class="card-body" id="chuong-list">
+                                    <div
+                                        th:if="${chuongs == null or #lists.isEmpty(chuongs)}">
+                                        <p class="text-muted fst-italic">Chưa có
+                                            chương nào cho khóa học này.</p>
+                                    </div>
+
+                                    <div
+                                        th:if="${chuongs != null and !#lists.isEmpty(chuongs)}"
+                                        class="accordion" id="accordionChuong">
+                                        <div class="accordion-item mb-2"
+                                            th:each="chuong, iterStat : ${chuongs}">
+                                            <h2 class="accordion-header"
+                                                th:id="|heading${iterStat.index}|">
+                                                <button
+                                                    class="accordion-button collapsed bg-light"
+                                                    type="button"
+                                                    data-bs-toggle="collapse"
+                                                    th:attr="data-bs-target=|#collapse${iterStat.index}|,
+                                                         aria-controls=|collapse${iterStat.index}|"
+                                                    aria-expanded="false">
+                                                    <i
+                                                        class="fas fa-layer-group me-2 text-warning"></i>
+                                                    <strong
+                                                        th:text="${chuong != null ? (chuong.tenchuong != null ? chuong.tenchuong : 'Tên chương') : 'Tên chương'}">
+                                                        Tên chương
+                                                    </strong>
+                                                </button>
+                                            </h2>
+
+                                            <div
+                                                class="accordion-collapse collapse"
+                                                th:id="|collapse${iterStat.index}|"
+                                                th:classappend="${chuong != null and chuongDangMoId != null and chuong.chuongId != null and chuong.chuongId == chuongDangMoId} ? ' show' : ''"
+                                                th:attr="aria-labelledby=|heading${iterStat.index}|"
+                                                data-bs-parent="#accordionChuong">
+
+                                                <div class="accordion-body">
+                                                    <!-- Danh sách bài giảng -->
+                                                    <ul
+                                                        class="list-group list-group-flush mb-0"
+                                                        th:if="${chuong != null and chuong.baiGiangs != null and !#lists.isEmpty(chuong.baiGiangs)}">
+                                                        <li
+                                                            class="list-group-item ps-4"
+                                                            th:each="bg : ${chuong.baiGiangs}"
+                                                            th:with="done=${baiGiangDaHoanThanhMap != null and bg != null and baiGiangDaHoanThanhMap[bg.baiGiangId] != null ? baiGiangDaHoanThanhMap[bg.baiGiangId] : false}"
+                                                            th:classappend="${baiGiangDangHocId != null and bg != null and bg.baiGiangId == baiGiangDangHocId} ? ' active-bai-giang' : ''">
+
+                                                            <a
+                                                                th:href="@{/khoa-hoc/bai-giang/{id}(id=${bg.baiGiangId})}"
+                                                                class="bai-giang-link">
+                                                                <i
+                                                                    th:class="${bg != null and bg.loaiBaiGiang != null and bg.loaiBaiGiang.name() == 'VIDEO'  ? 'fas fa-play-circle text-danger me-2'
+                                                                      : (bg != null and bg.loaiBaiGiang != null and bg.loaiBaiGiang.name() == 'TAILIEU' ? 'fas fa-file-alt text-success me-2'
+                                                                      : 'fas fa-question-circle text-warning me-2')}">
+                                                                </i>
+
+                                                                <span
+                                                                    th:text="${bg != null and bg.tenBaiGiang != null ? bg.tenBaiGiang : 'Bài giảng'}">
+                                                                    Tên bài
+                                                                    giảng
+                                                                </span>
+
+                                                                <span
+                                                                    th:id="${'check-baiGiang-' + (bg != null ? bg.baiGiangId : 0)}"
+                                                                    class="ms-2 check-status"
+                                                                    th:classappend="${done} ? ' text-success' : ' text-secondary'">
+                                                                    <i
+                                                                        th:class="${done} ? 'fas fa-check-circle' : 'far fa-circle'"></i>
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+
+                                                    <p
+                                                        th:if="${chuong == null or chuong.baiGiangs == null or #lists.isEmpty(chuong.baiGiangs)}"
+                                                        class="text-muted fst-italic mt-2 ps-2">
+                                                        <i
+                                                            class="fas fa-exclamation-circle me-1"></i>
+                                                        Chưa có bài giảng nào
+                                                        trong chương này.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /accordion -->
+                                </div>
+                                <!-- /card-body -->
+                            </div>
+                            <!-- /card -->
+                        </div>
+                        <!-- /col -->
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+
+                <!-- Modal chi tiết kết quả trắc nghiệm -->
+                <div class="modal fade" id="chiTietModal" tabindex="-1"
+                    aria-labelledby="chiTietModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Chi tiết kết quả bài
+                                    trắc nghiệm</h5>
+                                <button type="button" class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Đóng"></button>
+                            </div>
+                            <div class="modal-body" id="chiTietNoiDung">
+                                <!-- Nội dung chi tiết thêm bằng JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /khoaHoc != null -->
+
+            <div th:if="${khoaHoc == null}" class="container my-5">
+                <div class="alert alert-warning">Không tìm thấy khóa học.</div>
+            </div>
+
+            <!-- Modal Thông báo -->
+            <div class="modal fade" id="notificationModal" tabindex="-1"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg rounded-4">
+                        <div
+                            class="modal-header border-0 bg-light rounded-top-4">
+                            <h5 class="modal-title fw-bold text-success">
+                                <i
+                                    class="bi bi-check-circle-fill me-2"></i>Thông
+                                báo
+                            </h5>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body text-secondary fs-6"
+                            id="notificationMessage"></div>
+                        <div class="modal-footer border-0">
+                            <button type="button"
+                                class="btn btn-success rounded-pill px-4 shadow-sm"
+                                data-bs-dismiss="modal">
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Xác nhận Xóa -->
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg rounded-4">
+                        <div
+                            class="modal-header border-0 bg-light rounded-top-4">
+                            <h5 class="modal-title fw-bold text-danger">
+                                <i
+                                    class="bi bi-exclamation-triangle-fill me-2"></i>Xác
+                                nhận
+                            </h5>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body text-secondary fs-6">
+                            Bạn chắc chắn muốn xóa bình luận này?
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="button"
+                                class="btn btn-outline-secondary rounded-pill px-4"
+                                data-bs-dismiss="modal">
+                                Hủy
+                            </button>
+                            <button type="button"
+                                class="btn btn-danger rounded-pill px-4 shadow-sm"
+                                id="confirmDeleteBtn">
+                                Xóa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scripts -->
+            <script src="https://www.youtube.com/iframe_api"></script>
+            <script th:src="@{/js/video-player.js}"></script>
+            <script th:src="@{/js/tai-lieu.js}"></script>
+            <script th:src="@{/js/lamtracnghiem.js}"></script>
+            <script th:src="@{/js/binh-luan.js}"></script>
+        </main>
+    </body>
+
+</html>

@@ -1,0 +1,156 @@
+.xacnhannangcap .upgrade-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.xacnhannangcap .upgrade-card {
+    background: white;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: none;
+    overflow: hidden;
+    max-width: 600px;
+    width: 100%;
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.xacnhannangcap .card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.xacnhannangcap .card-header h3 {
+    color: white;
+    font-weight: 600;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.xacnhannangcap .upgrade-icon {
+    background: rgba(255, 255, 255, 0.2);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.xacnhannangcap .upgrade-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.xacnhannangcap .card-body {
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.xacnhannangcap .email-highlight {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.xacnhannangcap .description-text {
+    color: #6c757d;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 25px 0 35px;
+}
+
+.xacnhannangcap .btn-upgrade {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0 10px 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.xacnhannangcap .btn-upgrade:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.xacnhannangcap .btn-cancel {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    color: #6c757d;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0 10px 10px;
+    transition: all 0.3s ease;
+}
+
+.xacnhannangcap .btn-cancel:hover {
+    background: #e9ecef;
+    border-color: #dee2e6;
+    color: #495057;
+    transform: translateY(-1px);
+}
+
+.xacnhannangcap .feature-list {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 30px 0;
+    text-align: left;
+}
+
+.xacnhannangcap .feature-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #495057;
+}
+
+.xacnhannangcap .feature-item:last-child {
+    margin-bottom: 0;
+}
+
+.xacnhannangcap .feature-item i {
+    color: #667eea;
+    margin-right: 12px;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 576px) {
+    .xacnhannangcap .upgrade-container {
+        padding: 10px;
+    }
+    .xacnhannangcap .card-body {
+        padding: 30px 20px;
+    }
+    .xacnhannangcap .btn-upgrade,
+    .btn-cancel {
+        width: 100%;
+        margin: 5px 0;
+    }
+}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>Thêm giá khóa học</title>
+    </head>
+
+    <body>
+        <main id="themgiakhoahoc">
+            <div class="container">
+                <h2 class="text-center themgiakhoahoc-title">
+                    <i class="fas fa-tags" style="color: #e67e22;"></i> Thêm giá
+                    - Bước 2
+                </h2>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <form
+                            th:action="@{/giangvien/them-moi-khoa-hoc/save-price}"
+                            th:object="${course}" method="post"
+                            class="themgiakhoahoc-card">
+                            <input type="hidden" th:field="*{khoahocId}" />
+
+                            <!-- Giá gốc -->
+                            <div class="mb-3">
+                                <label class="themgiakhoahoc-label">
+                                    <i
+                                        class="fa-solid fa-money-bill-wave me-1"></i>Giá
+                                    khóa học (VND):
+                                </label>
+                                <input type="text" id="giagoc_hienthi"
+                                    class="form-control themgiakhoahoc-input"
+                                    placeholder="VD: 500.000" />
+                                <input type="hidden" id="giagoc_thucte"
+                                    th:field="*{giagoc}" />
+                                <div class="text-danger"
+                                    th:if="${#fields.hasErrors('giagoc')}"
+                                    th:errors="*{giagoc}"></div>
+                            </div>
+
+                            <!-- Phần trăm giảm -->
+                            <div class="mb-3">
+                                <label class="themgiakhoahoc-label">
+                                    <i class="fa-solid fa-percent me-1"></i>Phần
+                                    trăm khuyến mãi (%):
+                                </label>
+                                <input type="number" th:field="*{phanTramGiam}"
+                                    class="form-control themgiakhoahoc-input"
+                                    placeholder="VD: 20" />
+                                <div class="text-danger"
+                                    th:if="${#fields.hasErrors('phanTramGiam')}"
+                                    th:errors="*{phanTramGiam}"></div>
+                            </div>
+
+                            <!-- Giá sau khi giảm -->
+                            <div class="mb-3" id="giaKhuyenMaiBox">
+                                <label class="themgiakhoahoc-label">
+                                    <i class="fa-solid fa-tag me-1"></i>Giá sau
+                                    khi khuyến mãi (VND):
+                                </label>
+                                <input type="text" id="giaKhuyenMai"
+                                    class="form-control themgiakhoahoc-input"
+                                    readonly />
+                            </div>
+
+                            <!-- Ngày bắt đầu -->
+                            <div class="mb-3">
+                                <label class="themgiakhoahoc-label">
+                                    <i
+                                        class="fa-solid fa-calendar-day me-1"></i>Ngày
+                                    bắt đầu:
+                                </label>
+                                <input type="datetime-local"
+                                    th:field="*{ngaybatdau}"
+                                    class="form-control themgiakhoahoc-input" />
+                                <div class="text-danger"
+                                    th:if="${#fields.hasErrors('ngaybatdau')}"
+                                    th:errors="*{ngaybatdau}"></div>
+                            </div>
+
+                            <!-- Ngày kết thúc -->
+                            <div class="mb-3">
+                                <label class="themgiakhoahoc-label">
+                                    <i
+                                        class="fa-solid fa-calendar-check me-1"></i>Ngày
+                                    kết thúc:
+                                </label>
+                                <input type="datetime-local"
+                                    th:field="*{ngayketthuc}"
+                                    class="form-control themgiakhoahoc-input" />
+                                <div class="text-danger"
+                                    th:if="${#fields.hasErrors('ngayketthuc')}"
+                                    th:errors="*{ngayketthuc}"></div>
+                            </div>
+
+                            <!-- Nút -->
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button"
+                                    class="btn themgiakhoahoc-btn"
+                                    th:onclick="|window.location.href='/giangvien/them-moi-khoa-hoc?khoahocId=${course.khoahocId}'|">
+                                    <i class="fas fa-arrow-left me-2"></i>Quay
+                                    lại
+                                </button>
+                                <button type="submit"
+                                    class="btn themgiakhoahoc-btn">
+                                    Hoàn tất <i class="fas fa-check ms-2"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCRIPT xử lý -->
+            <script>
+            function dinhDangSoTienVN(value) {
+                return value.toLocaleString('vi-VN');
+            }
+
+            function parseTienVietNam(str) {
+                return parseFloat(str.replace(/\./g, '').replace(/[^\d]/g, '')) || 0;
+            }
+
+            function capNhatTrangThaiNgayKhuyenMai() {
+                const phanTramInput = document.querySelector('[name="phanTramGiam"]');
+                const ngayBatDauInput = document.querySelector('[name="ngaybatdau"]');
+                const ngayKetThucInput = document.querySelector('[name="ngayketthuc"]');
+
+                const phanTram = parseFloat(phanTramInput.value);
+                const disable = isNaN(phanTram) || phanTram <= 0;
+
+                if (ngayBatDauInput) {
+                    ngayBatDauInput.disabled = disable;
+                    if (disable) ngayBatDauInput.value = '';
+                }
+
+                if (ngayKetThucInput) {
+                    ngayKetThucInput.disabled = disable;
+                    if (disable) ngayKetThucInput.value = '';
+                }
+            }
+
+            function capNhatGiaSauGiam() {
+                const giaGocStr = document.getElementById('giagoc_hienthi').value;
+                const giaGoc = parseTienVietNam(giaGocStr);
+                const phanTramInput = document.querySelector('[name="phanTramGiam"]');
+                const phanTram = parseFloat(phanTramInput.value);
+                const giaKhuyenMaiInput = document.getElementById("giaKhuyenMai");
+                const giaKhuyenMaiBox = document.getElementById("giaKhuyenMaiBox");
+
+                const ngayBatDauInput = document.querySelector('[name="ngaybatdau"]');
+                const ngayKetThucInput = document.querySelector('[name="ngayketthuc"]');
+
+                document.getElementById("giagoc_thucte").value = giaGoc;
+
+                if (isNaN(phanTram) || phanTram <= 0 || giaGoc <= 0) {
+                    giaKhuyenMaiInput.value = '';
+                    giaKhuyenMaiBox.style.display = 'none';
+
+                    if (ngayBatDauInput) ngayBatDauInput.value = '';
+                    if (ngayKetThucInput) ngayKetThucInput.value = '';
+
+                    return;
+                }
+
+                const giaCuoi = giaGoc - (giaGoc * phanTram / 100);
+                giaKhuyenMaiInput.value = dinhDangSoTienVN(giaCuoi) + ' VND';
+                giaKhuyenMaiBox.style.display = 'block';
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                const giaGocInputHienThi = document.getElementById("giagoc_hienthi");
+                const giaGocThucTe = parseFloat(document.getElementById("giagoc_thucte").value || 0);
+                const giaKhuyenMaiBox = document.getElementById("giaKhuyenMaiBox");
+
+                // Hiển thị lại giá gốc nếu đã có
+                if (giaGocThucTe > 0) {
+                    giaGocInputHienThi.value = dinhDangSoTienVN(giaGocThucTe);
+                }
+
+                // Gắn sự kiện
+                giaGocInputHienThi.addEventListener("input", function() {
+                    const rawValue = giaGocInputHienThi.value;
+                    const numericValue = parseTienVietNam(rawValue);
+                    giaGocInputHienThi.value = dinhDangSoTienVN(numericValue);
+                    document.getElementById("giagoc_thucte").value = numericValue;
+                    capNhatGiaSauGiam();
+                    capNhatTrangThaiNgayKhuyenMai();
+                });
+
+                document.querySelector('[name="phanTramGiam"]').addEventListener("input", function() {
+                    capNhatGiaSauGiam();
+                    capNhatTrangThaiNgayKhuyenMai();
+                });
+
+                // Tính lại khi load (để xử lý trường hợp quay lại bước 2)
+                capNhatGiaSauGiam();
+                capNhatTrangThaiNgayKhuyenMai();
+            });
+        </script>
+        </main>
+    </body>
+
+</html>

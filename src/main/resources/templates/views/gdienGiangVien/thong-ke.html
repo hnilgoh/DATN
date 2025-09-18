@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi"
+    th:replace="~{/views/gdienChung/templateChung.html::view(~{::main}, ~{::title})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Thống kê giảng viên</title>
+    </head>
+
+    <body>
+        <main class="thongke">
+            <div class="thongke-container">
+                <div class="thongke-header">
+                    <i class="fas fa-chart-line"></i>
+                    <h1>Bảng điều khiển thống kê</h1>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <a th:href="@{/giangvien/thong-ke-hoc-vien}"
+                            style="text-decoration: none;">
+                            <div class="stat-card2 hoverable"
+                                style="cursor: pointer;">
+                                <i class="fas fa-users"></i>
+                                <h2 th:text="${tongHocVien}">0</h2>
+                                <p>Học viên đăng ký</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="stat-card">
+                        <a th:href="@{/giangvien/khoa-hoc-dang-day}"
+                            style="text-decoration: none;">
+                            <div class="stat-card2 hoverable"
+                                style="cursor: pointer;">
+                                <i class="fas fa-book"></i>
+                                <h2
+                                    th:text="${#numbers.formatDecimal(tongThuThang, 0, 'COMMA', 0, 'POINT')} + '₫'">0₫</h2>
+                                <p>Doanh thu tháng này</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="stat-card">
+                        <a th:href="@{/giangvien/danh-gia-tu-khoa-hoc}"
+                            style="text-decoration: none;">
+                            <div class="stat-card2 hoverable"
+                                style="cursor: pointer;">
+                                <i class="fas fa-star"></i>
+                                <h2>Đánh giá</h2>
+                                <p>Xem từng khóa học</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="stat-card">
+                        <a th:href="@{/giangvien/danh-gia-trung-binh}"
+                            style="text-decoration: none;">
+                            <div class="stat-card2 hoverable"
+                                style="cursor: pointer;">
+                                <i class="fas fa-coins"></i>
+                                <h2
+                                    th:text="${#numbers.formatDecimal(tongTienNhan, 0, 'COMMA', 0, 'POINT')} + '₫'">0₫</h2>
+                                <p>Tổng doanh thu</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h2>Biểu đồ doanh thu theo tháng</h2>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+
+            </div>
+
+            <script
+                src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+            <script th:inline="javascript">
+            /*<![CDATA[*/
+            // labels = [1,2,3...]
+            const labels = /*[[${labels}]]*/ [];
+            // data = [1000000,2000000...]
+            const dataValues = /*[[${data}]]*/ [];
+
+            const data = {
+                labels: labels.map(l => "Tháng " + l),
+                datasets: [{
+                    label: 'Doanh thu (₫)',
+                    data: dataValues,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    barPercentage: 0.2,
+                    categoryPercentage: 0.7
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString("vi-VN") + "₫";
+                                }
+                            }
+                        }
+                    }
+                },
+            };
+
+            new Chart(document.getElementById('revenueChart'), config);
+            /*]]>*/
+        </script>
+        </main>
+    </body>
+
+</html>

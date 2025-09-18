@@ -1,0 +1,192 @@
+.hoantatdangkygiangvienchitiet .main-container {
+    padding: 2rem 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.hoantatdangkygiangvienchitiet .registration-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hoantatdangkygiangvienchitiet .registration-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.hoantatdangkygiangvienchitiet .card-header-custom {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    border: none;
+}
+
+.hoantatdangkygiangvienchitiet .card-header-custom h3 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.hoantatdangkygiangvienchitiet .card-header-custom p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 1rem;
+}
+
+.hoantatdangkygiangvienchitiet .card-body-custom {
+    padding: 2.5rem;
+}
+
+.hoantatdangkygiangvienchitiet .form-group-modern {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.hoantatdangkygiangvienchitiet .form-label-modern {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.hoantatdangkygiangvienchitiet .form-control-modern {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.hoantatdangkygiangvienchitiet .form-control-modern:focus {
+    border-color: #4facfe;
+    box-shadow: 0 0 0 0.2rem rgba(79, 172, 254, 0.25);
+    background: white;
+    transform: translateY(-2px);
+}
+
+.hoantatdangkygiangvienchitiet .form-control-modern:hover {
+    border-color: #4facfe;
+    background: white;
+}
+
+.hoantatdangkygiangvienchitiet .form-control-modern[readonly] {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-color: #dee2e6;
+    cursor: not-allowed;
+}
+
+.hoantatdangkygiangvienchitiet .btn-submit {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: white;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.hoantatdangkygiangvienchitiet .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.hoantatdangkygiangvienchitiet .btn-submit:active {
+    transform: translateY(0);
+}
+
+.hoantatdangkygiangvienchitiet .invalid-feedback {
+    display: block;
+    font-size: 0.875rem;
+    color: #dc3545;
+    margin-top: 0.25rem;
+}
+
+.hoantatdangkygiangvienchitiet .text-danger {
+    color: #dc3545 !important;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.hoantatdangkygiangvienchitiet .icon-input {
+    color: #4facfe;
+    font-size: 1rem;
+}
+
+.hoantatdangkygiangvienchitiet .floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.hoantatdangkygiangvienchitiet .floating-elements::before,
+.hoantatdangkygiangvienchitiet .floating-elements::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    animation: float 6s ease-in-out infinite;
+}
+
+.hoantatdangkygiangvienchitiet .floating-elements::before {
+    width: 100px;
+    height: 100px;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.hoantatdangkygiangvienchitiet .floating-elements::after {
+    width: 150px;
+    height: 150px;
+    bottom: 10%;
+    right: 10%;
+    animation-delay: 3s;
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+    }
+}
+
+.hoantatdangkygiangvienchitiet .progress-indicator {
+    height: 4px;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    border-radius: 2px;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .hoantatdangkygiangvienchitiet .card-body-custom {
+        padding: 1.5rem;
+    }
+    .hoantatdangkygiangvienchitiet .card-header-custom {
+        padding: 1.5rem;
+    }
+    .hoantatdangkygiangvienchitiet .card-header-custom h3 {
+        font-size: 1.5rem;
+    }
+}

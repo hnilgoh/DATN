@@ -1,0 +1,141 @@
+  .danhsachhocvien {
+      background-color: #f8f9fa;
+      padding: 50px 70px;
+      font-family: 'Segoe UI', sans-serif;
+      animation: fadeIn 0.6s ease-in-out;
+  }
+  
+  .danhsachhocvien h2 {
+      color: #16203b;
+      margin-bottom: 25px;
+      font-weight: bold;
+  }
+  
+  .danhsachhocvien .table th {
+      background-color: #16203b;
+      color: white;
+      vertical-align: middle;
+  }
+  
+  .danhsachhocvien .status-active {
+      color: green;
+      font-weight: bold;
+  }
+  
+  .danhsachhocvien .status-locked {
+      color: red;
+      font-weight: bold;
+  }
+  
+  .danhsachhocvien .btn {
+      transition: all 0.3s ease;
+  }
+  
+  .danhsachhocvien .btn:hover {
+      transform: scale(1.05);
+  }
+  
+  @keyframes fadeIn {
+      from {
+          opacity: 0;
+          transform: translateY(20px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+  
+  .danhsachhocvien .alert {
+      animation: fadeIn 0.4s ease-in;
+  }
+  
+  .danhsachhocvien .modal-content {
+      border-radius: 12px;
+      overflow: hidden;
+  }
+  
+  .danhsachhocvien .nav-tabs .nav-link.active {
+      font-weight: bold;
+      color: #0d6efd;
+  }
+  
+  .danhsachhocvien .modal-header {
+      border-bottom: none;
+  }
+  
+  .danhsachhocvien .modal-footer {
+      border-top: none;
+  }
+  /* Header gradient */
+  
+  .danhsachhocvien .modern-modal .modal-header {
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      border-bottom: none;
+      padding: 1rem 1.5rem;
+  }
+  /* Tabs */
+  
+  .danhsachhocvien .custom-tabs .nav-link {
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-weight: 500;
+      color: #6c757d;
+      transition: all 0.3s ease;
+  }
+  
+  .danhsachhocvien .custom-tabs .nav-link.active {
+      color: #007bff;
+      border-bottom: 3px solid #007bff;
+      background-color: transparent;
+      font-weight: bold;
+  }
+  
+  .danhsachhocvien .custom-tabs .nav-link:hover {
+      color: #0056b3;
+  }
+  /* Info card */
+  
+  .danhsachhocvien .info-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+  /* Table hover */
+  
+  .danhsachhocvien .activity-table table tbody tr:hover {
+      background-color: #e9f5ff;
+  }
+  /* Modal smooth */
+  
+  .danhsachhocvien .modern-modal {
+      border-radius: 12px;
+      overflow: hidden;
+  }
+  
+  .danhsachhocvien #detailModal .modal-dialog {
+      max-width: 900px;
+      /* chiều ngang cố định */
+      width: 900px;
+      /* đảm bảo không co lại */
+  }
+  
+  .danhsachhocvien #detailModal .modal-content {
+      height: 600px;
+      /* chiều cao cố định */
+      display: flex;
+      flex-direction: column;
+  }
+  
+  .danhsachhocvien #detailModal .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      /* nếu nội dung vượt quá thì cuộn */
+      padding: 20px;
+  }
+  
+  .danhsachhocvien #confirmModal #confirmMessage {
+      font-size: 1rem;
+      color: #333;
+  }

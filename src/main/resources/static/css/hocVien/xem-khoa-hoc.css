@@ -1,0 +1,95 @@
+.xemkhoahoc {
+    margin-bottom: 60px;
+}
+
+.xemkhoahoc .active-bai-giang {
+    background-color: #eaf4ff;
+    border-left: 4px solid #0d2ae2;
+}
+
+.xemkhoahoc .active-bai-giang a.bai-giang-link {
+    color: #0d2ae2;
+}
+
+.xemkhoahoc .mt-30 {
+    margin: 30px 30px;
+}
+
+.xemkhoahoc .bocucs {
+    background-color: #f6fbff;
+}
+
+#batDauBtn {
+    background-color: transparent;
+    color: #0d6efd;
+    border: 1.5px solid #0d6efd;
+    border-radius: 6px;
+    padding: 6px 16px;
+    margin-top: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#batDauBtn i {
+    font-size: 1rem;
+}
+
+#batDauBtn:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.xemkhoahoc a.bai-giang-link {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: black;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.xemkhoahoc a.bai-giang-link:hover {
+    color: #0043fd;
+}
+
+.xemkhoahoc .bocucs .shadow-box {
+    box-shadow: -6px 0 10px rgba(0, 0, 0, 0.08), 6px 0 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #929292cc;
+}
+
+#btnCauTruoc,
+#btnTiepTuc {
+    margin-top: 0;
+    /* Bỏ khoảng cách phía trên */
+    background-color: transparent !important;
+    /* Bỏ màu nền */
+    border: 1px solid #0d6efd;
+    /* Viền xanh giống màu chính */
+    color: #0d6efd;
+    /* Màu chữ xanh */
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: 0.3s ease;
+}
+
+#btnCauTruoc:hover,
+#btnTiepTuc:hover {
+    background-color: #0d6efd !important;
+    /* Hover mới có nền xanh */
+    color: white;
+}
+
+.xemkhoahoc .fw-bold {
+    color: #0d6efd;
+    font-size: 17px;
+}
+
+.xemkhoahoc #ketQuaContainer {
+    background: #f0fdf4;
+    border: 2px solid #20c997;
+    padding: 20px;
+    border-radius: 12px;
+}
